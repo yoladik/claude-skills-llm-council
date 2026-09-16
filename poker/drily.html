@@ -1,0 +1,740 @@
+<title>Pokerové drily</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#EDEFEA; --surface:#FBFBF8; --surface-2:#E3E7DF; --felt:#1B5E45;
+  --line:rgba(24,38,30,.13); --line-strong:rgba(24,38,30,.26);
+  --text:#1A211C; --muted:#5D6A60; --faint:#8A948C;
+  --accent:#0E7C5A; --accent-ink:#0A5A42;
+  --card-face:#FFFFFF; --card-edge:rgba(20,30,22,.22);
+  --suit-red:#B2332A; --suit-black:#1A211C;
+  --ok:#0E7C5A; --ok-bg:rgba(14,124,90,.11);
+  --no:#A8503C; --no-bg:rgba(168,80,60,.12);
+  --warn:#B4832C;
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101512; --surface:#171E19; --surface-2:#1E2620; --felt:#14402F;
+    --line:rgba(226,235,228,.13); --line-strong:rgba(226,235,228,.26);
+    --text:#E4EAE4; --muted:#9BA89E; --faint:#6F7C73;
+    --accent:#35C48C; --accent-ink:#6FD4A8;
+    --card-face:#F0EFE6; --card-edge:rgba(0,0,0,.4);
+    --suit-red:#C4382C; --suit-black:#14180F;
+    --ok:#3FC48C; --ok-bg:rgba(63,196,140,.14);
+    --no:#D4715A; --no-bg:rgba(212,113,90,.15);
+    --warn:#DDAE4E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101512; --surface:#171E19; --surface-2:#1E2620; --felt:#14402F;
+  --line:rgba(226,235,228,.13); --line-strong:rgba(226,235,228,.26);
+  --text:#E4EAE4; --muted:#9BA89E; --faint:#6F7C73;
+  --accent:#35C48C; --accent-ink:#6FD4A8;
+  --card-face:#F0EFE6; --card-edge:rgba(0,0,0,.4);
+  --suit-red:#C4382C; --suit-black:#14180F;
+  --ok:#3FC48C; --ok-bg:rgba(63,196,140,.14);
+  --no:#D4715A; --no-bg:rgba(212,113,90,.15);
+  --warn:#DDAE4E;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Karla',system-ui,sans-serif;font-size:15px;line-height:1.5;padding-inline:18px}
+.wrap{max-width:760px;margin:0 auto;padding-block:1.6rem 3.5rem}
+h1,h2{margin:0;text-wrap:balance;font-family:'Bodoni Moda',Georgia,serif;font-weight:700}
+h1{font-size:clamp(1.55rem,4.6vw,2.1rem);letter-spacing:-.01em;line-height:1.05}
+h2{font-size:1.15rem}
+h3{margin:0;font-family:'Karla',sans-serif;font-weight:700;font-size:.9rem}
+p{margin:0}
+.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+header.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+  padding-bottom:1rem;border-bottom:1px solid var(--line-strong);margin-bottom:1.3rem}
+.scorebar{display:flex;gap:1.15rem;align-items:center}
+.sb{text-align:right}
+.sb .n{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1.15rem;line-height:1;font-variant-numeric:tabular-nums}
+.sb .k{font-size:.65rem;color:var(--faint);text-transform:uppercase;letter-spacing:.07em;margin-top:.2rem}
+.sb .n.hot{color:var(--accent)}
+.themebtn{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+  background:transparent;color:var(--faint);border:1px solid var(--line-strong);border-radius:999px;padding:.35rem .7rem;cursor:pointer}
+.themebtn:hover{color:var(--text);border-color:var(--accent)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:1.15rem}
+.panel+.panel{margin-top:1.1rem}
+
+/* --- drill --- */
+.qhead{display:flex;justify-content:space-between;align-items:baseline;gap:.8rem;flex-wrap:wrap;margin-bottom:.9rem}
+.qmode{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--accent);font-weight:600}
+.qprogress{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--faint)}
+.qtext{font-size:1.06rem;font-weight:600;line-height:1.4;margin-bottom:1rem;text-wrap:balance}
+
+.table{background:var(--felt);border-radius:11px;padding:.95rem .9rem;margin-bottom:1.05rem;
+  display:flex;gap:1.3rem;flex-wrap:wrap;align-items:flex-end}
+.tgroup{display:flex;flex-direction:column;gap:.4rem}
+.tgroup .glab{font-family:'IBM Plex Mono',monospace;font-size:.61rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.62);font-weight:600}
+.cards{display:flex;gap:5px;flex-wrap:wrap}
+.pc{--w:42px;--h:59px;width:var(--w);height:var(--h);flex:none;background:var(--card-face);border-radius:6px;
+  box-shadow:0 1px 3px rgba(0,0,0,.34),inset 0 0 0 1px var(--card-edge);
+  display:flex;flex-direction:column;justify-content:space-between;padding:4px 5px;
+  font-family:'IBM Plex Mono',monospace;font-weight:600;position:relative}
+.pc .r{font-size:.76rem;line-height:1}
+.pc .s{font-size:1.02rem;line-height:1;align-self:flex-end}
+.pc.red{color:var(--suit-red)} .pc.black{color:var(--suit-black)}
+.pc.dim{opacity:.34}
+.pc.mark{box-shadow:0 1px 3px rgba(0,0,0,.34),inset 0 0 0 2px var(--accent),0 0 0 2px rgba(255,255,255,.22)}
+.pc.tiny{--w:26px;--h:36px;padding:2px 3px}
+.pc.tiny .r{font-size:.55rem} .pc.tiny .s{font-size:.66rem}
+@media(max-width:420px){.pc{--w:36px;--h:51px}.table{gap:.9rem}}
+
+.moneyline{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.money{background:var(--surface-2);border-radius:8px;padding:.5rem .7rem;flex:1;min-width:92px}
+.money .n{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1.05rem;line-height:1.1}
+.money .k{font-size:.7rem;color:var(--muted);margin-top:.15rem}
+
+.answers{display:grid;gap:.45rem}
+.answers.two{grid-template-columns:1fr 1fr}
+.answers.three{grid-template-columns:repeat(3,1fr)}
+.answers.four{grid-template-columns:repeat(2,1fr)}
+@media(max-width:420px){.answers.three{grid-template-columns:1fr}}
+.ans{font-family:'Karla',sans-serif;font-weight:600;font-size:.92rem;text-align:left;
+  border:1px solid var(--line-strong);background:var(--surface-2);color:var(--text);
+  border-radius:9px;padding:.65rem .8rem;cursor:pointer;transition:border-color .1s,background .1s}
+.ans:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
+.ans:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.ans:disabled{cursor:default}
+.ans.correct{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.ans.wrong{background:var(--no-bg);border-color:var(--no);color:var(--no)}
+.ans.faded{opacity:.45}
+
+.fb{margin-top:1rem;border-radius:10px;padding:.85rem .95rem;border-left:3px solid}
+.fb.ok{background:var(--ok-bg);border-color:var(--ok)}
+.fb.no{background:var(--no-bg);border-color:var(--no)}
+.fb .verd{font-weight:700;font-size:.98rem;margin-bottom:.35rem}
+.fb.ok .verd{color:var(--ok)} .fb.no .verd{color:var(--no)}
+.fb .body{font-size:.91rem;line-height:1.55;color:var(--text)}
+.fb .body b{color:var(--accent-ink)}
+.fb .cardline{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-top:.55rem}
+.fb .cardline .lab{font-size:.75rem;color:var(--muted);font-family:'IBM Plex Mono',monospace}
+.nextrow{display:flex;gap:.5rem;margin-top:.9rem;flex-wrap:wrap}
+.btn{font-family:'Karla',sans-serif;font-weight:600;font-size:.88rem;border:1px solid var(--line-strong);
+  background:var(--surface-2);color:var(--text);border-radius:8px;padding:.55rem .95rem;cursor:pointer}
+.btn:hover{border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary{background:var(--accent);color:#F6FBF8;border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.08);color:#F6FBF8}
+.btn:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+
+/* --- režimy --- */
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem}
+@media(max-width:700px){.modes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:460px){.modes{grid-template-columns:1fr}}
+#mixbox{margin-bottom:.55rem}
+.mcard.wide{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.mcard.wide .md{margin-top:.1rem}
+.mcard{text-align:left;background:var(--surface-2);border:1px solid transparent;border-radius:10px;
+  padding:.7rem .8rem;cursor:pointer;font-family:'Karla',sans-serif;color:var(--text);display:block;width:100%}
+.mcard:hover{border-color:var(--accent)}
+.mcard[aria-pressed="true"]{border-color:var(--accent);background:var(--ok-bg)}
+.mcard:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.mcard .mn{font-weight:700;font-size:.9rem}
+.mcard .md{font-size:.76rem;color:var(--muted);margin-top:.12rem;line-height:1.35}
+.mcard .mstat{display:flex;align-items:center;gap:.45rem;margin-top:.5rem}
+.mcard .mbar{flex:1;height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.mcard .mbar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.mcard .mpct{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted);min-width:4.4em;text-align:right}
+
+.leak{display:flex;gap:.7rem;align-items:flex-start;background:var(--surface-2);border-left:3px solid var(--warn);
+  border-radius:0 9px 9px 0;padding:.75rem .9rem;margin-bottom:.9rem;font-size:.88rem;line-height:1.5}
+.leak b{color:var(--warn)}
+.savenote{font-size:.74rem;color:var(--faint);margin-top:.8rem}
+footer{margin-top:2.4rem;padding-top:1.2rem;border-top:1px solid var(--line-strong);color:var(--faint);font-size:.8rem;line-height:1.6}
+footer a{color:var(--muted)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Texas Hold'em · trénink</p>
+      <h1>Pokerové drily</h1>
+    </div>
+    <div class="scorebar">
+      <div class="sb"><div class="n" id="sb-streak">0</div><div class="k">v řadě</div></div>
+      <div class="sb"><div class="n" id="sb-acc">—</div><div class="k">úspěšnost</div></div>
+      <button class="themebtn" id="themebtn" type="button">Tmavý</button>
+    </div>
+  </header>
+
+  <div class="panel">
+    <div class="qhead">
+      <span class="qmode" id="q-mode">—</span>
+      <span class="qprogress" id="q-prog"></span>
+    </div>
+    <p class="qtext" id="q-text">Připravuju otázku…</p>
+    <div class="table" id="q-table"></div>
+    <div class="moneyline" id="q-money" hidden></div>
+    <div class="answers" id="q-answers"></div>
+    <div id="q-feedback"></div>
+  </div>
+
+  <div class="panel">
+    <h2 style="margin-bottom:.75rem">Co chceš trénovat</h2>
+    <div id="leakbox"></div>
+    <div id="mixbox"></div>
+    <div class="modes" id="modes"></div>
+    <p class="savenote" id="savenote"></p>
+  </div>
+
+  <footer>
+    <p>Každá odpověď je ověřená výpočtem, ne odhadem: kombinace se vyhodnocují ze všech 7 karet, outy se počítají přes zbylých 47 karet a equity v drilu <b>Vyplatí se dorovnat?</b> je přesná — projdou se všechny 990 možných dvojic turn + river.</p>
+    <p style="margin-top:.6rem">Mřížku všech 169 startovních kombinací i s rozpadem, co z nich vzniká, najdeš vedle v appce <a href="https://claude.ai/artifact/5MSNFss5X2nTamgcXTCXdM">169 startovních rukou</a>.</p>
+  </footer>
+</div>
+
+<script>
+/* ===================== karty a vyhodnocení ===================== */
+const RANKCH="23456789TJQKA";
+const R_LABEL=["2","3","4","5","6","7","8","9","10","J","Q","K","A"];
+const SUIT=["♠","♥","♦","♣"];
+const RED=[false,true,true,false];
+
+const NOM_SG=["dvojka","trojka","čtyřka","pětka","šestka","sedmička","osmička","devítka","desítka","kluk","dáma","král","eso"];
+const NOM_PL=["dvojky","trojky","čtyřky","pětky","šestky","sedmičky","osmičky","devítky","desítky","kluci","dámy","králové","esa"];
+const GEN_PL=["dvojek","trojek","čtyřek","pětek","šestek","sedmiček","osmiček","devítek","desítek","kluků","dam","králů","es"];
+const GEN_SG=["dvojky","trojky","čtyřky","pětky","šestky","sedmičky","osmičky","devítky","desítky","kluka","dámy","krále","esa"];
+
+const CAT=["Vysoká karta","Pár","Dva páry","Trojice","Postupka","Barva","Full house","Čtveřice","Straight flush","Royal flush"];
+
+const SH=new Int8Array(8192);
+for(let m=0;m<8192;m++){
+  let best=-1;
+  for(let hi=12;hi>=4;hi--){
+    const need=(1<<hi)|(1<<(hi-1))|(1<<(hi-2))|(1<<(hi-3))|(1<<(hi-4));
+    if((m&need)===need){best=hi;break;}
+  }
+  if(best<0){const w=(1<<12)|1|2|4|8; if((m&w)===w) best=3;}
+  SH[m]=best;
+}
+
+const _rc=new Int8Array(13),_sc=new Int8Array(4),_sm=new Int16Array(4);
+function ev(cards){
+  _rc.fill(0);_sc.fill(0);_sm.fill(0);
+  let mask=0;
+  for(let i=0;i<cards.length;i++){const c=cards[i],r=c>>2,s=c&3;_rc[r]++;_sc[s]++;_sm[s]|=1<<r;mask|=1<<r;}
+  let cat,rk=[0,0,0,0,0];
+  let fs=-1; for(let s=0;s<4;s++) if(_sc[s]>=5) fs=s;
+  out:{
+    if(fs>=0){const h=SH[_sm[fs]]; if(h>=0){cat=(h===12)?9:8;rk[0]=h;break out;}}
+    let quad=-1,tr=[],pr=[];
+    for(let r=12;r>=0;r--){ if(_rc[r]===4)quad=r; else if(_rc[r]===3)tr.push(r); else if(_rc[r]===2)pr.push(r); }
+    if(quad>=0){cat=7;rk[0]=quad;for(let r=12;r>=0;r--)if(r!==quad&&_rc[r]>0){rk[1]=r;break;}break out;}
+    if(tr.length>=2){cat=6;rk[0]=tr[0];rk[1]=tr[1];break out;}
+    if(tr.length===1&&pr.length>=1){cat=6;rk[0]=tr[0];rk[1]=pr[0];break out;}
+    if(fs>=0){cat=5;let k=0;for(let r=12;r>=0&&k<5;r--)if(_sm[fs]&(1<<r))rk[k++]=r;break out;}
+    const s=SH[mask]; if(s>=0){cat=4;rk[0]=s;break out;}
+    if(tr.length===1){cat=3;rk[0]=tr[0];let k=1;for(let r=12;r>=0&&k<3;r--)if(r!==tr[0]&&_rc[r]>0)rk[k++]=r;break out;}
+    if(pr.length>=2){cat=2;rk[0]=pr[0];rk[1]=pr[1];for(let r=12;r>=0;r--)if(r!==pr[0]&&r!==pr[1]&&_rc[r]>0){rk[2]=r;break;}break out;}
+    if(pr.length===1){cat=1;rk[0]=pr[0];let k=1;for(let r=12;r>=0&&k<4;r--)if(r!==pr[0]&&_rc[r]>0)rk[k++]=r;break out;}
+    cat=0;let k=0;for(let r=12;r>=0&&k<5;r--)if(_rc[r]>0)rk[k++]=r;
+  }
+  let sc=cat; for(let i=0;i<5;i++) sc=sc*13+rk[i];
+  return {cat:cat,rk:rk,score:sc};
+}
+function best5(cards){
+  if(cards.length<=5){const e=ev(cards);return {cards:cards.slice(),cat:e.cat,rk:e.rk,score:e.score};}
+  let bs=-1,bset=null,bcat=0,brk=null;
+  const n=cards.length,ch=[];
+  (function rec(st){
+    if(ch.length===5){const e=ev(ch); if(e.score>bs){bs=e.score;bset=ch.slice();bcat=e.cat;brk=e.rk;} return;}
+    for(let i=st;i<n;i++){ch.push(cards[i]);rec(i+1);ch.pop();}
+  })(0);
+  return {cards:bset,cat:bcat,rk:brk,score:bs};
+}
+/* popis kombinace česky */
+function describe(e){
+  const rk=e.rk;
+  switch(e.cat){
+    case 0: return "vysoká karta — "+NOM_SG[rk[0]];
+    case 1: return "pár "+GEN_PL[rk[0]];
+    case 2: return "dva páry — "+NOM_PL[rk[0]]+" a "+NOM_PL[rk[1]];
+    case 3: return "trojice "+GEN_PL[rk[0]];
+    case 4: return "postupka do "+GEN_SG[rk[0]];
+    case 5: return "barva do "+GEN_SG[rk[0]];
+    case 6: return "full house — tři "+NOM_PL[rk[0]]+" a dvě "+NOM_PL[rk[1]];
+    case 7: return "čtveřice "+GEN_PL[rk[0]];
+    case 8: return "straight flush do "+GEN_SG[rk[0]];
+    case 9: return "royal flush";
+  }
+}
+function cname(c){ return R_LABEL[c>>2]+SUIT[c&3]; }
+function shuffled(){
+  const d=[]; for(let i=0;i<52;i++) d.push(i);
+  for(let i=51;i>0;i--){const j=Math.floor(Math.random()*(i+1));[d[i],d[j]]=[d[j],d[i]];}
+  return d;
+}
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function fmt(x,d){ d=(d===undefined)?1:d; return x.toFixed(d).replace('.',','); }
+
+/* ===================== equity tabulka (přesná, offline) ===================== */
+const EQ = {"AA":85.3,"AKs":67.1,"AKo":65.3,"AQs":66.2,"AQo":64.6,"AJs":65.4,"AJo":63.6,"ATs":64.4,"ATo":62.6,"A9s":63.1,"A9o":60.6,"A8s":61.9,"A8o":59.9,"A7s":60.9,"A7o":58.9,"A6s":59.9,"A6o":57.7,"A5s":60.0,"A5o":57.7,"A4s":59.0,"A4o":56.5,"A3s":58.2,"A3o":55.8,"A2s":57.3,"A2o":54.9,"KK":82.4,"KQs":63.3,"KQo":61.6,"KJs":62.5,"KJo":60.6,"KTs":61.8,"KTo":59.9,"K9s":59.8,"K9o":57.8,"K8s":58.5,"K8o":56.0,"K7s":57.6,"K7o":55.2,"K6s":56.6,"K6o":54.2,"K5s":55.7,"K5o":53.1,"K4s":55.1,"K4o":52.3,"K3s":54.0,"K3o":51.4,"K2s":53.3,"K2o":50.5,"QQ":80.1,"QJs":60.2,"QJo":58.2,"QTs":59.5,"QTo":57.4,"Q9s":57.7,"Q9o":55.4,"Q8s":55.8,"Q8o":53.5,"Q7s":54.1,"Q7o":51.6,"Q6s":53.7,"Q6o":51.0,"Q5s":52.8,"Q5o":50.2,"Q4s":51.8,"Q4o":49.1,"Q3s":51.0,"Q3o":48.2,"Q2s":50.4,"Q2o":47.3,"JJ":77.6,"JTs":57.6,"JTo":55.4,"J9s":55.6,"J9o":53.3,"J8s":54.2,"J8o":51.6,"J7s":52.4,"J7o":49.6,"J6s":50.7,"J6o":47.8,"J5s":50.0,"J5o":47.1,"J4s":49.1,"J4o":46.2,"J3s":48.2,"J3o":45.1,"J2s":47.4,"J2o":44.3,"TT":74.8,"T9s":54.0,"T9o":51.5,"T8s":52.5,"T8o":49.9,"T7s":50.7,"T7o":47.7,"T6s":48.9,"T6o":45.9,"T5s":47.1,"T5o":44.2,"T4s":46.5,"T4o":43.4,"T3s":45.8,"T3o":42.5,"T2s":45.0,"T2o":41.7,"99":72.2,"98s":50.9,"98o":48.3,"97s":49.2,"97o":46.2,"96s":47.5,"96o":44.5,"95s":45.7,"95o":42.7,"94s":44.0,"94o":40.6,"93s":43.2,"93o":40.0,"92s":42.3,"92o":39.1,"88":69.1,"87s":47.9,"87o":45.1,"86s":46.1,"86o":43.2,"85s":44.5,"85o":41.5,"84s":42.5,"84o":39.4,"83s":40.7,"83o":37.4,"82s":40.1,"82o":37.0,"77":66.2,"76s":45.2,"76o":42.4,"75s":43.4,"75o":40.5,"74s":41.6,"74o":38.5,"73s":39.9,"73o":36.7,"72s":38.0,"72o":34.6,"66":63.3,"65s":43.2,"65o":39.8,"64s":41.4,"64o":38.2,"63s":39.5,"63o":35.8,"62s":37.6,"62o":34.2,"55":60.3,"54s":41.3,"54o":38.2,"53s":39.7,"53o":36.5,"52s":38.0,"52o":34.5,"44":56.9,"43s":38.5,"43o":35.1,"42s":37.0,"42o":33.3,"33":53.7,"32s":36.0,"32o":32.2,"22":50.2};
+const TIER_SETS={
+  1:"AA KK QQ JJ AKs AKo",
+  2:"TT 99 AQs AJs ATs KQs AQo AJo",
+  3:"88 77 KJs KTs QJs QTs JTs T9s A9s A8s A7s A6s A5s A4s A3s A2s KQo KJo ATo",
+  4:"66 55 44 33 22 98s 87s 76s 65s 54s J9s T8s 97s 86s 75s 64s Q9s K9s QJo JTo QTo KTo A9o"};
+const TMAP={}; for(const t in TIER_SETS) TIER_SETS[t].split(/\s+/).forEach(h=>TMAP[h]=+t);
+function tierOf(code){
+  if(TMAP[code]) return TMAP[code];
+  const r1=RANKCH.indexOf(code[0]),r2=RANKCH.indexOf(code[1]);
+  if(code.length===2) return 4;
+  if(code[2]==='s'){ if(r1-r2<=3&&r2>=1) return 5; if(r1>=10) return 5; return 6; }
+  if(r2>=7) return 5; if(r1===12) return 5; return 6;
+}
+const TIER_NAME={1:"prémiová",2:"velmi silná",3:"solidní",4:"spekulativní",5:"okrajová",6:"odpad"};
+function codeOf(a,b){
+  let r1=a>>2,r2=b>>2,s=(a&3)===(b&3);
+  if(r1<r2){const t=r1;r1=r2;r2=t;}
+  if(r1===r2) return RANKCH[r1]+RANKCH[r2];
+  return RANKCH[r1]+RANKCH[r2]+(s?'s':'o');
+}
+
+/* ===================== generátory drilů ===================== */
+function genHand(){
+  let hole,board,e;
+  for(let i=0;i<400;i++){
+    const d=shuffled(); hole=d.slice(0,2); board=d.slice(2,7);
+    e=ev(hole.concat(board));
+    if(e.cat===0&&Math.random()<0.75) continue;
+    if(e.cat===1&&Math.random()<0.45) continue;
+    break;
+  }
+  const b=best5(hole.concat(board));
+  const cats=new Set([b.cat]);
+  let span=1;
+  while(cats.size<6&&span<10){
+    if(b.cat-span>=0) cats.add(b.cat-span);
+    if(cats.size<6&&b.cat+span<=9) cats.add(b.cat+span);
+    span++;
+  }
+  const opts=[...cats].sort((x,y)=>x-y).map(c=>({key:String(c),label:CAT[c]}));
+  return {
+    mode:'hand',
+    text:"Jakou nejlepší kombinaci máš?",
+    groups:[{label:"tvoje ruka",cards:hole},{label:"stůl",cards:board}],
+    answers:opts, grid:'four', correct:String(b.cat),
+    explain:()=>({
+      html:"Nejlepších 5 karet ze sedmi ti dává <b>"+describe(b)+"</b>. Zbylé dvě karty se prostě zahodí — v Hold'emu si vždycky bereš tu nejlepší pětici, co jde poskládat.",
+      marks:b.cards, all:hole.concat(board)
+    })
+  };
+}
+
+function genDuel(){
+  let me,opp,board,a,b;
+  for(let i=0;i<400;i++){
+    const d=shuffled(); me=d.slice(0,2); opp=d.slice(2,4); board=d.slice(4,9);
+    a=ev(me.concat(board)); b=ev(opp.concat(board));
+    if(Math.abs(a.cat-b.cat)>1&&Math.random()<0.6) continue;
+    break;
+  }
+  const ba=best5(me.concat(board)), bb=best5(opp.concat(board));
+  const correct = a.score>b.score?'me':(a.score<b.score?'opp':'split');
+  return {
+    mode:'duel',
+    text:"Kdo vyhrál tenhle bank?",
+    groups:[{label:"ty",cards:me},{label:"soupeř",cards:opp},{label:"stůl",cards:board}],
+    answers:[{key:'me',label:"Vyhrál jsem já"},{key:'opp',label:"Vyhrál soupeř"},{key:'split',label:"Dělíme se"}],
+    grid:'three', correct:correct,
+    explain:()=>{
+      let s="Ty máš <b>"+describe(ba)+"</b>, soupeř <b>"+describe(bb)+"</b>. ";
+      if(correct==='split') s+="Úplně stejně silné ruce — bank se dělí napůl. Často to znamená, že nejlepší pětice leží celá na stole a vaše karty v ruce už nic nepřidají.";
+      else if(ba.cat===bb.cat) s+="Stejná kombinace, takže rozhoduje, čí je vyšší (a když je i ta stejná, tak kicker — další nejvyšší karta).";
+      else s+=(correct==='me'?"Tvoje":"Soupeřova")+" kombinace je v žebříčku výš.";
+      return {html:s, marks:(correct==='opp'?bb.cards:ba.cards), all:me.concat(opp,board)};
+    }
+  };
+}
+
+function genOuts(){
+  let hole,flop,cur,outs;
+  for(let i=0;i<400;i++){
+    const d=shuffled(); hole=d.slice(0,2); flop=d.slice(2,5);
+    const known=new Set(hole.concat(flop));
+    cur=ev(hole.concat(flop));
+    const rest=[]; for(let c=0;c<52;c++) if(!known.has(c)) rest.push(c);
+    outs=rest.filter(c=>ev(hole.concat(flop,[c])).cat>cur.cat);
+    if(outs.length===0||outs.length>18) continue;
+    break;
+  }
+  const n=outs.length;
+  const cand=new Set([n]);
+  while(cand.size<4){
+    const v=n+pick([-6,-4,-3,-2,-1,1,2,3,4,5,6,8]);
+    if(v>0&&v<=24) cand.add(v);
+  }
+  const opts=[...cand].sort((x,y)=>x-y).map(v=>({key:String(v),label:String(v)+" "+(v===1?"karta":(v<5?"karty":"karet"))}));
+  const bc=best5(hole.concat(flop));
+  return {
+    mode:'outs',
+    text:"Kolik karet ti na turnu udělá lepší kombinaci, než máš teď?",
+    groups:[{label:"tvoje ruka",cards:hole},{label:"flop",cards:flop}],
+    answers:opts, grid:'four', correct:String(n),
+    explain:()=>{
+      const byRank={};
+      outs.forEach(c=>{const r=c>>2;(byRank[r]=byRank[r]||[]).push(c);});
+      const ranks=Object.keys(byRank).map(Number).sort((a,b)=>b-a);
+      const list=ranks.map(r=>byRank[r].map(cname).join(" ")).join("  ·  ");
+      return {
+        html:"Teď máš <b>"+describe(bc)+"</b>. Ze zbylých 47 karet ti "+
+             (n===1?"jediná pomůže":"pomůže "+n)+" — těmhle karet se říká <b>outy</b>:<br><span class='mono' style='font-size:.85rem'>"+list+"</span>"+
+             "<br><br>Rychlý odhad u stolu: <b>outy × 2</b> ≈ % šance, že to trefíš na příští kartě. Tady tedy zhruba "+(n*2)+" %.",
+        marks:[], all:hole.concat(flop)
+      };
+    }
+  };
+}
+
+function genOdds(){
+  let me,flop,opp,eq,pot,bet,need;
+  for(let i=0;i<300;i++){
+    const d=shuffled(); me=d.slice(0,2); flop=d.slice(2,5); opp=d.slice(5,7);
+    const known=new Set(me.concat(flop,opp));
+    const rest=[]; for(let c=0;c<52;c++) if(!known.has(c)) rest.push(c);
+    let win=0,tie=0,tot=0;
+    const mb=me.concat(flop,[0,0]), ob=opp.concat(flop,[0,0]);
+    for(let x=0;x<rest.length;x++) for(let y=x+1;y<rest.length;y++){
+      mb[5]=rest[x]; mb[6]=rest[y]; ob[5]=rest[x]; ob[6]=rest[y];
+      const a=ev(mb).score, b=ev(ob).score;
+      if(a>b) win++; else if(a===b) tie++;
+      tot++;
+    }
+    eq=(win+tie/2)/tot*100;
+    pot=pick([40,60,80,100,120,160,200]);
+    bet=Math.round(pot*pick([0.5,0.66,0.75,1])/5)*5;
+    need=bet/(pot+2*bet)*100;
+    if(Math.abs(eq-need)<5) continue;
+    break;
+  }
+  const correct = eq>need ? 'call':'fold';
+  return {
+    mode:'odds',
+    text:"Soupeř sází a ukázal ti karty. Vyplatí se dorovnat?",
+    groups:[{label:"ty",cards:me},{label:"soupeř",cards:opp},{label:"flop",cards:flop}],
+    money:[{n:pot+" Kč",k:"v banku"},{n:bet+" Kč",k:"soupeř sází"},{n:fmt(need,0)+" %",k:"potřebuješ vyhrávat"}],
+    answers:[{key:'call',label:"Dorovnat"},{key:'fold',label:"Složit"}],
+    grid:'two', correct:correct,
+    explain:()=>({
+      html:"Dáváš <b>"+bet+" Kč</b>, a když vyhraješ, bereš <b>"+(pot+bet)+" Kč</b> (bank + soupeřova sázka). "+
+           "Takže potřebuješ vyhrávat aspoň <b>"+bet+" / "+(pot+2*bet)+" = "+fmt(need,0)+" %</b> případů.<br><br>"+
+           "Tvoje skutečná šance proti těmhle konkrétním kartám je <b>"+fmt(eq,1)+" %</b> (spočítáno přes všech 990 možných kombinací turnu a riveru). "+
+           (correct==='call'
+             ? "Vyhráváš častěji, než kolik potřebuješ → <b>dorovnat je výdělečné</b>."
+             : "Vyhráváš míň často, než kolik potřebuješ → <b>dorovnat by dlouhodobě prodělávalo</b>."),
+      marks:[], all:me.concat(opp,flop)
+    })
+  };
+}
+
+function genStart(){
+  const codes=Object.keys(EQ);
+  let code,t;
+  for(let i=0;i<60;i++){
+    code=pick(codes); t=tierOf(code);
+    if((t===3||t===4||t===5)||Math.random()<0.4) break;
+  }
+  const r1=RANKCH.indexOf(code[0]),r2=RANKCH.indexOf(code[1]);
+  let cards;
+  if(code.length===2) cards=[r1*4+0,r2*4+1];
+  else if(code[2]==='s') cards=[r1*4+0,r2*4+0];
+  else cards=[r1*4+0,r2*4+1];
+  const correct = t<=4 ? 'play':'fold';
+  return {
+    mode:'start',
+    text:"Tohle jsi dostal do ruky. Hrát, nebo zahodit?",
+    groups:[{label:"tvoje ruka",cards:cards}],
+    answers:[{key:'play',label:"Hrát"},{key:'fold',label:"Zahodit"}],
+    grid:'two', correct:correct,
+    explain:()=>({
+      html:"<span class='mono'>"+code+"</span> je ruka kategorie <b>"+TIER_NAME[t]+"</b>. Proti jedné náhodné ruce vyhraje <b>"+fmt(EQ[code])+" %</b> případů.<br><br>"+
+           (t<=2 ? "Tohle je ruka, se kterou chceš do banku a rovnou sázet."
+            : t===3 ? "Solidní ruka — hraj ji, ale nelep se na ni za každou cenu, když flop mine."
+            : t===4 ? "Spekulativní: hraj ji jen levně. Vyplatí se, když trefíš něco velkého (trojici, postupku, barvu), jinak ji pusť."
+            : t===5 ? "Okrajová — občas se dá hrát, ale jako začátečník na tom spíš proděláš. Zahoď."
+            : "Nízké karty, různé barvy, daleko od sebe. Nevznikne z toho prakticky nic. Zahoď."),
+      marks:[], all:cards
+    })
+  };
+}
+
+function genFav(){
+  let A,B,eqA;
+  for(let i=0;i<40;i++){
+    const d=shuffled(); A=d.slice(0,2); B=d.slice(2,4);
+    const rest=d.slice(4);
+    const n=rest.length;
+    let acc=0;
+    const N=15000;
+    const ab=A.concat([0,0,0,0,0]), bb=B.concat([0,0,0,0,0]);
+    const tmp=rest.slice();
+    for(let t=0;t<N;t++){
+      for(let k=0;k<5;k++){ const j=k+Math.floor(Math.random()*(n-k)); const s=tmp[k];tmp[k]=tmp[j];tmp[j]=s; }
+      for(let k=0;k<5;k++){ ab[2+k]=tmp[k]; bb[2+k]=tmp[k]; }
+      const x=ev(ab).score,y=ev(bb).score;
+      if(x>y) acc+=1; else if(x===y) acc+=0.5;
+    }
+    eqA=acc/N*100;
+    if(Math.abs(eqA-50)>=6) break;
+  }
+  const correct = eqA>50 ? 'a':'b';
+  const cA=codeOf(A[0],A[1]), cB=codeOf(B[0],B[1]);
+  return {
+    mode:'fav',
+    text:"Obě ruce jdou až do riveru. Která vyhraje častěji?",
+    groups:[{label:"ruka A",cards:A},{label:"ruka B",cards:B}],
+    answers:[{key:'a',label:"Ruka A ("+cA+")"},{key:'b',label:"Ruka B ("+cB+")"}],
+    grid:'two', correct:correct,
+    explain:()=>{
+      const pa=cA.length===2, pb=cB.length===2;
+      let why="";
+      if(pa&&!pb) why="Pár proti dvěma nepárovým kartám je klasika: pár je většinou mírný favorit, protože už kombinaci má a druhý ji teprve musí trefit.";
+      else if(!pa&&pb) why="Pár proti dvěma nepárovým kartám je klasika: pár je většinou mírný favorit, protože už kombinaci má a druhý ji teprve musí trefit.";
+      else if(pa&&pb) why="Vyšší pár proti nižšímu je obrovský favorit — ten nižší potřebuje trefit trojici nebo postupku.";
+      else why="U dvou nepárových rukou rozhoduje hlavně to, kdo má vyšší karty — a jestli se navzájem neblokují stejnou hodnotou.";
+      return {
+        html:"<b>"+cA+"</b> vyhraje zhruba <b>"+fmt(eqA)+" %</b>, <b>"+cB+"</b> zhruba <b>"+fmt(100-eqA)+" %</b>. "+why+
+             "<br><br><span style='color:var(--muted);font-size:.85rem'>Spočítáno simulací 15 000 rozdání, takže ±0,5 %.</span>",
+        marks:[], all:A.concat(B)
+      };
+    }
+  };
+}
+
+const MODES={
+  hand: {name:"Co máš?",              desc:"Přečti, jakou kombinaci ti vyšla ze 7 karet", gen:genHand},
+  duel: {name:"Kdo vyhrál?",          desc:"Porovnej svoji ruku se soupeřovou",          gen:genDuel},
+  outs: {name:"Kolik máš outů?",      desc:"Spočítej karty, co ti ještě pomůžou",        gen:genOuts},
+  odds: {name:"Vyplatí se dorovnat?", desc:"Sázka v banku proti tvojí šanci",            gen:genOdds},
+  start:{name:"Hrát, nebo zahodit?",  desc:"Rozhodni se hned po rozdání",                gen:genStart},
+  fav:  {name:"Kdo je favorit?",      desc:"Dvě ruce proti sobě až do riveru",           gen:genFav}
+};
+const MODE_KEYS=Object.keys(MODES);
+
+/* ===================== stav ===================== */
+function blank(){
+  const m={}; MODE_KEYS.forEach(k=>m[k]={n:0,ok:0});
+  return {total:0,correct:0,streak:0,best:0,modes:m};
+}
+let stats=blank();
+let activeMode=null;      /* null = mix */
+let q=null, answered=false;
+let dbRef=null, saveTimer=null;
+
+function accOf(k){ const m=stats.modes[k]; return m.n>0 ? m.ok/m.n*100 : null; }
+function weakest(){
+  let w=null;
+  MODE_KEYS.forEach(k=>{
+    const m=stats.modes[k];
+    if(m.n<5) return;
+    const a=m.ok/m.n;
+    if(!w||a<w.a) w={k:k,a:a,n:m.n};
+  });
+  return w;
+}
+function nextMode(){
+  if(activeMode) return activeMode;
+  const w=[];
+  MODE_KEYS.forEach(k=>{
+    const m=stats.modes[k];
+    const acc=m.n>=4 ? m.ok/m.n : 0.5;
+    const weight=m.n<4 ? 2.5 : (1.15-acc)*3+0.35;
+    for(let i=0;i<Math.max(1,Math.round(weight*10));i++) w.push(k);
+  });
+  return pick(w);
+}
+
+/* ukládání */
+async function initStore(){
+  let ns=null;
+  try{ ns = window.claude && claude.use ? await claude.use("db") : null; }catch(e){ ns=null; }
+  if(ns){
+    try{
+      dbRef = ns.doc("progress/stats");
+      const snap = await dbRef.get();
+      if(snap.exists){ merge(snap.data()); }
+      note("Postup se ukládá — najdeš ho i na jiném zařízení.");
+    }catch(e){ dbRef=null; localLoad(); }
+  }else{
+    localLoad();
+  }
+  renderScore(); renderModes();
+}
+function merge(d){
+  if(!d||typeof d!=='object') return;
+  const b=blank();
+  b.total=+d.total||0; b.correct=+d.correct||0; b.streak=+d.streak||0; b.best=+d.best||0;
+  if(d.modes) MODE_KEYS.forEach(k=>{
+    const m=d.modes[k];
+    if(m){ b.modes[k]={n:+m.n||0, ok:+m.ok||0}; }
+  });
+  stats=b;
+}
+function localLoad(){
+  try{ const raw=localStorage.getItem('pokerdrily'); if(raw) merge(JSON.parse(raw)); }catch(e){}
+  note("Postup se ukládá jen v tomhle prohlížeči.");
+}
+function note(t){ document.getElementById('savenote').textContent=t; }
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(async()=>{
+    const body={total:stats.total,correct:stats.correct,streak:stats.streak,best:stats.best,modes:stats.modes};
+    if(dbRef){ try{ await dbRef.set(body); }catch(e){} }
+    else { try{ localStorage.setItem('pokerdrily',JSON.stringify(body)); }catch(e){} }
+  },700);
+}
+
+/* ===================== vykreslení ===================== */
+function cardEl(c,cls){
+  const r=c>>2,s=c&3;
+  const d=document.createElement('div');
+  d.className='pc'+(RED[s]?' red':' black')+(cls?' '+cls:'');
+  d.innerHTML='<span class="r">'+R_LABEL[r]+'</span><span class="s">'+SUIT[s]+'</span>';
+  return d;
+}
+function renderScore(){
+  const st=document.getElementById('sb-streak');
+  st.textContent=stats.streak;
+  st.className='n'+(stats.streak>=3?' hot':'');
+  document.getElementById('sb-acc').textContent =
+    stats.total>0 ? Math.round(stats.correct/stats.total*100)+" %" : "—";
+  document.getElementById('q-prog').textContent =
+    stats.total>0 ? stats.correct+" / "+stats.total+" správně · nejlepší série "+stats.best : "";
+}
+function renderModes(){
+  const box=document.getElementById('modes');
+  box.innerHTML='';
+  const mb=document.getElementById('mixbox');
+  mb.innerHTML='';
+  const mix=document.createElement('button');
+  mix.type='button'; mix.className='mcard wide'; mix.setAttribute('aria-pressed',activeMode===null?'true':'false');
+  mix.innerHTML='<span><span class="mn" style="display:block">Mix všeho</span>'+
+    '<span class="md" style="display:block">Střídá typy a přitvrzuje tam, kde chybuješ</span></span>'+
+    '<span class="mpct">'+(stats.total>0?Math.round(stats.correct/stats.total*100)+' % / '+stats.total:'start')+'</span>';
+  mix.addEventListener('click',()=>{activeMode=null;renderModes();newQuestion();});
+  mb.appendChild(mix);
+
+  MODE_KEYS.forEach(k=>{
+    const m=MODES[k],a=accOf(k),s=stats.modes[k];
+    const b=document.createElement('button');
+    b.type='button'; b.className='mcard'; b.setAttribute('aria-pressed',activeMode===k?'true':'false');
+    b.innerHTML='<div class="mn">'+m.name+'</div><div class="md">'+m.desc+'</div>'+
+      '<div class="mstat"><span class="mbar"><i style="width:'+(a===null?0:a)+'%"></i></span>'+
+      '<span class="mpct">'+(a===null?'—':Math.round(a)+' % / '+s.n)+'</span></div>';
+    b.addEventListener('click',()=>{activeMode=k;renderModes();newQuestion();});
+    box.appendChild(b);
+  });
+
+  const lb=document.getElementById('leakbox');
+  const w=weakest();
+  if(w && w.a<0.75){
+    lb.innerHTML='<div class="leak"><span>⚠</span><span>Nejvíc chybuješ v drilu <b>'+MODES[w.k].name+
+      '</b> — '+Math.round(w.a*100)+' % z '+w.n+' otázek. Mix ti ho teď bude dávat častěji.</span></div>';
+  } else lb.innerHTML='';
+}
+function newQuestion(){
+  answered=false;
+  const mk=nextMode();
+  q=MODES[mk].gen();
+  document.getElementById('q-mode').textContent=MODES[mk].name;
+  document.getElementById('q-text').textContent=q.text;
+
+  const t=document.getElementById('q-table');
+  t.innerHTML='';
+  q.groups.forEach(g=>{
+    const d=document.createElement('div'); d.className='tgroup';
+    const l=document.createElement('span'); l.className='glab'; l.textContent=g.label;
+    const cc=document.createElement('div'); cc.className='cards';
+    g.cards.forEach(c=>cc.appendChild(cardEl(c)));
+    d.appendChild(l); d.appendChild(cc); t.appendChild(d);
+  });
+
+  const mo=document.getElementById('q-money');
+  if(q.money){
+    mo.hidden=false; mo.innerHTML='';
+    q.money.forEach(x=>{
+      const d=document.createElement('div'); d.className='money';
+      d.innerHTML='<div class="n">'+x.n+'</div><div class="k">'+x.k+'</div>';
+      mo.appendChild(d);
+    });
+  } else mo.hidden=true;
+
+  const an=document.getElementById('q-answers');
+  an.className='answers '+(q.grid||'two');
+  an.innerHTML='';
+  q.answers.forEach(o=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='ans'; b.textContent=o.label; b.dataset.key=o.key;
+    b.addEventListener('click',()=>answer(o.key));
+    an.appendChild(b);
+  });
+  document.getElementById('q-feedback').innerHTML='';
+  renderScore();
+}
+function answer(key){
+  if(answered) return;
+  answered=true;
+  const right = key===q.correct;
+
+  stats.total++; stats.modes[q.mode].n++;
+  if(right){ stats.correct++; stats.modes[q.mode].ok++; stats.streak++; if(stats.streak>stats.best) stats.best=stats.streak; }
+  else stats.streak=0;
+  save();
+
+  document.querySelectorAll('#q-answers .ans').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.key===q.correct) b.classList.add('correct');
+    else if(b.dataset.key===key) b.classList.add('wrong');
+    else b.classList.add('faded');
+  });
+
+  const ex=q.explain(key);
+  const fb=document.createElement('div');
+  fb.className='fb '+(right?'ok':'no');
+  let html='<div class="verd">'+(right?'Správně':'Vedle')+'</div><div class="body">'+ex.html+'</div>';
+  fb.innerHTML=html;
+  if(ex.marks&&ex.marks.length){
+    const line=document.createElement('div'); line.className='cardline';
+    const lab=document.createElement('span'); lab.className='lab'; lab.textContent='nejlepších 5:';
+    line.appendChild(lab);
+    const ms=new Set(ex.marks);
+    ex.all.forEach(c=>line.appendChild(cardEl(c,'tiny '+(ms.has(c)?'mark':'dim'))));
+    fb.querySelector('.body').appendChild(line);
+  }
+  const row=document.createElement('div'); row.className='nextrow';
+  const nb=document.createElement('button');
+  nb.type='button'; nb.className='btn primary'; nb.textContent='Další otázka';
+  nb.addEventListener('click',newQuestion);
+  row.appendChild(nb);
+  fb.appendChild(row);
+
+  document.getElementById('q-feedback').innerHTML='';
+  document.getElementById('q-feedback').appendChild(fb);
+  nb.focus();
+  renderScore(); renderModes();
+}
+
+/* téma */
+const tb=document.getElementById('themebtn');
+function isDark(){
+  const s=document.documentElement.getAttribute('data-theme');
+  return s ? s==='dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+function syncTb(){ tb.textContent=isDark()?'Světlý':'Tmavý'; }
+tb.addEventListener('click',()=>{ document.documentElement.setAttribute('data-theme',isDark()?'light':'dark'); syncTb(); });
+
+syncTb();
+renderModes();
+newQuestion();
+initStore();
+</script>
