@@ -1,0 +1,1046 @@
+<title>169 startovních rukou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#EDEFEA;
+  --surface:#FBFBF8;
+  --surface-2:#E3E7DF;
+  --line:rgba(24,38,30,.13);
+  --line-strong:rgba(24,38,30,.26);
+  --text:#1A211C;
+  --muted:#5D6A60;
+  --faint:#8A948C;
+  --accent:#0E7C5A;
+  --accent-ink:#0A5A42;
+  --card-face:#FFFFFF;
+  --card-edge:rgba(20,30,22,.22);
+  --suit-red:#B2332A;
+  --suit-black:#1A211C;
+
+  --t1-bg:#0E7C5A; --t1-fg:#F2F7F2;
+  --t2-bg:#4F9E6B; --t2-fg:#0B1A11;
+  --t3-bg:#9CAE6C; --t3-fg:#17200F;
+  --t4-bg:#D2A24C; --t4-fg:#241704;
+  --t5-bg:#C48A63; --t5-fg:#2B1608;
+  --t6-bg:#CFCDC4; --t6-fg:#6E6B61;
+
+  --eq-lo:#C9C4B6;
+  --eq-hi:#0E7C5A;
+
+  --c0:#B9B5A6; --c1:#CBC28C; --c2:#B5BE77; --c3:#8FB06A; --c4:#64A063;
+  --c5:#3C8F60; --c6:#1F7B5A; --c7:#14624F; --c8:#0D4A3F; --c9:#072B26;
+
+  --good:#0E7C5A; --warn:#C08A2E; --bad:#A8503C;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101512;
+    --surface:#171E19;
+    --surface-2:#1E2620;
+    --line:rgba(226,235,228,.13);
+    --line-strong:rgba(226,235,228,.26);
+    --text:#E4EAE4;
+    --muted:#9BA89E;
+    --faint:#6F7C73;
+    --accent:#35C48C;
+    --accent-ink:#6FD4A8;
+    --card-face:#F0EFE6;
+    --card-edge:rgba(0,0,0,.4);
+    --suit-red:#C4382C;
+    --suit-black:#14180F;
+
+    --t1-bg:#1C8B63; --t1-fg:#EAF6EF;
+    --t2-bg:#43794F; --t2-fg:#E6F1E6;
+    --t3-bg:#6E7C44; --t3-fg:#F0F3E4;
+    --t4-bg:#96702E; --t4-fg:#FBF1DC;
+    --t5-bg:#8B5237; --t5-fg:#FAEBE2;
+    --t6-bg:#3A3F39; --t6-fg:#9AA39A;
+
+    --eq-lo:#3A3F39;
+    --eq-hi:#35C48C;
+
+    --c0:#5F5E55; --c1:#8B8452; --c2:#A0A55C; --c3:#86B267; --c4:#5CB37B;
+    --c5:#3FAE86; --c6:#33A08D; --c7:#46B5A2; --c8:#67C6B4; --c9:#9ADFD0;
+
+    --good:#3FC48C; --warn:#DDAE4E; --bad:#D4715A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101512;
+  --surface:#171E19;
+  --surface-2:#1E2620;
+  --line:rgba(226,235,228,.13);
+  --line-strong:rgba(226,235,228,.26);
+  --text:#E4EAE4;
+  --muted:#9BA89E;
+  --faint:#6F7C73;
+  --accent:#35C48C;
+  --accent-ink:#6FD4A8;
+  --card-face:#F0EFE6;
+  --card-edge:rgba(0,0,0,.4);
+  --suit-red:#C4382C;
+  --suit-black:#14180F;
+
+  --t1-bg:#1C8B63; --t1-fg:#EAF6EF;
+  --t2-bg:#43794F; --t2-fg:#E6F1E6;
+  --t3-bg:#6E7C44; --t3-fg:#F0F3E4;
+  --t4-bg:#96702E; --t4-fg:#FBF1DC;
+  --t5-bg:#8B5237; --t5-fg:#FAEBE2;
+  --t6-bg:#3A3F39; --t6-fg:#9AA39A;
+
+  --eq-lo:#3A3F39;
+  --eq-hi:#35C48C;
+
+  --c0:#5F5E55; --c1:#8B8452; --c2:#A0A55C; --c3:#86B267; --c4:#5CB37B;
+  --c5:#3FAE86; --c6:#33A08D; --c7:#46B5A2; --c8:#67C6B4; --c9:#9ADFD0;
+
+  --good:#3FC48C; --warn:#DDAE4E; --bad:#D4715A;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Karla',system-ui,sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  padding-inline:18px;
+}
+.wrap{max-width:1180px;margin:0 auto;padding-block:2rem 3.5rem}
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-family:'Bodoni Moda',Georgia,serif;font-weight:700;font-size:clamp(1.9rem,5vw,2.7rem);letter-spacing:-.01em;line-height:1.05}
+h2{font-family:'Bodoni Moda',Georgia,serif;font-weight:700;font-size:1.28rem;letter-spacing:-.005em}
+h3{font-family:'Karla',sans-serif;font-weight:700;font-size:.95rem}
+p{margin:0}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);font-weight:600;
+}
+.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+
+/* ---------- header ---------- */
+header.top{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem;flex-wrap:wrap;
+  padding-bottom:1.3rem;border-bottom:1px solid var(--line-strong);margin-bottom:1.8rem;
+}
+header.top .lede{max-width:52ch;color:var(--muted);margin-top:.55rem;font-size:1rem}
+.themebtn{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--surface);color:var(--muted);border:1px solid var(--line-strong);
+  border-radius:999px;padding:.45rem .85rem;cursor:pointer;flex:none;
+}
+.themebtn:hover{color:var(--text);border-color:var(--accent)}
+
+/* ---------- columns ---------- */
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);gap:2rem;align-items:start}
+@media(max-width:900px){.cols{grid-template-columns:1fr;gap:2.2rem}}
+.stickcol{position:sticky;top:1rem}
+@media(max-width:900px){.stickcol{position:static}}
+
+/* ---------- panels ---------- */
+.panel{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.15rem 1.15rem 1.25rem;
+}
+.panel + .panel{margin-top:1.15rem}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem}
+.panel-head .sub{color:var(--muted);font-size:.85rem}
+
+/* ---------- grid ---------- */
+.gridbox{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto 1fr;gap:4px}
+.corner{}
+.hdr-cols,.hdr-rows{display:grid;gap:2px}
+.hdr-cols{grid-template-columns:repeat(13,1fr)}
+.hdr-rows{grid-template-rows:repeat(13,1fr)}
+.hdr-cols span,.hdr-rows span{
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--faint);font-weight:600;
+}
+.matrix{display:grid;grid-template-columns:repeat(13,1fr);gap:2px}
+.cell{
+  aspect-ratio:1;border:0;border-radius:3px;cursor:pointer;padding:0;
+  font-family:'IBM Plex Mono',monospace;font-weight:600;
+  font-size:clamp(.44rem,1.42vw,.66rem);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .09s ease, box-shadow .09s ease;
+  line-height:1;letter-spacing:-.02em;
+}
+.cell:hover{transform:scale(1.14);z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.28)}
+.cell:focus-visible{outline:2px solid var(--text);outline-offset:1px;z-index:4}
+.cell[aria-pressed="true"]{
+  box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--text);z-index:5;transform:scale(1.1);
+}
+.t1{background:var(--t1-bg);color:var(--t1-fg)}
+.t2{background:var(--t2-bg);color:var(--t2-fg)}
+.t3{background:var(--t3-bg);color:var(--t3-fg)}
+.t4{background:var(--t4-bg);color:var(--t4-fg)}
+.t5{background:var(--t5-bg);color:var(--t5-fg)}
+.t6{background:var(--t6-bg);color:var(--t6-fg)}
+
+.modes{display:flex;gap:.3rem;background:var(--surface-2);padding:.2rem;border-radius:8px}
+.poschips{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.8rem}
+.poschips button{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;
+  border:1px solid var(--line-strong);background:var(--surface);color:var(--muted);
+  border-radius:999px;padding:.3rem .7rem;cursor:pointer}
+.poschips button:hover{border-color:var(--accent);color:var(--text)}
+.poschips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#F4FAF6}
+.poschips button:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.cell.inrange{background:var(--t1-bg);color:var(--t1-fg)}
+.cell.outrange{background:var(--t6-bg);color:var(--t6-fg)}
+.modes button{
+  font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;
+  border:0;background:transparent;color:var(--muted);padding:.4rem .6rem;border-radius:6px;cursor:pointer;font-weight:600;
+}
+.modes button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.14)}
+
+.legend{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.9rem}
+.legend .lg{
+  display:flex;align-items:center;gap:.35rem;font-size:.74rem;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:.2rem .55rem .2rem .3rem;
+}
+.legend .sw{width:12px;height:12px;border-radius:3px;flex:none}
+.gridnote{margin-top:.8rem;font-size:.8rem;color:var(--faint);line-height:1.45}
+.axisnote{display:flex;justify-content:space-between;font-size:.72rem;color:var(--faint);margin-top:.5rem;font-family:'IBM Plex Mono',monospace}
+
+/* ---------- playing cards ---------- */
+.cards{display:flex;gap:5px;flex-wrap:wrap}
+.pc{
+  --w:44px;--h:62px;width:var(--w);height:var(--h);flex:none;
+  background:var(--card-face);border-radius:6px;
+  box-shadow:0 1px 3px rgba(0,0,0,.3),inset 0 0 0 1px var(--card-edge);
+  display:flex;flex-direction:column;justify-content:space-between;padding:4px 5px;
+  font-family:'IBM Plex Mono',monospace;font-weight:600;
+}
+.pc.sm{--w:32px;--h:45px;padding:3px 4px}
+.pc .r{font-size:.78rem;line-height:1}
+.pc.sm .r{font-size:.6rem}
+.pc .s{font-size:1.05rem;line-height:1;align-self:flex-end}
+.pc.sm .s{font-size:.78rem}
+.pc.red{color:var(--suit-red)}
+.pc.black{color:var(--suit-black)}
+.pc.ghost{background:transparent;box-shadow:inset 0 0 0 1px var(--line-strong);opacity:.5}
+
+/* ---------- dossier head ---------- */
+.dhead{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:1.1rem}
+.dtitle h2{font-size:1.6rem}
+.dtitle .meta{color:var(--muted);font-size:.84rem;margin-top:.15rem}
+.tierpill{
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;border-radius:999px;padding:.28rem .65rem;white-space:nowrap;
+}
+
+/* ---------- equity ---------- */
+.eqrow{display:grid;grid-template-columns:auto 1fr auto;gap:.7rem;align-items:center;margin-bottom:.5rem}
+.eqrow .lbl{font-size:.82rem;color:var(--muted);white-space:nowrap}
+.eqbar{height:9px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.eqbar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.eqrow .val{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.88rem;min-width:4.1em;text-align:right}
+
+/* ---------- stacked bar ---------- */
+.stack{display:flex;height:22px;border-radius:5px;overflow:hidden;margin-bottom:.9rem;border:1px solid var(--line)}
+.stack i{display:block;height:100%}
+
+/* ---------- distribution rows ---------- */
+.dist{display:flex;flex-direction:column;gap:1px}
+.drow{display:grid;grid-template-columns:11px 8.6em 1fr 4.3em;gap:.55rem;align-items:center;padding:.22rem 0}
+.drow .sw{width:11px;height:11px;border-radius:2px}
+.drow .nm{font-size:.83rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drow .bar{height:7px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.drow .bar i{display:block;height:100%;border-radius:99px}
+.drow .pct{font-family:'IBM Plex Mono',monospace;font-size:.78rem;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.drow.zero{opacity:.42}
+@media(max-width:420px){.drow{grid-template-columns:11px 7.4em 1fr 3.9em;gap:.4rem}.drow .nm{font-size:.78rem}}
+
+/* ---------- stat tiles ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem}
+@media(max-width:1010px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:520px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--surface-2);border-radius:9px;padding:.65rem .7rem}
+.stat .n{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1.22rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat .k{font-size:.74rem;color:var(--muted);margin-top:.2rem;line-height:1.3}
+
+/* ---------- verdict ---------- */
+.verdict{
+  border-left:3px solid var(--accent);background:var(--surface-2);
+  border-radius:0 9px 9px 0;padding:.8rem .95rem;font-size:.92rem;line-height:1.55;
+}
+.verdict b{color:var(--accent-ink)}
+
+/* ---------- dealer ---------- */
+.street{display:flex;gap:1.1rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem}
+.sgroup{display:flex;flex-direction:column;gap:.35rem}
+.sgroup .glab{
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);font-weight:600;
+}
+.controls{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem}
+.btn{
+  font-family:'Karla',sans-serif;font-weight:600;font-size:.86rem;
+  border:1px solid var(--line-strong);background:var(--surface-2);color:var(--text);
+  border-radius:8px;padding:.5rem .9rem;cursor:pointer;
+}
+.btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary{background:var(--accent);color:#F4FAF6;border-color:var(--accent)}
+.btn.primary:hover:not(:disabled){filter:brightness(1.08);color:#F4FAF6}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.btn:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.nowbox{background:var(--surface-2);border-radius:9px;padding:.8rem .95rem;margin-bottom:.9rem}
+.nowbox .big{font-family:'Bodoni Moda',Georgia,serif;font-weight:700;font-size:1.32rem;line-height:1.15}
+.nowbox .best{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);margin-top:.28rem}
+.draws{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.6rem}
+.chip{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;border-radius:6px;
+  padding:.25rem .5rem;border:1px solid currentColor;
+}
+.chip.g{color:var(--good)} .chip.w{color:var(--warn)} .chip.n{color:var(--faint)}
+
+footer{
+  margin-top:2.6rem;padding-top:1.3rem;border-top:1px solid var(--line-strong);
+  color:var(--faint);font-size:.82rem;line-height:1.6;max-width:76ch;
+}
+footer b{color:var(--muted)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">Texas Hold'em · trenažér startovních rukou</p>
+      <h1>169 startovních rukou</h1>
+      <p class="lede">Klikni na libovolnou kombinaci v mřížce a uvidíš, jak je silná — a hlavně <b>co z ní do riveru reálně vznikne</b>. Čísla nejsou od oka: jsou spočítaná ze všech 2 118 760 možných boardů pro každou ruku.</p>
+    </div>
+    <button class="themebtn" id="themebtn" type="button">Tmavý režim</button>
+  </header>
+
+  <div class="cols">
+
+    <!-- ===== LEVÝ SLOUPEC: MŘÍŽKA ===== -->
+    <div class="stickcol">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Mřížka</h2>
+            <p class="sub">Všech 169 kombinací, které můžeš dostat.</p>
+          </div>
+          <div class="modes" role="group" aria-label="Obarvení mřížky">
+            <button type="button" id="mode-tier" aria-pressed="true">Co hrát</button>
+            <button type="button" id="mode-eq" aria-pressed="false">Síla</button>
+            <button type="button" id="mode-pos" aria-pressed="false">Pozice</button>
+          </div>
+        </div>
+
+        <div class="poschips" id="poschips" hidden></div>
+
+        <div class="gridbox">
+          <div class="corner"></div>
+          <div class="hdr-cols" id="hdrcols"></div>
+          <div class="hdr-rows" id="hdrrows"></div>
+          <div class="matrix" id="matrix" role="grid" aria-label="Mřížka startovních rukou"></div>
+        </div>
+
+        <div class="axisnote">
+          <span>↑ nad diagonálou = stejná barva (s)</span>
+          <span>T = desítka</span>
+          <span>pod diagonálou = různá (o) ↓</span>
+        </div>
+
+        <div class="legend" id="legend"></div>
+        <p class="gridnote" id="gridnote"></p>
+      </div>
+    </div>
+
+    <!-- ===== PRAVÝ SLOUPEC: DETAIL ===== -->
+    <div>
+      <div class="panel">
+        <div class="dhead">
+          <div class="cards" id="d-cards"></div>
+          <div class="dtitle">
+            <h2 id="d-name">—</h2>
+            <p class="meta" id="d-meta"></p>
+          </div>
+          <span class="tierpill" id="d-tier"></span>
+        </div>
+
+        <div id="d-eq"></div>
+        <p class="verdict" id="d-verdict" style="margin-top:1rem"></p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Co z toho vznikne do riveru</h2>
+            <p class="sub">Kdyby se dohrály všechny 3 karty flopu, turn i river — takhle často skončíš s čím. Přesná čísla, ne odhad.</p>
+          </div>
+        </div>
+        <div class="stack" id="d-stack"></div>
+        <div class="dist" id="d-dist"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Hned po flopu</h2>
+            <p class="sub">První 3 společné karty rozhodnou skoro o všem.</p>
+          </div>
+        </div>
+        <div class="stats" id="d-flop"></div>
+      </div>
+
+      <!-- ===== DEALER ===== -->
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Rozdej to</h2>
+            <p class="sub">Dealer ti vyloží flop, turn a river. Po každé kartě uvidíš, co máš a co z toho ještě může být.</p>
+          </div>
+        </div>
+
+        <div class="street">
+          <div class="sgroup">
+            <span class="glab">tvoje ruka</span>
+            <div class="cards" id="s-hole"></div>
+          </div>
+          <div class="sgroup">
+            <span class="glab">flop</span>
+            <div class="cards" id="s-flop"></div>
+          </div>
+          <div class="sgroup">
+            <span class="glab">turn</span>
+            <div class="cards" id="s-turn"></div>
+          </div>
+          <div class="sgroup">
+            <span class="glab">river</span>
+            <div class="cards" id="s-river"></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn primary" id="btn-next" type="button">Vyložit flop</button>
+          <button class="btn" id="btn-again" type="button">Znovu</button>
+        </div>
+
+        <div class="nowbox">
+          <div class="big" id="s-now">Zatím máš jen dvě karty v ruce.</div>
+          <div class="best" id="s-best"></div>
+          <div class="draws" id="s-draws"></div>
+        </div>
+
+        <h3 style="margin-bottom:.55rem" id="s-disthead">Co z toho ještě může vzniknout</h3>
+        <div class="stack" id="s-stack"></div>
+        <div class="dist" id="s-dist"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p><b>Jak číst čísla.</b> Rozpad „co vznikne do riveru“ je spočítaný <b>přesnou enumerací</b> — pro každou ruku se prošlo všech 2 118 760 možných pětikaretních boardů a spočítalo se, jak často z toho padne která kombinace. Síla ruky (equity) je simulace 200 000 rozdání proti náhodné ruce soupeře.</p>
+    <p style="margin-top:.7rem"><b>Pozice.</b> Tabulky v režimu <b>Pozice</b> jsou běžně doporučované otevírací ranges pro 6 hráčů u stolu — konvenční začátečnická doporučení, ne výstup ze solveru. Ověřená je na nich šířka (15 / 20 / 29 / 49 / 43 % rozdání) a to, že jsou do sebe vnořené: co jde otevřít z první pozice, jde otevřít i ze všech pozdějších.</p>
+    <p style="margin-top:.7rem"><b>Co tu naopak není.</b> Skutečné rozhodnutí u stolu neřídí jen síla karet: hodně záleží na <b>pozici</b> (kdo mluví poslední), na velikosti sázek a na tom, jak hrají soupeři. Mřížka „co hrát“ je zjednodušené doporučení pro začátečníka, ne dokonalá strategie. A pozor — equity říká, jak často ruka <b>dojde do konce jako nejlepší</b>, ne jak často vyděláš.</p>
+  </footer>
+</div>
+
+<script>
+/* =========================================================
+   DATA — přesná enumerace, generováno offline (C, gcc -O3)
+   ========================================================= */
+const DATA = {"AA":{"c":6,"r":[0.0,35.9786,39.6674,11.7738,1.2184,1.9616,8.5476,0.8424,0.0058,0.0044],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":0.0,"gs":2.612,"e1":85.296,"e6":49.349},"AKs":{"c":4,"r":[18.2243,43.2695,22.1399,4.3424,3.0918,6.5272,2.2241,0.1259,0.0037,0.0512],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0,0.0051],"fd":10.944,"os":0.0,"gs":11.347,"e1":67.089,"e6":30.995},"AKo":{"c":12,"r":[19.7181,45.5723,22.6585,4.4275,3.3016,1.9616,2.2241,0.1259,0.0058,0.0044],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":0.0,"gs":11.347,"e1":65.341,"e6":27.855},"AQs":{"c":4,"r":[18.0084,43.1347,22.1399,4.3424,3.4425,6.5251,2.2241,0.1259,0.0058,0.0512],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0,0.0051],"fd":10.944,"os":0.653,"gs":11.347,"e1":66.171,"e6":29.337},"AQo":{"c":12,"r":[19.4845,45.4303,22.6585,4.4275,3.6772,1.9595,2.2241,0.1259,0.0078,0.0044],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":0.653,"gs":11.347,"e1":64.552,"e6":25.8},"AJs":{"c":4,"r":[17.7925,42.9999,22.1399,4.3424,3.7933,6.5231,2.2241,0.1259,0.0078,0.0512],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0,0.0051],"fd":10.944,"os":0.98,"gs":12.0,"e1":65.398,"e6":27.874},"AJo":{"c":12,"r":[19.2509,45.2884,22.6585,4.4275,4.0528,1.9575,2.2241,0.1259,0.0099,0.0044],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":0.98,"gs":12.0,"e1":63.601,"e6":24.443},"ATs":{"c":4,"r":[17.5766,42.8651,22.1399,4.3424,4.144,6.521,2.2241,0.1259,0.0099,0.0512],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0,0.0051],"fd":10.944,"os":1.306,"gs":12.653,"e1":64.431,"e6":26.618},"ATo":{"c":12,"r":[19.0173,45.1464,22.6585,4.4275,4.4284,1.9554,2.2241,0.1259,0.012,0.0044],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.306,"gs":12.653,"e1":62.588,"e6":23.154},"A9s":{"c":4,"r":[18.2675,43.6738,22.2647,4.3688,2.493,6.5678,2.2241,0.1259,0.012,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.306,"gs":5.224,"e1":63.058,"e6":24.164},"A9o":{"c":12,"r":[19.7649,45.9982,22.7864,4.4545,2.6741,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.306,"gs":5.224,"e1":60.62,"e6":20.113},"A8s":{"c":4,"r":[18.0516,43.5391,22.2647,4.3688,2.8437,6.5657,2.2241,0.1259,0.0141,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":5.878,"e1":61.938,"e6":23.191},"A8o":{"c":12,"r":[19.5312,45.8563,22.7864,4.4545,3.0497,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":5.878,"e1":59.876,"e6":19.127},"A7s":{"c":4,"r":[18.0516,43.5391,22.2647,4.3688,2.8437,6.5657,2.2241,0.1259,0.0141,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":5.878,"e1":60.943,"e6":22.517},"A7o":{"c":12,"r":[19.5312,45.8563,22.7864,4.4545,3.0497,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":5.878,"e1":58.883,"e6":18.372},"A6s":{"c":4,"r":[18.2675,43.6738,22.2647,4.3688,2.493,6.5678,2.2241,0.1259,0.012,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.306,"gs":5.224,"e1":59.898,"e6":21.703},"A6o":{"c":12,"r":[19.7649,45.9982,22.7864,4.4545,2.6741,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.306,"gs":5.224,"e1":57.748,"e6":17.509},"A5s":{"c":4,"r":[17.5766,42.8651,22.1399,4.3424,4.144,6.521,2.2241,0.1259,0.0588,0.0023],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":1.306,"gs":12.653,"e1":59.997,"e6":22.129},"A5o":{"c":12,"r":[19.0173,45.1464,22.6585,4.4275,4.4284,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.306,"gs":12.653,"e1":57.722,"e6":18.063},"A4s":{"c":4,"r":[17.7925,42.9999,22.1399,4.3424,3.7933,6.5231,2.2241,0.1259,0.0567,0.0023],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":0.98,"gs":12.0,"e1":58.978,"e6":21.761},"A4o":{"c":12,"r":[19.2509,45.2884,22.6585,4.4275,4.0528,1.9575,2.2241,0.1259,0.012,0.0023],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":0.98,"gs":12.0,"e1":56.549,"e6":17.491},"A3s":{"c":4,"r":[18.0084,43.1347,22.1399,4.3424,3.4425,6.5251,2.2241,0.1259,0.0546,0.0023],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":0.653,"gs":11.347,"e1":58.2,"e6":21.297},"A3o":{"c":12,"r":[19.4845,45.4303,22.6585,4.4275,3.6772,1.9595,2.2241,0.1259,0.01,0.0023],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":0.653,"gs":11.347,"e1":55.848,"e6":17.007},"A2s":{"c":4,"r":[18.2243,43.2695,22.1399,4.3424,3.0918,6.5272,2.2241,0.1259,0.0525,0.0023],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":0.0,"gs":11.347,"e1":57.307,"e6":20.681},"A2o":{"c":12,"r":[19.7181,45.5723,22.6585,4.4275,3.3016,1.9616,2.2241,0.1259,0.0079,0.0023],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":0.0,"gs":11.347,"e1":54.918,"e6":16.407},"KK":{"c":6,"r":[0.0,35.9786,39.6674,11.7738,1.2184,1.9616,8.5476,0.8424,0.0058,0.0044],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":0.327,"gs":1.959,"e1":82.439,"e6":43.04},"KQs":{"c":4,"r":[17.5766,42.4607,22.0152,4.3159,4.6996,6.4805,2.2241,0.1259,0.0504,0.0512],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0051,0.0051],"fd":10.944,"os":3.02,"gs":12.735,"e1":63.263,"e6":28.457},"KQo":{"c":12,"r":[19.0173,44.7205,22.5306,4.4005,5.0093,1.9595,2.2241,0.1259,0.0078,0.0044],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":3.02,"gs":12.735,"e1":61.621,"e6":24.943},"KJs":{"c":4,"r":[17.3606,42.3259,22.0152,4.3159,5.0503,6.4784,2.2241,0.1259,0.0525,0.0512],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0051,0.0051],"fd":10.944,"os":3.673,"gs":12.735,"e1":62.457,"e6":26.727},"KJo":{"c":12,"r":[18.7836,44.5785,22.5306,4.4005,5.3848,1.9575,2.2241,0.1259,0.0099,0.0044],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":3.673,"gs":12.735,"e1":60.566,"e6":23.563},"KTs":{"c":4,"r":[17.1447,42.1911,22.0152,4.3159,5.401,6.4763,2.2241,0.1259,0.0546,0.0512],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0051,0.0051],"fd":10.944,"os":4.0,"gs":13.388,"e1":61.772,"e6":25.905},"KTo":{"c":12,"r":[18.55,44.4366,22.5306,4.4005,5.7604,1.9554,2.2241,0.1259,0.012,0.0044],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":4.0,"gs":13.388,"e1":59.899,"e6":22.23},"K9s":{"c":4,"r":[17.8357,42.9999,22.1399,4.3424,3.7501,6.5231,2.2241,0.1259,0.0566,0.0023],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":1.306,"gs":11.347,"e1":59.826,"e6":23.216},"K9o":{"c":12,"r":[19.2976,45.2884,22.6585,4.4275,4.0061,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.306,"gs":11.347,"e1":57.809,"e6":19.549},"K8s":{"c":4,"r":[18.2675,43.6738,22.2647,4.3688,2.493,6.5678,2.2241,0.1259,0.012,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":4.571,"e1":58.508,"e6":21.227},"K8o":{"c":12,"r":[19.7649,45.9982,22.7864,4.4545,2.6741,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":4.571,"e1":56.011,"e6":17.4},"K7s":{"c":4,"r":[18.0516,43.5391,22.2647,4.3688,2.8437,6.5657,2.2241,0.1259,0.0141,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.959,"gs":5.224,"e1":57.559,"e6":20.917},"K7o":{"c":12,"r":[19.5312,45.8563,22.7864,4.4545,3.0497,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.959,"gs":5.224,"e1":55.195,"e6":16.599},"K6s":{"c":4,"r":[18.0516,43.5391,22.2647,4.3688,2.8437,6.5657,2.2241,0.1259,0.0141,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":5.878,"e1":56.589,"e6":19.981},"K6o":{"c":12,"r":[19.5312,45.8563,22.7864,4.4545,3.0497,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":5.878,"e1":54.227,"e6":15.935},"K5s":{"c":4,"r":[18.0084,43.5391,22.2647,4.3688,2.8869,6.5656,2.2241,0.1259,0.0141,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":5.878,"e1":55.672,"e6":19.627},"K5o":{"c":12,"r":[19.4845,45.8563,22.7864,4.4545,3.0964,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":5.878,"e1":53.127,"e6":15.414},"K4s":{"c":4,"r":[18.2243,43.6738,22.2647,4.3688,2.5362,6.5677,2.2241,0.1259,0.012,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.306,"gs":5.224,"e1":55.083,"e6":19.153},"K4o":{"c":12,"r":[19.7181,45.9982,22.7864,4.4545,2.7208,1.9575,2.2241,0.1259,0.012,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.306,"gs":5.224,"e1":52.321,"e6":14.648},"K3s":{"c":4,"r":[18.4403,43.8086,22.2647,4.3688,2.1855,6.5698,2.2241,0.1259,0.01,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":0.98,"gs":4.571,"e1":54.028,"e6":18.677},"K3o":{"c":12,"r":[19.9518,46.1402,22.7864,4.4545,2.3452,1.9595,2.2241,0.1259,0.01,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":0.98,"gs":4.571,"e1":51.434,"e6":14.166},"K2s":{"c":4,"r":[18.6562,43.9434,22.2647,4.3688,1.8348,6.5719,2.2241,0.1259,0.0079,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":0.653,"gs":3.918,"e1":53.304,"e6":18.108},"K2o":{"c":12,"r":[20.1854,46.2822,22.7864,4.4545,1.9696,1.9616,2.2241,0.1259,0.0079,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":0.653,"gs":3.918,"e1":50.515,"e6":14.001},"QQ":{"c":6,"r":[0.0,35.6982,39.596,11.7499,1.594,1.9575,8.5476,0.8424,0.0099,0.0044],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":0.653,"gs":2.612,"e1":80.108,"e6":37.764},"QJs":{"c":4,"r":[16.7128,41.5171,21.8904,4.2894,6.6581,6.4317,2.2241,0.1259,0.0992,0.0512],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0102,0.0051],"fd":10.944,"os":6.367,"gs":14.776,"e1":60.229,"e6":26.193},"QJo":{"c":12,"r":[18.0827,43.7267,22.4027,4.3735,7.0925,1.9554,2.2241,0.1259,0.012,0.0044],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":6.367,"gs":14.776,"e1":58.183,"e6":22.826},"QTs":{"c":4,"r":[16.4969,41.3823,21.8904,4.2894,7.0088,6.4296,2.2241,0.1259,0.1013,0.0512],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0102,0.0051],"fd":10.944,"os":7.02,"gs":14.776,"e1":59.549,"e6":25.029},"QTo":{"c":12,"r":[17.8491,43.5847,22.4027,4.3735,7.468,1.9533,2.2241,0.1259,0.0141,0.0044],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":7.02,"gs":14.776,"e1":57.368,"e6":21.583},"Q9s":{"c":4,"r":[17.1879,42.1911,22.0152,4.3159,5.3579,6.4764,2.2241,0.1259,0.1034,0.0023],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":4.0,"gs":13.388,"e1":57.742,"e6":22.625},"Q9o":{"c":12,"r":[18.5967,44.4366,22.5306,4.4005,5.7137,1.9534,2.2241,0.1259,0.0161,0.0023],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":4.0,"gs":13.388,"e1":55.413,"e6":18.961},"Q8s":{"c":4,"r":[17.6197,42.8651,22.1399,4.3424,4.1008,6.521,2.2241,0.1259,0.0587,0.0023],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":1.959,"gs":11.347,"e1":55.849,"e6":20.781},"Q8o":{"c":12,"r":[19.064,45.1464,22.6585,4.4275,4.3817,1.9534,2.2241,0.1259,0.0161,0.0023],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.959,"gs":11.347,"e1":53.504,"e6":16.927},"Q7s":{"c":4,"r":[18.0516,43.5391,22.2647,4.3688,2.8437,6.5657,2.2241,0.1259,0.0141,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.959,"gs":5.224,"e1":54.147,"e6":19.075},"Q7o":{"c":12,"r":[19.5312,45.8563,22.7864,4.4545,3.0497,1.9534,2.2241,0.1259,0.0161,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.959,"gs":5.224,"e1":51.613,"e6":15.108},"Q6s":{"c":4,"r":[17.8357,43.4043,22.2647,4.3688,3.1945,6.5636,2.2241,0.1259,0.0161,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":2.286,"gs":5.878,"e1":53.694,"e6":18.487},"Q6o":{"c":12,"r":[19.2976,45.7143,22.7864,4.4545,3.4253,1.9534,2.2241,0.1259,0.0161,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.286,"gs":5.878,"e1":51.016,"e6":14.583},"Q5s":{"c":4,"r":[17.7925,43.4043,22.2647,4.3688,3.2376,6.5636,2.2241,0.1259,0.0162,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.959,"gs":6.531,"e1":52.761,"e6":17.975},"Q5o":{"c":12,"r":[19.2509,45.7143,22.7864,4.4545,3.472,1.9533,2.2241,0.1259,0.0162,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.959,"gs":6.531,"e1":50.167,"e6":13.799},"Q4s":{"c":4,"r":[18.0084,43.5391,22.2647,4.3688,2.8869,6.5656,2.2241,0.1259,0.0141,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":5.878,"e1":51.798,"e6":17.473},"Q4o":{"c":12,"r":[19.4845,45.8563,22.7864,4.4545,3.0964,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":5.878,"e1":49.15,"e6":13.4},"Q3s":{"c":4,"r":[18.2243,43.6738,22.2647,4.3688,2.5362,6.5677,2.2241,0.1259,0.012,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.306,"gs":5.224,"e1":50.953,"e6":17.185},"Q3o":{"c":12,"r":[19.7181,45.9982,22.7864,4.4545,2.7208,1.9575,2.2241,0.1259,0.012,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.306,"gs":5.224,"e1":48.229,"e6":12.807},"Q2s":{"c":4,"r":[18.4403,43.8086,22.2647,4.3688,2.1855,6.5698,2.2241,0.1259,0.01,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":0.98,"gs":4.571,"e1":50.428,"e6":16.86},"Q2o":{"c":12,"r":[19.9518,46.1402,22.7864,4.4545,2.3452,1.9595,2.2241,0.1259,0.01,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":0.98,"gs":4.571,"e1":47.27,"e6":12.495},"JJ":{"c":6,"r":[0.0,35.4179,39.5246,11.726,1.9696,1.9533,8.5476,0.8424,0.0141,0.0044],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":0.98,"gs":3.265,"e1":77.556,"e6":33.508},"JTs":{"c":4,"r":[15.8491,40.5735,21.7657,4.2629,8.6166,6.3829,2.2241,0.1259,0.148,0.0512],"f":[51.75,40.4082,4.0408,1.5714,1.2857,0.8214,0.0918,0.0102,0.0153,0.0051],"fd":10.944,"os":9.714,"gs":16.816,"e1":57.618,"e6":24.993},"JTo":{"c":12,"r":[17.1482,42.7329,22.2748,4.3465,9.1756,1.9512,2.2241,0.1259,0.0161,0.0044],"f":[52.5714,40.4082,4.0408,1.5714,1.3061,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":9.714,"gs":16.816,"e1":55.363,"e6":21.303},"J9s":{"c":4,"r":[16.5401,41.3823,21.8904,4.2894,6.9656,6.4297,2.2241,0.1259,0.1501,0.0023],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0153,0.0],"fd":10.944,"os":7.02,"gs":14.776,"e1":55.642,"e6":22.45},"J9o":{"c":12,"r":[17.8958,43.5847,22.4027,4.3735,7.4213,1.9513,2.2241,0.1259,0.0182,0.0023],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":7.02,"gs":14.776,"e1":53.303,"e6":18.699},"J8s":{"c":4,"r":[16.972,42.0563,22.0152,4.3159,5.7086,6.4743,2.2241,0.1259,0.1054,0.0023],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":4.653,"gs":13.388,"e1":54.243,"e6":20.694},"J8o":{"c":12,"r":[18.3631,44.2946,22.5306,4.4005,6.0893,1.9513,2.2241,0.1259,0.0182,0.0023],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":4.653,"gs":13.388,"e1":51.598,"e6":16.604},"J7s":{"c":4,"r":[17.4038,42.7303,22.1399,4.3424,4.4515,6.519,2.2241,0.1259,0.0608,0.0023],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":2.286,"gs":12.0,"e1":52.419,"e6":18.952},"J7o":{"c":12,"r":[18.8304,45.0044,22.6585,4.4275,4.7573,1.9513,2.2241,0.1259,0.0182,0.0023],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.286,"gs":12.0,"e1":49.621,"e6":14.826},"J6s":{"c":4,"r":[17.8357,43.4043,22.2647,4.3688,3.1945,6.5636,2.2241,0.1259,0.0161,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":2.286,"gs":5.878,"e1":50.669,"e6":17.242},"J6o":{"c":12,"r":[19.2976,45.7143,22.7864,4.4545,3.4253,1.9513,2.2241,0.1259,0.0182,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.286,"gs":5.878,"e1":47.823,"e6":13.148},"J5s":{"c":4,"r":[17.5766,43.2695,22.2647,4.3688,3.5884,6.5615,2.2241,0.1259,0.0183,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":2.612,"gs":6.531,"e1":49.972,"e6":16.859},"J5o":{"c":12,"r":[19.0173,45.5723,22.7864,4.4545,3.8476,1.9512,2.2241,0.1259,0.0183,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.612,"gs":6.531,"e1":47.08,"e6":12.76},"J4s":{"c":4,"r":[17.7925,43.4043,22.2647,4.3688,3.2376,6.5636,2.2241,0.1259,0.0162,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.959,"gs":6.531,"e1":49.136,"e6":16.169},"J4o":{"c":12,"r":[19.2509,45.7143,22.7864,4.4545,3.472,1.9533,2.2241,0.1259,0.0162,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.959,"gs":6.531,"e1":46.158,"e6":12.233},"J3s":{"c":4,"r":[18.0084,43.5391,22.2647,4.3688,2.8869,6.5656,2.2241,0.1259,0.0141,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":5.878,"e1":48.245,"e6":16.224},"J3o":{"c":12,"r":[19.4845,45.8563,22.7864,4.4545,3.0964,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":5.878,"e1":45.102,"e6":11.829},"J2s":{"c":4,"r":[18.2243,43.6738,22.2647,4.3688,2.5362,6.5677,2.2241,0.1259,0.012,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.306,"gs":5.224,"e1":47.396,"e6":15.786},"J2o":{"c":12,"r":[19.7181,45.9982,22.7864,4.4545,2.7208,1.9575,2.2241,0.1259,0.012,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.306,"gs":5.224,"e1":44.307,"e6":11.401},"TT":{"c":6,"r":[0.0,35.1375,39.4533,11.7021,2.3452,1.9492,8.5476,0.8424,0.0182,0.0044],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":1.306,"gs":3.918,"e1":74.838,"e6":29.827},"T9s":{"c":4,"r":[15.8923,40.5735,21.7657,4.2629,8.5734,6.3829,2.2241,0.1259,0.1968,0.0023],"f":[51.75,40.4082,4.0408,1.5714,1.2857,0.8214,0.0918,0.0102,0.0204,0.0],"fd":10.944,"os":9.714,"gs":16.816,"e1":54.023,"e6":22.093},"T9o":{"c":12,"r":[17.195,42.7329,22.2748,4.3465,9.1289,1.9492,2.2241,0.1259,0.0203,0.0023],"f":[52.5714,40.4082,4.0408,1.5714,1.3061,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":9.714,"gs":16.816,"e1":51.535,"e6":18.883},"T8s":{"c":4,"r":[16.3242,41.2475,21.8904,4.2894,7.3164,6.4276,2.2241,0.1259,0.1522,0.0023],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0153,0.0],"fd":10.944,"os":7.673,"gs":14.776,"e1":52.471,"e6":20.734},"T8o":{"c":12,"r":[17.6622,43.4428,22.4027,4.3735,7.7969,1.9492,2.2241,0.1259,0.0203,0.0023],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":7.673,"gs":14.776,"e1":49.858,"e6":17.092},"T7s":{"c":4,"r":[16.756,41.9215,22.0152,4.3159,6.0593,6.4722,2.2241,0.1259,0.1075,0.0023],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":4.98,"gs":14.041,"e1":50.663,"e6":18.749},"T7o":{"c":12,"r":[18.1295,44.1526,22.5306,4.4005,6.4649,1.9492,2.2241,0.1259,0.0203,0.0023],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":4.98,"gs":14.041,"e1":47.667,"e6":15.094},"T6s":{"c":4,"r":[17.1879,42.5955,22.1399,4.3424,4.8022,6.5169,2.2241,0.1259,0.0629,0.0023],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":2.612,"gs":12.653,"e1":48.937,"e6":17.316},"T6o":{"c":12,"r":[18.5967,44.8625,22.6585,4.4275,5.1329,1.9492,2.2241,0.1259,0.0203,0.0023],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.612,"gs":12.653,"e1":45.924,"e6":13.399},"T5s":{"c":4,"r":[17.5766,43.2695,22.2647,4.3688,3.5884,6.5615,2.2241,0.1259,0.0183,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":2.612,"gs":6.531,"e1":47.108,"e6":15.91},"T5o":{"c":12,"r":[19.0173,45.5723,22.7864,4.4545,3.8476,1.9492,2.2241,0.1259,0.0203,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.612,"gs":6.531,"e1":44.193,"e6":11.888},"T4s":{"c":4,"r":[17.5766,43.2695,22.2647,4.3688,3.5884,6.5615,2.2241,0.1259,0.0183,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":2.612,"gs":6.531,"e1":46.487,"e6":15.461},"T4o":{"c":12,"r":[19.0173,45.5723,22.7864,4.4545,3.8476,1.9512,2.2241,0.1259,0.0183,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.612,"gs":6.531,"e1":43.384,"e6":11.566},"T3s":{"c":4,"r":[17.7925,43.4043,22.2647,4.3688,3.2376,6.5636,2.2241,0.1259,0.0162,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.959,"gs":6.531,"e1":45.806,"e6":15.254},"T3o":{"c":12,"r":[19.2509,45.7143,22.7864,4.4545,3.472,1.9533,2.2241,0.1259,0.0162,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.959,"gs":6.531,"e1":42.549,"e6":11.028},"T2s":{"c":4,"r":[18.0084,43.5391,22.2647,4.3688,2.8869,6.5656,2.2241,0.1259,0.0141,0.0023],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":5.878,"e1":44.971,"e6":14.791},"T2o":{"c":12,"r":[19.4845,45.8563,22.7864,4.4545,3.0964,1.9554,2.2241,0.1259,0.0141,0.0023],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":5.878,"e1":41.709,"e6":10.715},"99":{"c":6,"r":[0.0,35.1843,39.4533,11.7021,2.2985,1.9493,8.5476,0.8424,0.0224,0.0002],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":1.306,"gs":3.918,"e1":72.244,"e6":26.563},"98s":{"c":4,"r":[15.9355,40.5735,21.7657,4.2629,8.5302,6.383,2.2241,0.1259,0.1989,0.0002],"f":[51.75,40.4082,4.0408,1.5714,1.2857,0.8214,0.0918,0.0102,0.0204,0.0],"fd":10.944,"os":9.714,"gs":16.816,"e1":50.868,"e6":20.41},"98o":{"c":12,"r":[17.2417,42.7329,22.2748,4.3465,9.0822,1.9493,2.2241,0.1259,0.0224,0.0002],"f":[52.5714,40.4082,4.0408,1.5714,1.3061,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":9.714,"gs":16.816,"e1":48.278,"e6":16.76},"97s":{"c":4,"r":[16.3674,41.2475,21.8904,4.2894,7.2732,6.4276,2.2241,0.1259,0.1542,0.0002],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0153,0.0],"fd":10.944,"os":7.673,"gs":14.776,"e1":49.219,"e6":18.823},"97o":{"c":12,"r":[17.7089,43.4428,22.4027,4.3735,7.7502,1.9493,2.2241,0.1259,0.0224,0.0002],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":7.673,"gs":14.776,"e1":46.182,"e6":15.137},"96s":{"c":4,"r":[16.7992,41.9215,22.0152,4.3159,6.0161,6.4723,2.2241,0.1259,0.1096,0.0002],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":4.98,"gs":14.041,"e1":47.523,"e6":17.201},"96o":{"c":12,"r":[18.1762,44.1526,22.5306,4.4005,6.4182,1.9493,2.2241,0.1259,0.0224,0.0002],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":4.98,"gs":14.041,"e1":44.47,"e6":13.351},"95s":{"c":4,"r":[17.1879,42.5955,22.1399,4.3424,4.8022,6.5169,2.2241,0.1259,0.065,0.0002],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":2.612,"gs":12.653,"e1":45.681,"e6":15.969},"95o":{"c":12,"r":[18.5967,44.8625,22.6585,4.4275,5.1329,1.9492,2.2241,0.1259,0.0224,0.0002],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.612,"gs":12.653,"e1":42.706,"e6":11.932},"94s":{"c":4,"r":[17.8357,43.4043,22.2647,4.3688,3.1945,6.5636,2.2241,0.1259,0.0183,0.0002],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":2.286,"gs":5.878,"e1":43.954,"e6":14.666},"94o":{"c":12,"r":[19.2976,45.7143,22.7864,4.4545,3.4253,1.9513,2.2241,0.1259,0.0203,0.0002],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.286,"gs":5.878,"e1":40.649,"e6":10.46},"93s":{"c":4,"r":[17.8357,43.4043,22.2647,4.3688,3.1945,6.5636,2.2241,0.1259,0.0183,0.0002],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":2.286,"gs":5.878,"e1":43.203,"e6":14.394},"93o":{"c":12,"r":[19.2976,45.7143,22.7864,4.4545,3.4253,1.9534,2.2241,0.1259,0.0183,0.0002],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.286,"gs":5.878,"e1":39.991,"e6":10.03},"92s":{"c":4,"r":[18.0516,43.5391,22.2647,4.3688,2.8437,6.5657,2.2241,0.1259,0.0162,0.0002],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":5.878,"e1":42.27,"e6":13.939},"92o":{"c":12,"r":[19.5312,45.8563,22.7864,4.4545,3.0497,1.9554,2.2241,0.1259,0.0162,0.0002],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":5.878,"e1":39.055,"e6":9.755},"88":{"c":6,"r":[0.0,35.1843,39.4533,11.7021,2.2985,1.9493,8.5476,0.8424,0.0224,0.0002],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":1.306,"gs":3.918,"e1":69.083,"e6":24.117},"87s":{"c":4,"r":[15.9355,40.5735,21.7657,4.2629,8.5302,6.383,2.2241,0.1259,0.1989,0.0002],"f":[51.75,40.4082,4.0408,1.5714,1.2857,0.8214,0.0918,0.0102,0.0204,0.0],"fd":10.944,"os":9.714,"gs":16.816,"e1":47.902,"e6":18.969},"87o":{"c":12,"r":[17.2417,42.7329,22.2748,4.3465,9.0822,1.9493,2.2241,0.1259,0.0224,0.0002],"f":[52.5714,40.4082,4.0408,1.5714,1.3061,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":9.714,"gs":16.816,"e1":45.108,"e6":15.185},"86s":{"c":4,"r":[16.3674,41.2475,21.8904,4.2894,7.2732,6.4276,2.2241,0.1259,0.1542,0.0002],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0153,0.0],"fd":10.944,"os":7.673,"gs":14.776,"e1":46.084,"e6":17.354},"86o":{"c":12,"r":[17.7089,43.4428,22.4027,4.3735,7.7502,1.9493,2.2241,0.1259,0.0224,0.0002],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":7.673,"gs":14.776,"e1":43.2,"e6":13.82},"85s":{"c":4,"r":[16.756,41.9215,22.0152,4.3159,6.0593,6.4722,2.2241,0.1259,0.1096,0.0002],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":4.98,"gs":14.041,"e1":44.471,"e6":16.294},"85o":{"c":12,"r":[18.1295,44.1526,22.5306,4.4005,6.4649,1.9492,2.2241,0.1259,0.0224,0.0002],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":4.98,"gs":14.041,"e1":41.482,"e6":12.281},"84s":{"c":4,"r":[17.4038,42.7303,22.1399,4.3424,4.4515,6.519,2.2241,0.1259,0.0629,0.0002],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":2.286,"gs":12.0,"e1":42.502,"e6":14.844},"84o":{"c":12,"r":[18.8304,45.0044,22.6585,4.4275,4.7573,1.9513,2.2241,0.1259,0.0203,0.0002],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":2.286,"gs":12.0,"e1":39.381,"e6":10.847},"83s":{"c":4,"r":[18.0516,43.5391,22.2647,4.3688,2.8437,6.5657,2.2241,0.1259,0.0162,0.0002],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.959,"gs":5.224,"e1":40.668,"e6":13.631},"83o":{"c":12,"r":[19.5312,45.8563,22.7864,4.4545,3.0497,1.9534,2.2241,0.1259,0.0183,0.0002],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.959,"gs":5.224,"e1":37.391,"e6":9.385},"82s":{"c":4,"r":[18.0516,43.5391,22.2647,4.3688,2.8437,6.5657,2.2241,0.1259,0.0162,0.0002],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.959,"gs":5.224,"e1":40.088,"e6":13.208},"82o":{"c":12,"r":[19.5312,45.8563,22.7864,4.4545,3.0497,1.9554,2.2241,0.1259,0.0162,0.0002],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.959,"gs":5.224,"e1":37.01,"e6":8.965},"77":{"c":6,"r":[0.0,35.1843,39.4533,11.7021,2.2985,1.9493,8.5476,0.8424,0.0224,0.0002],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":1.306,"gs":3.918,"e1":66.164,"e6":21.825},"76s":{"c":4,"r":[15.9355,40.5735,21.7657,4.2629,8.5302,6.383,2.2241,0.1259,0.1989,0.0002],"f":[51.75,40.4082,4.0408,1.5714,1.2857,0.8214,0.0918,0.0102,0.0204,0.0],"fd":10.944,"os":9.714,"gs":16.816,"e1":45.187,"e6":17.909},"76o":{"c":12,"r":[17.2417,42.7329,22.2748,4.3465,9.0822,1.9493,2.2241,0.1259,0.0224,0.0002],"f":[52.5714,40.4082,4.0408,1.5714,1.3061,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":9.714,"gs":16.816,"e1":42.366,"e6":14.094},"75s":{"c":4,"r":[16.3242,41.2475,21.8904,4.2894,7.3164,6.4276,2.2241,0.1259,0.1543,0.0002],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0153,0.0],"fd":10.944,"os":7.673,"gs":14.776,"e1":43.4,"e6":16.772},"75o":{"c":12,"r":[17.6622,43.4428,22.4027,4.3735,7.7969,1.9492,2.2241,0.1259,0.0224,0.0002],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":7.673,"gs":14.776,"e1":40.541,"e6":12.838},"74s":{"c":4,"r":[16.972,42.0563,22.0152,4.3159,5.7086,6.4743,2.2241,0.1259,0.1076,0.0002],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":4.653,"gs":13.388,"e1":41.642,"e6":15.422},"74o":{"c":12,"r":[18.3631,44.2946,22.5306,4.4005,6.0893,1.9513,2.2241,0.1259,0.0203,0.0002],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":4.653,"gs":13.388,"e1":38.549,"e6":11.355},"73s":{"c":4,"r":[17.6197,42.8651,22.1399,4.3424,4.1008,6.521,2.2241,0.1259,0.0608,0.0002],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":1.959,"gs":11.347,"e1":39.909,"e6":13.963},"73o":{"c":12,"r":[19.064,45.1464,22.6585,4.4275,4.3817,1.9534,2.2241,0.1259,0.0183,0.0002],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.959,"gs":11.347,"e1":36.705,"e6":10.074},"72s":{"c":4,"r":[18.2675,43.6738,22.2647,4.3688,2.493,6.5678,2.2241,0.1259,0.0141,0.0002],"f":[53.0357,40.4082,4.0408,1.5714,0.0,0.8418,0.0918,0.0102,0.0,0.0],"fd":10.944,"os":1.633,"gs":4.571,"e1":38.026,"e6":12.715},"72o":{"c":12,"r":[19.7649,45.9982,22.7864,4.4545,2.6741,1.9554,2.2241,0.1259,0.0162,0.0002],"f":[53.8776,40.4082,4.0408,1.5714,0.0,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.633,"gs":4.571,"e1":34.624,"e6":8.524},"66":{"c":6,"r":[0.0,35.1843,39.4533,11.7021,2.2985,1.9493,8.5476,0.8424,0.0224,0.0002],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":1.306,"gs":3.918,"e1":63.312,"e6":20.209},"65s":{"c":4,"r":[15.8923,40.5735,21.7657,4.2629,8.5734,6.3829,2.2241,0.1259,0.1989,0.0002],"f":[51.75,40.4082,4.0408,1.5714,1.2857,0.8214,0.0918,0.0102,0.0204,0.0],"fd":10.944,"os":9.714,"gs":16.816,"e1":43.178,"e6":16.968},"65o":{"c":12,"r":[17.195,42.7329,22.2748,4.3465,9.1289,1.9492,2.2241,0.1259,0.0224,0.0002],"f":[52.5714,40.4082,4.0408,1.5714,1.3061,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":9.714,"gs":16.816,"e1":39.792,"e6":13.218},"64s":{"c":4,"r":[16.5401,41.3823,21.8904,4.2894,6.9656,6.4297,2.2241,0.1259,0.1522,0.0002],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0153,0.0],"fd":10.944,"os":7.02,"gs":14.776,"e1":41.412,"e6":15.862},"64o":{"c":12,"r":[17.8958,43.5847,22.4027,4.3735,7.4213,1.9513,2.2241,0.1259,0.0203,0.0002],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":7.02,"gs":14.776,"e1":38.238,"e6":11.904},"63s":{"c":4,"r":[17.1879,42.1911,22.0152,4.3159,5.3579,6.4764,2.2241,0.1259,0.1055,0.0002],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":4.0,"gs":13.388,"e1":39.478,"e6":14.479},"63o":{"c":12,"r":[18.5967,44.4366,22.5306,4.4005,5.7137,1.9534,2.2241,0.1259,0.0183,0.0002],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":4.0,"gs":13.388,"e1":35.814,"e6":10.544},"62s":{"c":4,"r":[17.8357,42.9999,22.1399,4.3424,3.7501,6.5231,2.2241,0.1259,0.0588,0.0002],"f":[52.7143,40.4082,4.0408,1.5714,0.3214,0.8367,0.0918,0.0102,0.0051,0.0],"fd":10.944,"os":1.306,"gs":11.347,"e1":37.636,"e6":13.229},"62o":{"c":12,"r":[19.2976,45.2884,22.6585,4.4275,4.0061,1.9554,2.2241,0.1259,0.0162,0.0002],"f":[53.551,40.4082,4.0408,1.5714,0.3265,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":1.306,"gs":11.347,"e1":34.172,"e6":9.26},"55":{"c":6,"r":[0.0,35.1375,39.4533,11.7021,2.3452,1.9492,8.5476,0.8424,0.0225,0.0002],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":1.306,"gs":3.918,"e1":60.293,"e6":18.488},"54s":{"c":4,"r":[15.8491,40.5735,21.7657,4.2629,8.6166,6.3829,2.2241,0.1259,0.199,0.0002],"f":[51.75,40.4082,4.0408,1.5714,1.2857,0.8214,0.0918,0.0102,0.0204,0.0],"fd":10.944,"os":9.714,"gs":16.816,"e1":41.347,"e6":16.349},"54o":{"c":12,"r":[17.1482,42.7329,22.2748,4.3465,9.1756,1.9512,2.2241,0.1259,0.0204,0.0002],"f":[52.5714,40.4082,4.0408,1.5714,1.3061,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":9.714,"gs":16.816,"e1":38.155,"e6":12.548},"53s":{"c":4,"r":[16.4969,41.3823,21.8904,4.2894,7.0088,6.4296,2.2241,0.1259,0.1523,0.0002],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0153,0.0],"fd":10.944,"os":7.02,"gs":14.776,"e1":39.702,"e6":15.375},"53o":{"c":12,"r":[17.8491,43.5847,22.4027,4.3735,7.468,1.9533,2.2241,0.1259,0.0183,0.0002],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":7.02,"gs":14.776,"e1":36.515,"e6":11.399},"52s":{"c":4,"r":[17.1447,42.1911,22.0152,4.3159,5.401,6.4763,2.2241,0.1259,0.1055,0.0002],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":4.0,"gs":13.388,"e1":37.957,"e6":14.033},"52o":{"c":12,"r":[18.55,44.4366,22.5306,4.4005,5.7604,1.9554,2.2241,0.1259,0.0162,0.0002],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":4.0,"gs":13.388,"e1":34.514,"e6":9.808},"44":{"c":6,"r":[0.0,35.4179,39.5246,11.726,1.9696,1.9533,8.5476,0.8424,0.0183,0.0002],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":0.98,"gs":3.265,"e1":56.945,"e6":17.195},"43s":{"c":4,"r":[16.7128,41.5171,21.8904,4.2894,6.6581,6.4317,2.2241,0.1259,0.1502,0.0002],"f":[52.0714,40.4082,4.0408,1.5714,0.9643,0.8265,0.0918,0.0102,0.0153,0.0],"fd":10.944,"os":6.367,"gs":14.776,"e1":38.513,"e6":14.798},"43o":{"c":12,"r":[18.0827,43.7267,22.4027,4.3735,7.0925,1.9554,2.2241,0.1259,0.0162,0.0002],"f":[52.898,40.4082,4.0408,1.5714,0.9796,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":6.367,"gs":14.776,"e1":35.143,"e6":10.773},"42s":{"c":4,"r":[17.3606,42.3259,22.0152,4.3159,5.0503,6.4784,2.2241,0.1259,0.1035,0.0002],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":3.673,"gs":12.735,"e1":36.956,"e6":13.501},"42o":{"c":12,"r":[18.7836,44.5785,22.5306,4.4005,5.3848,1.9575,2.2241,0.1259,0.0142,0.0002],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":3.673,"gs":12.735,"e1":33.282,"e6":9.552},"33":{"c":6,"r":[0.0,35.6982,39.596,11.7499,1.594,1.9575,8.5476,0.8424,0.0142,0.0002],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":0.653,"gs":2.612,"e1":53.691,"e6":16.374},"32s":{"c":4,"r":[17.5766,42.4607,22.0152,4.3159,4.6996,6.4805,2.2241,0.1259,0.1014,0.0002],"f":[52.3929,40.4082,4.0408,1.5714,0.6429,0.8316,0.0918,0.0102,0.0102,0.0],"fd":10.944,"os":3.02,"gs":12.735,"e1":36.028,"e6":13.133},"32o":{"c":12,"r":[19.0173,44.7205,22.5306,4.4005,5.0093,1.9595,2.2241,0.1259,0.0121,0.0002],"f":[53.2245,40.4082,4.0408,1.5714,0.6531,0.0,0.0918,0.0102,0.0,0.0],"fd":2.245,"os":3.02,"gs":12.735,"e1":32.171,"e6":9.136},"22":{"c":6,"r":[0.0,35.9786,39.6674,11.7738,1.2184,1.9616,8.5476,0.8424,0.01,0.0002],"f":[0.0,71.8367,16.1633,10.7755,0.0,0.0,0.9796,0.2449,0.0,0.0],"fd":2.245,"os":0.327,"gs":1.959,"e1":50.24,"e6":15.507}};
+
+/* =========================================================
+   Vyhodnocování kombinací
+   ========================================================= */
+const RANKCH = "23456789TJQKA";
+const RANK_LABEL = ["2","3","4","5","6","7","8","9","10","J","Q","K","A"];
+const SUIT_CH = ["♠","♥","♦","♣"];
+const SUIT_RED = [false,true,true,false];
+
+const CAT_NAME = ["Vysoká karta","Pár","Dva páry","Trojice","Postupka",
+                  "Barva","Full house","Čtveřice","Straight flush","Royal flush"];
+const CAT_SHORT = ["nic","pár","dva páry","trojice","postupka",
+                   "barva","full house","čtveřice","straight flush","royal flush"];
+
+const SH = new Int8Array(8192);
+(function(){
+  for(let m=0;m<8192;m++){
+    let best=-1;
+    for(let hi=12;hi>=4;hi--){
+      const need=(1<<hi)|(1<<(hi-1))|(1<<(hi-2))|(1<<(hi-3))|(1<<(hi-4));
+      if((m&need)===need){best=hi;break;}
+    }
+    if(best<0){
+      const wheel=(1<<12)|1|(1<<1)|(1<<2)|(1<<3);
+      if((m&wheel)===wheel) best=3;
+    }
+    SH[m]=best;
+  }
+})();
+
+const _rc=new Int8Array(13), _sc=new Int8Array(4), _sm=new Int16Array(4);
+function evalCards(cards){
+  _rc.fill(0); _sc.fill(0); _sm.fill(0);
+  let mask=0;
+  for(let i=0;i<cards.length;i++){
+    const c=cards[i],r=c>>2,s=c&3;
+    _rc[r]++; _sc[s]++; _sm[s]|=1<<r; mask|=1<<r;
+  }
+  let cat, rk=[0,0,0,0,0];
+  let fs=-1;
+  for(let s=0;s<4;s++) if(_sc[s]>=5) fs=s;
+  outer: {
+    if(fs>=0){
+      const sfh=SH[_sm[fs]];
+      if(sfh>=0){ cat=(sfh===12)?9:8; rk[0]=sfh; break outer; }
+    }
+    let quad=-1,trips=[],pairs=[];
+    for(let r=12;r>=0;r--){
+      if(_rc[r]===4) quad=r;
+      else if(_rc[r]===3) trips.push(r);
+      else if(_rc[r]===2) pairs.push(r);
+    }
+    if(quad>=0){
+      cat=7; rk[0]=quad;
+      for(let r=12;r>=0;r--) if(r!==quad&&_rc[r]>0){rk[1]=r;break;}
+      break outer;
+    }
+    if(trips.length>=2){ cat=6; rk[0]=trips[0]; rk[1]=trips[1]; break outer; }
+    if(trips.length===1&&pairs.length>=1){ cat=6; rk[0]=trips[0]; rk[1]=pairs[0]; break outer; }
+    if(fs>=0){
+      cat=5; let k=0;
+      for(let r=12;r>=0&&k<5;r--) if(_sm[fs]&(1<<r)) rk[k++]=r;
+      break outer;
+    }
+    const sh=SH[mask];
+    if(sh>=0){ cat=4; rk[0]=sh; break outer; }
+    if(trips.length===1){
+      cat=3; rk[0]=trips[0]; let k=1;
+      for(let r=12;r>=0&&k<3;r--) if(r!==trips[0]&&_rc[r]>0) rk[k++]=r;
+      break outer;
+    }
+    if(pairs.length>=2){
+      cat=2; rk[0]=pairs[0]; rk[1]=pairs[1];
+      for(let r=12;r>=0;r--) if(r!==pairs[0]&&r!==pairs[1]&&_rc[r]>0){rk[2]=r;break;}
+      break outer;
+    }
+    if(pairs.length===1){
+      cat=1; rk[0]=pairs[0]; let k=1;
+      for(let r=12;r>=0&&k<4;r--) if(r!==pairs[0]&&_rc[r]>0) rk[k++]=r;
+      break outer;
+    }
+    cat=0; let k=0;
+    for(let r=12;r>=0&&k<5;r--) if(_rc[r]>0) rk[k++]=r;
+  }
+  let sco=cat;
+  for(let i=0;i<5;i++) sco=sco*13+rk[i];
+  return {cat:cat, score:sco};
+}
+
+function best5(cards){
+  if(cards.length<=5) return {cards:cards.slice(), ...evalCards(cards)};
+  let bestSc=-1,bestSet=null,bestCat=0;
+  const n=cards.length, idx=[0,1,2,3,4];
+  const rec=(start,chosen)=>{
+    if(chosen.length===5){
+      const e=evalCards(chosen);
+      if(e.score>bestSc){bestSc=e.score;bestSet=chosen.slice();bestCat=e.cat;}
+      return;
+    }
+    for(let i=start;i<n;i++){ chosen.push(cards[i]); rec(i+1,chosen); chosen.pop(); }
+  };
+  rec(0,[]);
+  return {cards:bestSet,score:bestSc,cat:bestCat};
+}
+
+/* =========================================================
+   Pomocné
+   ========================================================= */
+function handCards(code){
+  const r1=RANKCH.indexOf(code[0]), r2=RANKCH.indexOf(code[1]);
+  if(code.length===2) return [r1*4+0, r2*4+1];
+  if(code[2]==='s')   return [r1*4+0, r2*4+0];
+  return [r1*4+0, r2*4+1];
+}
+function cardEl(c,small){
+  const r=c>>2,s=c&3;
+  const d=document.createElement('div');
+  d.className='pc'+(small?' sm':'')+(SUIT_RED[s]?' red':' black');
+  d.innerHTML='<span class="r">'+RANK_LABEL[r]+'</span><span class="s">'+SUIT_CH[s]+'</span>';
+  return d;
+}
+function ghostEl(small){
+  const d=document.createElement('div');
+  d.className='pc ghost'+(small?' sm':'');
+  return d;
+}
+function renderCards(el,cards,small,ghosts){
+  el.innerHTML='';
+  cards.forEach(c=>el.appendChild(cardEl(c,small)));
+  for(let i=0;i<(ghosts||0);i++) el.appendChild(ghostEl(small));
+}
+function fmt(x,d){
+  d = (d===undefined)?1:d;
+  return x.toFixed(d).replace('.',',');
+}
+function pctLabel(x){
+  if(x===0) return "0 %";
+  if(x<0.01) return "<0,01 %";
+  if(x<1) return fmt(x,2)+" %";
+  return fmt(x,1)+" %";
+}
+function cardName(c){ return RANK_LABEL[c>>2]+SUIT_CH[c&3]; }
+
+/* =========================================================
+   Tiery — zjednodušené doporučení pro začátečníka
+   ========================================================= */
+const TIER_SETS = {
+  1:"AA KK QQ JJ AKs AKo",
+  2:"TT 99 AQs AJs ATs KQs AQo AJo",
+  3:"88 77 KJs KTs QJs QTs JTs T9s A9s A8s A7s A6s A5s A4s A3s A2s KQo KJo ATo",
+  4:"66 55 44 33 22 98s 87s 76s 65s 54s J9s T8s 97s 86s 75s 64s Q9s K9s QJo JTo QTo KTo A9o"
+};
+const TIER_MAP = {};
+for(const t in TIER_SETS) TIER_SETS[t].split(/\s+/).forEach(h=>TIER_MAP[h]=+t);
+
+function tierOf(code){
+  if(TIER_MAP[code]) return TIER_MAP[code];
+  const r1=RANKCH.indexOf(code[0]), r2=RANKCH.indexOf(code[1]);
+  if(code.length===2) return 4;
+  const gap=r1-r2;
+  if(code[2]==='s'){
+    if(gap<=3 && r2>=1) return 5;
+    if(r1>=10) return 5;
+    return 6;
+  }
+  if(r2>=7) return 5;
+  if(r1===12) return 5;
+  return 6;
+}
+const TIER_NAME = {
+  1:"Prémiová", 2:"Velmi silná", 3:"Solidní",
+  4:"Spekulativní", 5:"Okrajová", 6:"Odpad"
+};
+const TIER_HINT = {
+  1:"hraj vždy a agresivně",
+  2:"hraj skoro vždy",
+  3:"hraj, ale opatrně",
+  4:"jen levně a radši v pozici",
+  5:"většinou zahoď",
+  6:"zahoď"
+};
+
+/* =========================================================
+   Mřížka
+   ========================================================= */
+const GRID_RANKS = ["A","K","Q","J","T","9","8","7","6","5","4","3","2"];
+function codeAt(i,j){
+  if(i===j) return GRID_RANKS[i]+GRID_RANKS[i];
+  if(i<j)   return GRID_RANKS[i]+GRID_RANKS[j]+"s";
+  return GRID_RANKS[j]+GRID_RANKS[i]+"o";
+}
+
+const ALL_CODES=[];
+for(let i=0;i<13;i++) for(let j=0;j<13;j++) ALL_CODES.push(codeAt(i,j));
+const UNIQUE = [...new Set(ALL_CODES)];
+const RANKED = UNIQUE.slice().sort((a,b)=>DATA[b].e1-DATA[a].e1);
+const RANK_OF = {};
+RANKED.forEach((c,i)=>RANK_OF[c]=i+1);
+
+/* Běžně doporučované otevírací tabulky pro 6 hráčů. Nejsou to výstupy ze solveru —
+   jsou to konvenční začátečnické tabulky; ověřená je jejich šířka a vnořenost. */
+const RANGES = {"UTG":["55","66","77","88","99","TT","JJ","QQ","KK","AA","ATs","AJs","AQs","AKs","A2s","A3s","A4s","A5s","KTs","KJs","KQs","QTs","QJs","JTs","T9s","98s","87s","AJo","AQo","AKo","KJo","KQo","QJo"],"HJ":["22","33","44","55","66","77","88","99","TT","JJ","QQ","KK","AA","ATs","AJs","AQs","AKs","A2s","A3s","A4s","A5s","K9s","KTs","KJs","KQs","Q9s","QTs","QJs","J9s","JTs","T8s","T9s","98s","87s","76s","ATo","AJo","AQo","AKo","KTo","KJo","KQo","QJo"],"CO":["22","33","44","55","66","77","88","99","TT","JJ","QQ","KK","AA","A2s","A3s","A4s","A5s","A6s","A7s","A8s","A9s","ATs","AJs","AQs","AKs","K5s","K6s","K7s","K8s","K9s","KTs","KJs","KQs","Q8s","Q9s","QTs","QJs","J8s","J9s","JTs","T7s","T8s","T9s","97s","98s","86s","87s","76s","65s","54s","A8o","A9o","ATo","AJo","AQo","AKo","K9o","KTo","KJo","KQo","QTo","QJo","JTo"],"BTN":["22","33","44","55","66","77","88","99","TT","JJ","QQ","KK","AA","A2s","A3s","A4s","A5s","A6s","A7s","A8s","A9s","ATs","AJs","AQs","AKs","K2s","K3s","K4s","K5s","K6s","K7s","K8s","K9s","KTs","KJs","KQs","Q2s","Q3s","Q4s","Q5s","Q6s","Q7s","Q8s","Q9s","QTs","QJs","J6s","J7s","J8s","J9s","JTs","T6s","T7s","T8s","T9s","96s","97s","98s","85s","86s","87s","74s","75s","76s","63s","64s","65s","53s","54s","43s","A2o","A3o","A4o","A5o","A6o","A7o","A8o","A9o","ATo","AJo","AQo","AKo","K5o","K6o","K7o","K8o","K9o","KTo","KJo","KQo","Q8o","Q9o","QTo","QJo","J8o","J9o","JTo","T8o","T9o"],"SB":["22","33","44","55","66","77","88","99","TT","JJ","QQ","KK","AA","A2s","A3s","A4s","A5s","A6s","A7s","A8s","A9s","ATs","AJs","AQs","AKs","K2s","K3s","K4s","K5s","K6s","K7s","K8s","K9s","KTs","KJs","KQs","Q5s","Q6s","Q7s","Q8s","Q9s","QTs","QJs","J7s","J8s","J9s","JTs","T6s","T7s","T8s","T9s","96s","97s","98s","85s","86s","87s","75s","76s","64s","65s","53s","54s","A2o","A3o","A4o","A5o","A6o","A7o","A8o","A9o","ATo","AJo","AQo","AKo","K7o","K8o","K9o","KTo","KJo","KQo","Q9o","QTo","QJo","J9o","JTo","T9o"]};
+const POSM = [{"key":"UTG","name":"UTG","full":"první na řadě, 5 hráčů po tobě"},{"key":"HJ","name":"HJ","full":"druhý na řadě, 4 hráči po tobě"},{"key":"CO","name":"CO","full":"předposlední, 2 hráči po tobě"},{"key":"BTN","name":"BTN","full":"button — mluvíš poslední"},{"key":"SB","name":"SB","full":"malý blind, po tobě už jen velký blind"}];
+let posKey="BTN";
+let colorMode="tier";
+let selected="AKs";
+
+function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function hexToRgb(h){
+  h=h.replace('#','');
+  if(h.length===3) h=h.split('').map(c=>c+c).join('');
+  return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];
+}
+function mix(a,b,t){
+  const A=hexToRgb(a),B=hexToRgb(b);
+  return "rgb("+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(",")+")";
+}
+function lum(rgbStr){
+  const m=rgbStr.match(/\d+/g).map(Number);
+  return (0.299*m[0]+0.587*m[1]+0.114*m[2])/255;
+}
+
+function paintCells(){
+  const lo=cssVar('--eq-lo'), hi=cssVar('--eq-hi');
+  const es=UNIQUE.map(c=>DATA[c].e1);
+  const emin=Math.min(...es), emax=Math.max(...es);
+  document.querySelectorAll('.cell').forEach(btn=>{
+    const code=btn.dataset.code;
+    btn.className='cell';
+    btn.style.background=''; btn.style.color='';
+    if(colorMode==='tier'){
+      btn.classList.add('t'+tierOf(code));
+    }else if(colorMode==='pos'){
+      btn.classList.add(RANGES[posKey].indexOf(code)>=0 ? 'inrange':'outrange');
+    }else{
+      const t=(DATA[code].e1-emin)/(emax-emin);
+      const bg=mix(lo,hi,Math.pow(t,0.85));
+      btn.style.background=bg;
+      btn.style.color = lum(bg)>0.58 ? '#16201A' : '#F2F7F2';
+    }
+    btn.setAttribute('aria-pressed', code===selected ? 'true':'false');
+  });
+}
+
+function buildGrid(){
+  const hc=document.getElementById('hdrcols'), hr=document.getElementById('hdrrows');
+  hc.innerHTML=''; hr.innerHTML='';
+  GRID_RANKS.forEach(r=>{
+    const a=document.createElement('span'); a.textContent=r; hc.appendChild(a);
+    const b=document.createElement('span'); b.textContent=r; hr.appendChild(b);
+  });
+  const m=document.getElementById('matrix');
+  m.innerHTML='';
+  for(let i=0;i<13;i++) for(let j=0;j<13;j++){
+    const code=codeAt(i,j);
+    const b=document.createElement('button');
+    b.type='button'; b.className='cell'; b.dataset.code=code;
+    b.textContent = code;
+    const opensFrom=POSM.filter(p=>RANGES[p.key].indexOf(code)>=0).map(p=>p.name);
+    b.title = code+" — "+TIER_NAME[tierOf(code)]+", síla proti 1 soupeři "+fmt(DATA[code].e1)+" %"+
+              ", otevírá se z: "+(opensFrom.length?opensFrom.join(", "):"žádné pozice");
+    b.setAttribute('aria-label', code+", "+TIER_NAME[tierOf(code)]);
+    b.addEventListener('click',()=>select(code));
+    m.appendChild(b);
+  }
+  paintCells();
+}
+
+function rangeWidth(k){
+  return RANGES[k].reduce((a,c)=>a+(c.length===2?6:(c[2]==='s'?4:12)),0)/1326*100;
+}
+function buildChips(){
+  const el=document.getElementById('poschips');
+  el.hidden = colorMode!=='pos';
+  if(colorMode!=='pos'){ el.innerHTML=''; return; }
+  el.innerHTML='';
+  POSM.forEach(p=>{
+    const b=document.createElement('button');
+    b.type='button'; b.textContent=p.name;
+    b.setAttribute('aria-pressed', p.key===posKey?'true':'false');
+    b.title=p.full;
+    b.addEventListener('click',()=>{posKey=p.key;buildChips();paintCells();buildLegend();});
+    el.appendChild(b);
+  });
+}
+function buildLegend(){
+  const el=document.getElementById('legend');
+  el.innerHTML='';
+  if(colorMode==='pos'){
+    const meta=POSM.find(p=>p.key===posKey);
+    [['var(--t1-bg)','otevírám'],['var(--t6-bg)','skládám']].forEach(([c,lab])=>{
+      const d=document.createElement('span'); d.className='lg';
+      d.innerHTML='<span class="sw" style="background:'+c+'"></span>'+lab;
+      el.appendChild(d);
+    });
+    document.getElementById('gridnote').innerHTML=
+      '<b>'+meta.name+'</b> — '+meta.full+'. Odtud se otevírá <b>'+fmt(rangeWidth(posKey))+' %</b> všech rozdání. '+
+      'Čím později mluvíš, tím víc rukou si můžeš dovolit: po tobě zbývá míň hráčů, co tě můžou přeplatit, '+
+      'a v dalších kolech se rozhoduješ až po nich.<br><br>'+
+      '<span style="color:var(--faint)">Tohle nejsou výstupy ze solveru, ale běžně doporučované začátečnické tabulky. '+
+      'Skutečné GTO ranges vypadají podobně, ne stejně.</span>';
+    return;
+  }
+  if(colorMode==='tier'){
+    for(let t=1;t<=6;t++){
+      const d=document.createElement('span'); d.className='lg';
+      d.innerHTML='<span class="sw" style="background:var(--t'+t+'-bg)"></span>'+TIER_NAME[t];
+      el.appendChild(d);
+    }
+    document.getElementById('gridnote').innerHTML=
+      'Barva = jak moc se ruka vyplatí hrát. Je to <b>zjednodušené doporučení pro začátečníka</b> — u stolu do toho ještě mluví pozice a soupeři.';
+  }else{
+    const lo=cssVar('--eq-lo'), hi=cssVar('--eq-hi');
+    [[0,'nejslabší'],[0.5,''],[1,'nejsilnější']].forEach(([t,lab])=>{
+      const d=document.createElement('span'); d.className='lg';
+      d.innerHTML='<span class="sw" style="background:'+mix(lo,hi,t)+'"></span>'+(lab||'…');
+      el.appendChild(d);
+    });
+    document.getElementById('gridnote').innerHTML=
+      'Barva = <b>equity proti jedné náhodné ruce</b>, tj. jak často ruka vyhraje, když se dohraje do konce. Od '+
+      fmt(Math.min(...UNIQUE.map(c=>DATA[c].e1)))+' % (32o) po '+
+      fmt(Math.max(...UNIQUE.map(c=>DATA[c].e1)))+' % (AA).';
+  }
+}
+
+/* =========================================================
+   Rozpad kombinací
+   ========================================================= */
+function renderDist(stackEl,distEl,arr){
+  stackEl.innerHTML='';
+  arr.forEach((v,i)=>{
+    if(v<=0) return;
+    const s=document.createElement('i');
+    s.style.width=v+'%';
+    s.style.background='var(--c'+i+')';
+    s.title=CAT_NAME[i]+" "+pctLabel(v);
+    stackEl.appendChild(s);
+  });
+  const max=Math.max(...arr);
+  distEl.innerHTML='';
+  arr.forEach((v,i)=>{
+    const row=document.createElement('div');
+    row.className='drow'+(v<=0?' zero':'');
+    row.innerHTML=
+      '<span class="sw" style="background:var(--c'+i+')"></span>'+
+      '<span class="nm">'+CAT_NAME[i]+'</span>'+
+      '<span class="bar"><i style="width:'+(max>0?(v/max*100):0)+'%;background:var(--c'+i+')"></i></span>'+
+      '<span class="pct">'+pctLabel(v)+'</span>';
+    distEl.appendChild(row);
+  });
+}
+
+/* =========================================================
+   Verdikt textem
+   ========================================================= */
+function verdict(code){
+  const d=DATA[code];
+  const r1=RANKCH.indexOf(code[0]), r2=RANKCH.indexOf(code[1]);
+  const isPair=code.length===2, suited=code[2]==='s';
+  const rank=RANK_OF[code];
+  const pairPct=d.r[1], twoPlus=100-d.r[0]-d.r[1];
+  const flushPct=d.r[5]+d.r[8]+d.r[9];
+  const strPct=d.r[4];
+  const L=RANK_LABEL;
+
+  let t="";
+  if(isPair && r1>=9){
+    t="<b>Vysoký pár už je hotová ruka.</b> Nemusíš nic trefovat — párem "+L[r1]+
+      " často vyhraješ i tak, jak je. Trojici z něj uděláš v "+pctLabel(d.r[3])+
+      " případů a full house v "+pctLabel(d.r[6])+". Tohle jsou ruce, se kterými se sází.";
+  } else if(isPair && r1>=5){
+    t="<b>Střední pár — slušný, ale nervózní.</b> Problém je, že na flopu skoro vždy padne aspoň jedna vyšší karta, než je tvoje "+L[r1]+
+      ". Hraješ hlavně na trojici: tu trefíš v "+pctLabel(d.r[3])+" případů do riveru. Když nepřijde, moc se do toho neopírej.";
+  } else if(isPair){
+    t="<b>Malý pár = loterie na trojici.</b> Sám o sobě skoro nikdy nevyhraje, protože na stole bude spousta vyšších karet. Ale trojici nebo víc uděláš v "+
+      pctLabel(d.r[3]+d.r[6]+d.r[7])+" případů — a to je přesně to, na co se hraje. Chceš se do banku dostat levně.";
+  } else if(suited && r1===12 && r2>=9){
+    t="<b>Nejsilnější nepárová ruka, co existuje.</b> Máš eso, vysokou druhou kartu i barvu v jednom. Barvu ale nečekej moc často — vznikne jen v "+
+      pctLabel(flushPct)+" případů. Reálně z toho většinou bude „jen“ pár ("+pctLabel(pairPct)+"), zato ten nejvyšší možný.";
+  } else if(suited && r1>=10 && r2>=8){
+    t="<b>Vysoké karty a k tomu barva.</b> Nejlepší možný mix: trefíš vysoký pár, a když ne, často máš aspoň draw na barvu ("+
+      pctLabel(d.fd)+" flopů) nebo na postupku. Barva z toho nakonec vznikne v "+pctLabel(flushPct)+" případů.";
+  } else if(suited && r1===12){
+    t="<b>Eso se stejnou barvou — ale nenech se zmást.</b> Barva z toho padne jen v "+pctLabel(flushPct)+
+      " případů. Hodnota je hlavně v tom, že když barva přijde, je to ta <b>nejvyšší možná</b> — nikdo tě nepřebije. Bez toho je to eso se slabým kickerem.";
+  } else if(suited && r1-r2<=2 && r1<=10){
+    t="<b>Karty vedle sebe a ve stejné barvě — přesně na postupky a barvy.</b> Postupku uděláš v "+pctLabel(strPct)+
+      " případů, barvu v "+pctLabel(flushPct)+". Dohromady je to "+pctLabel(strPct+flushPct)+
+      " šance na opravdu silnou ruku. Ale pozor: většinou z toho nebude nic, takže tam nelij peníze naslepo.";
+  } else if(suited){
+    t="<b>Stejná barva pomáhá, ale nezachrání špatné karty.</b> Barva z toho vznikne v "+pctLabel(flushPct)+
+      " případů — to je hezké, jenže zbylých "+pctLabel(100-flushPct)+" případů rozhoduje, jak vysoké ty dvě karty jsou. A tyhle tak vysoké nejsou.";
+  } else if(!suited && r1>=10 && r2>=9){
+    t="<b>Dvě vysoké karty, žádná pomoc navíc.</b> Většinou z toho bude prostě pár ("+pctLabel(pairPct)+
+      ") — zato dost často ten nejvyšší na stole. Barva ani postupka se skoro nekonají. Když flop mine, nemáš se čeho chytit.";
+  } else if(!suited && r1===12){
+    t="<b>Eso s nízkým kickerem — klasická past.</b> Vypadá to dobře, protože vidíš eso. Jenže když trefíš pár es, často vedle sebe máš soupeře, co má taky eso a lepší druhou kartu. Equity "+
+      fmt(d.e1)+" % je tady dost zavádějící.";
+  } else {
+    t="<b>Tohle je odpad.</b> Karty jsou nízké, různé barvy, daleko od sebe — nevznikne z toho ani pořádný pár, ani postupka, ani barva. V "+
+      pctLabel(d.r[0]+d.r[1])+" případů skončíš s ničím nebo jen s párem. Zahoď to.";
+  }
+  return t+" <span style='color:var(--muted)'>(Pořadí v síle: "+rank+". ze 169.)</span>";
+}
+
+/* =========================================================
+   Výběr ruky
+   ========================================================= */
+function select(code){
+  selected=code;
+  const d=DATA[code];
+  const cards=handCards(code);
+  const t=tierOf(code);
+
+  renderCards(document.getElementById('d-cards'),cards,false,0);
+
+  const r1=RANK_LABEL[RANKCH.indexOf(code[0])], r2=RANK_LABEL[RANKCH.indexOf(code[1])];
+  let title;
+  if(code.length===2) title="Pár "+r1+"–"+r2;
+  else title=r1+" "+r2+(code[2]==='s'?" — stejná barva":" — různá barva");
+  document.getElementById('d-name').textContent=title;
+
+  document.getElementById('d-meta').innerHTML=
+    '<span class="mono">'+code+'</span> · '+d.c+' z 1326 možných rozdání ('+fmt(d.c/1326*100,1)+' %) · '+
+    RANK_OF[code]+'. nejsilnější ze 169';
+
+  const tp=document.getElementById('d-tier');
+  tp.textContent=TIER_NAME[t]+" · "+TIER_HINT[t];
+  tp.style.background='var(--t'+t+'-bg)';
+  tp.style.color='var(--t'+t+'-fg)';
+
+  document.getElementById('d-eq').innerHTML=
+    eqRow("Proti 1 soupeři", d.e1)+
+    eqRow("Proti 5 soupeřům", d.e6)+
+    '<p style="font-size:.8rem;color:var(--faint);margin-top:.55rem">Jak často ruka vyhraje, když se rozdá až do riveru a nikdo nesloží karty.</p>';
+
+  document.getElementById('d-verdict').innerHTML=verdict(code);
+
+  renderDist(document.getElementById('d-stack'),document.getElementById('d-dist'),d.r);
+
+  const nothing=d.f[0], pair=d.f[1], two=d.f[2];
+  const monster=d.f[3]+d.f[4]+d.f[5]+d.f[6]+d.f[7]+d.f[8]+d.f[9];
+  document.getElementById('d-flop').innerHTML=
+    tile(fmt(100-nothing)+" %","trefíš aspoň pár")+
+    tile(fmt(nothing)+" %","netrefíš vůbec nic")+
+    tile(fmt(two+monster,1)+" %","dva páry a lepší")+
+    tile(fmt(d.fd,1)+" %","draw na barvu (4 karty)")+
+    tile(fmt(d.os,1)+" %","oboustranná postupka")+
+    tile(fmt(d.gs,1)+" %","vnitřní postupka (gutshot)");
+
+  paintCells();
+  resetDeal();
+}
+function eqRow(label,v){
+  return '<div class="eqrow"><span class="lbl">'+label+'</span>'+
+         '<span class="eqbar"><i style="width:'+Math.min(100,v)+'%"></i></span>'+
+         '<span class="val">'+fmt(v,1)+' %</span></div>';
+}
+function tile(n,k){ return '<div class="stat"><div class="n">'+n+'</div><div class="k">'+k+'</div></div>'; }
+
+/* =========================================================
+   Dealer
+   ========================================================= */
+let dealHole=[], dealDeck=[], board=[];
+
+function resetDeal(){
+  dealHole=handCards(selected);
+  dealDeck=[];
+  for(let c=0;c<52;c++) if(!dealHole.includes(c)) dealDeck.push(c);
+  for(let i=dealDeck.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [dealDeck[i],dealDeck[j]]=[dealDeck[j],dealDeck[i]];
+  }
+  board=[];
+  renderDeal();
+}
+function renderDeal(){
+  renderCards(document.getElementById('s-hole'),dealHole,true,0);
+  renderCards(document.getElementById('s-flop'),board.slice(0,3),true,Math.max(0,3-board.length));
+  renderCards(document.getElementById('s-turn'),board.slice(3,4),true,board.length>=4?0:1);
+  renderCards(document.getElementById('s-river'),board.slice(4,5),true,board.length>=5?0:1);
+
+  const btn=document.getElementById('btn-next');
+  btn.disabled = board.length>=5;
+  btn.textContent = board.length===0 ? "Vyložit flop" :
+                    board.length===3 ? "Vyložit turn" :
+                    board.length===4 ? "Vyložit river" : "Rozdáno";
+
+  const now=document.getElementById('s-now');
+  const bestEl=document.getElementById('s-best');
+  const drawsEl=document.getElementById('s-draws');
+  const head=document.getElementById('s-disthead');
+  drawsEl.innerHTML='';
+
+  const all=dealHole.concat(board);
+
+  if(board.length===0){
+    now.textContent="Zatím máš jen dvě karty v ruce.";
+    bestEl.textContent="Dealer ještě nic nevyložil.";
+    head.textContent="Co z toho může vzniknout do riveru";
+    renderDist(document.getElementById('s-stack'),document.getElementById('s-dist'),DATA[selected].r);
+    return;
+  }
+
+  const b=best5(all);
+  now.innerHTML="Teď máš: <b>"+CAT_NAME[b.cat]+"</b>";
+  bestEl.textContent="Nejlepších 5 karet: "+b.cards.map(cardName).join("  ");
+
+  /* draws */
+  if(board.length<5){
+    const sc=[0,0,0,0]; let mask=0;
+    all.forEach(c=>{ sc[c&3]++; mask|=1<<(c>>2); });
+    if(b.cat<5){
+      for(let s=0;s<4;s++) if(sc[s]===4){
+        drawsEl.innerHTML+='<span class="chip g">draw na barvu · 9 outů</span>'; break;
+      }
+    }
+    if(SH[mask]<0){
+      let outs=0;
+      for(let r=0;r<13;r++) if(!(mask&(1<<r))&&SH[mask|(1<<r)]>=0) outs++;
+      if(outs>=2) drawsEl.innerHTML+='<span class="chip g">oboustranná postupka · 8 outů</span>';
+      else if(outs===1) drawsEl.innerHTML+='<span class="chip w">vnitřní postupka · 4 outy</span>';
+    }
+  }
+
+  /* přesné dopočítání zbytku */
+  const known=new Set(all);
+  const rest=[]; for(let c=0;c<52;c++) if(!known.has(c)) rest.push(c);
+
+  if(board.length===5){
+    head.textContent="Konečná kombinace";
+    const arr=new Array(10).fill(0); arr[b.cat]=100;
+    renderDist(document.getElementById('s-stack'),document.getElementById('s-dist'),arr);
+    drawsEl.innerHTML='<span class="chip n">rozdáno — tohle je finální ruka</span>';
+    return;
+  }
+
+  const counts=new Array(10).fill(0);
+  let total=0, better=0;
+  if(board.length===3){
+    for(let i=0;i<rest.length;i++) for(let j=i+1;j<rest.length;j++){
+      const e=best5(all.concat([rest[i],rest[j]]));
+      counts[e.cat]++; total++; if(e.cat>b.cat) better++;
+    }
+    head.textContent="Co z toho ještě může vzniknout (turn + river)";
+  }else{
+    for(let i=0;i<rest.length;i++){
+      const e=best5(all.concat([rest[i]]));
+      counts[e.cat]++; total++; if(e.cat>b.cat) better++;
+    }
+    head.textContent="Co z toho ještě může vzniknout (river)";
+  }
+  const arr=counts.map(v=>v/total*100);
+  renderDist(document.getElementById('s-stack'),document.getElementById('s-dist'),arr);
+
+  const impr=better/total*100;
+  drawsEl.innerHTML+='<span class="chip '+(impr>30?'g':impr>12?'w':'n')+'">šance na zlepšení: '+fmt(impr,1)+' %</span>';
+}
+
+/* =========================================================
+   Start
+   ========================================================= */
+document.getElementById('btn-next').addEventListener('click',()=>{
+  if(board.length===0) board.push(dealDeck.pop(),dealDeck.pop(),dealDeck.pop());
+  else if(board.length<5) board.push(dealDeck.pop());
+  renderDeal();
+});
+document.getElementById('btn-again').addEventListener('click',resetDeal);
+
+document.getElementById('mode-tier').addEventListener('click',()=>{ setMode('tier'); });
+document.getElementById('mode-eq').addEventListener('click',()=>{ setMode('eq'); });
+document.getElementById('mode-pos').addEventListener('click',()=>{ setMode('pos'); });
+function setMode(m){
+  colorMode=m;
+  ['tier','eq','pos'].forEach(k=>
+    document.getElementById('mode-'+k).setAttribute('aria-pressed', k===m?'true':'false'));
+  buildChips(); paintCells(); buildLegend();
+}
+
+const themebtn=document.getElementById('themebtn');
+function currentDark(){
+  const s=document.documentElement.getAttribute('data-theme');
+  if(s) return s==='dark';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+function syncThemeBtn(){ themebtn.textContent = currentDark() ? 'Světlý režim' : 'Tmavý režim'; }
+themebtn.addEventListener('click',()=>{
+  document.documentElement.setAttribute('data-theme', currentDark()?'light':'dark');
+  syncThemeBtn(); paintCells(); buildLegend();
+});
+
+buildGrid();
+buildChips();
+buildLegend();
+syncThemeBtn();
+select('AKs');
+</script>
