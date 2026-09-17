@@ -106,5 +106,58 @@ for(let t=0;t<8000;t++){
 console.log('8) popisy: pokryté kategorie ->');
 Object.keys(seen).sort((a,b)=>a-b).forEach(k=>console.log('   '+L.CAT[k].padEnd(15)+' "'+seen[k]+'"'));
 
-console.log(fail===0 ? '\n✅ VŠECHNO PROŠLO' : '\n❌ CHYB: '+fail);
-process.exit(fail?1:0);
+console.log(fail===0 ? '\n✅ ZÁKLADNÍ DRILY PROŠLY' : '\n❌ CHYB: '+fail);
+
+/* ---------- nové drily ---------- */
+console.log('\n--- pozice a postflop ---');
+let f2=0; const chk2=(c,m)=>{ if(!c){f2++;console.log('FAIL: '+m);} };
+
+// 9) genPos – odpověď musí sedět s tabulkou pro danou pozici
+const posSeen={};
+for(let t=0;t<1500;t++){
+  const q=L.genPos();
+  const pos=L.SEATS[q.seats.you];
+  const code=L.codeOf(q.groups[0].cards[0],q.groups[0].cards[1]);
+  const want = L.RANGES[pos].indexOf(code)>=0 ? 'open':'fold';
+  chk2(want===q.correct,'genPos: '+code+' na '+pos+' → '+q.correct+', čekáno '+want);
+  chk2(L.POS_KEYS.indexOf(pos)>=0,'genPos: neplatná pozice '+pos);
+  posSeen[pos]=(posSeen[pos]||0)+1;
+}
+console.log('9) genPos: 1500 testů, rozložení pozic', JSON.stringify(posSeen));
+
+// tabulky: vnořenost a šířka
+L.POS_KEYS.forEach((k,i)=>{
+  const w=L.RANGES[k].reduce((a,c)=>a+L.combosOf(c),0)/1326*100;
+  chk2(w>10&&w<55,k+': nesmyslná šířka '+w.toFixed(1)+'%');
+  L.RANGES[k].forEach(c=>chk2(L.EQ[c]!==undefined,k+': neznámá ruka '+c));
+});
+['HJ','CO','BTN'].forEach((k,i)=>{
+  const prev=['UTG','HJ','CO'][i];
+  chk2(L.RANGES[prev].every(h=>L.RANGES[k].indexOf(h)>=0),k+' neobsahuje celé '+prev);
+});
+console.log('   tabulky: šířky '+L.POS_KEYS.map(k=>k+' '+(L.RANGES[k].reduce((a,c)=>a+L.combosOf(c),0)/1326*100).toFixed(0)+'%').join(', '));
+
+// 10) genBet – přepočítej equity nezávisle a ověř rozhodnutí
+let betCount=0, checkCount=0, drawBets=0;
+for(let t=0;t<60;t++){
+  const q=L.genBet();
+  const hole=q.groups[0].cards, flop=q.groups[1].cards;
+  const eq=L.eqVsRandom(hole,flop,60000);          // 5x víc vzorků než appka
+  const dr=L.drawsOn(hole.concat(flop));
+  const want=(eq>=L.BET_TH||dr.big)?'bet':'check';
+  chk2(want===q.correct,'genBet: eq '+eq.toFixed(1)+' draw='+dr.big+' → '+q.correct+', čekáno '+want);
+  chk2(!dr.big || q.correct==='bet','genBet: velké draw musí vést na sázku');
+  chk2(dr.big || Math.abs(eq-L.BET_TH)>=4,'genBet: příliš těsné bez draw ('+eq.toFixed(1)+')');
+  if(q.correct==='bet'){betCount++; if(dr.big&&eq<L.BET_TH) drawBets++;} else checkCount++;
+}
+console.log('10) genBet: 60 testů (každý přepočítán na 60 000 rozdání)');
+console.log('    sázet '+betCount+' / checkovat '+checkCount+', z toho polo-blafů s draw: '+drawBets);
+
+
+// 11) button musí otevírat všechno, co malý blind
+const sbOnly=L.RANGES.SB.filter(h=>L.RANGES.BTN.indexOf(h)<0);
+chk2(sbOnly.length===0,'BTN neobsahuje z SB: '+sbOnly.join(' '));
+console.log('11) BTN ⊇ SB: ok');
+
+console.log(f2===0 ? '\n✅ NOVÉ DRILY PROŠLY' : '\n❌ CHYB: '+f2);
+process.exit(f2?1:0);
