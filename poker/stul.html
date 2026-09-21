@@ -123,6 +123,17 @@ p{margin:0}
 /* ---------- otázka ---------- */
 .story{font-size:.95rem;line-height:1.5;margin-bottom:.35rem}
 .story b{color:var(--blue-2);font-weight:700}
+.poshint{font-size:.76rem;color:var(--tx-3);margin-top:.35rem;line-height:1.4}
+.poshint b{color:var(--tx-2);font-family:'IBM Plex Mono',monospace;font-weight:600}
+.glsec{margin-bottom:1.4rem}
+.glsec h3{color:var(--blue-2);font-size:.7rem;letter-spacing:.11em;text-transform:uppercase;
+  margin-bottom:.5rem;font-weight:800}
+.glrow{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+  padding:.7rem .85rem;margin-bottom:.4rem}
+.glrow .t{font-weight:800;font-size:.9rem;margin-bottom:.15rem}
+.glrow .t span{font-family:'IBM Plex Mono',monospace;color:var(--tx-3);font-weight:600;
+  font-size:.76rem;margin-left:.35rem}
+.glrow .d{font-size:.83rem;line-height:1.5;color:#B4BECE}
 .qline{font-weight:800;font-size:1.02rem;margin:.65rem 0 .2rem}
 .subtle{color:var(--tx-3);font-size:.78rem}
 .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.9rem}
@@ -310,6 +321,7 @@ p{margin:0}
   <section id="v-drill" hidden>
     <div class="appbar">
       <button class="iconbtn" id="btn-back" type="button" aria-label="Menu">‹</button>
+      <button class="iconbtn" id="btn-help" type="button" aria-label="?">?</button>
       <div class="progress"><i id="prog" style="width:0%"></i></div>
       <div class="timer" id="timer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
@@ -320,6 +332,7 @@ p{margin:0}
     <p class="stakes" id="stakes">—</p>
     <div class="felt" id="felt"></div>
     <p class="story" id="story"></p>
+    <p class="poshint" id="poshint"></p>
     <p class="qline" id="qline"></p>
     <p class="subtle" id="qsub"></p>
     <div class="acts" id="acts"></div>
@@ -342,6 +355,15 @@ p{margin:0}
     <div class="ranks" id="h-ranks"></div>
     <button class="clearbtn" id="h-clear" type="button" hidden></button>
     <div id="h-verdict"></div>
+  </section>
+
+  <section id="v-gloss" hidden>
+    <div class="appbar" style="margin-bottom:1rem">
+      <button class="iconbtn" id="gl-back" type="button" aria-label="Menu">‹</button>
+      <h1 id="gl-title" style="flex:1"></h1>
+    </div>
+    <p class="subtle" style="margin-bottom:1.1rem" id="gl-sub"></p>
+    <div id="gl-body"></div>
   </section>
 
   <section id="v-charts" hidden>
@@ -500,10 +522,10 @@ const TX={
  cs:{
   appName:"U stolu",
   appTag:"Trenažér pokerových situací. Stůl, konkrétní rozdání, rozhodnutí — a hned vysvětlení proč.",
-  start:"Spustit kolo", startSub:"10 situací · 30 vteřin na každou",
-  resume:"Pokračovat v kole", resumeSub:qn=>"zbývá "+(10-qn)+" z 10",
+  start:"Spustit kolo", startSub:"10 situací · na každou 30 vteřin",
+  resume:"Pokračovat v kole", resumeSub:qn=>((10-qn)>=2&&(10-qn)<=4?"zbývají ":"zbývá ")+(10-qn)+" z 10",
   tabMenu:"Menu", tabDrill:"Trénink", tabStats:"Statistiky", tabCharts:"Tabulky", tabHand:"Moje karty",
-  rowHand:"Moje karty", rowHandSub:"Navol si dvě karty a řekne ti, co s nimi",
+  rowHand:"Moje karty", rowHandSub:"Vyber dvě karty a uvidíš, co s nimi",
   handTitle:"Moje karty", handSub:"Vyber barvu, pak hodnotu. Až budeš mít obě karty, řeknu ti, co s nimi.",
   pickSuit:"1 · barva", pickRank:"2 · hodnota", slotEmpty:"prázdné", tapClear:"Klepnutím na kartu ji smažeš a vybereš jinou.", clearAll:"Nová ruka",
   vPremium:"Prémiová ruka", vStrong:"Silná ruka", vSolid:"Solidní ruka",
@@ -514,33 +536,98 @@ const TX={
          late:"Slabší ruka. Dá se s ní otevřít, jen když je před tebou málo hráčů.",
          trash:"Tuhle ruku se nevyplatí hrát z žádné pozice. Zahoď ji."},
   vEq:(e,r)=>"Proti jedné náhodné ruce vyhraje <b>"+e+" %</b> případů — je <b>"+r+". nejsilnější ze 169</b>.",
-  vPosLabel:"Odkud se otevírá (všichni před tebou složili)",
+  vPosLabel:"Odkud se s ní otevírá, když všichni před tebou složí",
   vNowhere:"Ze žádné pozice.",
-  vFacing:"Když někdo zvýšil přede mnou",
+  vFacing:"Když někdo zvýší před tebou",
   vOutcomes:"Co z ní do riveru vznikne",
   aRaiseS:"3-bet", aCallS:"dorovnat", aFoldS:"složit",
   vTrashNote:"Všimni si, že pár nebo dva páry z ní padnou skoro stejně často jako ze silných rukou. Rozdíl je v tom, že <b>pár trojek prohrává a pár es vyhrává</b> — nejde o to, jakou kombinaci uděláš, ale jestli je nejlepší u stolu.",
-  vPairNote:"Páry vypadají skromně, ale jejich síla je v tom, že občas udělají trojici — a tu je skoro nemožné uhodnout.",
+  vPairNote:"Pár vypadá skromně, ale jeho síla je v tom, že občas udělá trojici — a tu na tobě nikdo nepozná.",
   cellHint:"Klepni na políčko v tabulce a uvidíš, co ta ruka dělá.",
   cellInfo:(code,act,eq,opens)=>"<b>"+code+"</b> — "+act+". Proti náhodné ruce vyhraje <b>"+eq+" %</b>."+
-    (opens?"<br>Otevírá se z: <b>"+opens+"</b>.":""),
+    (opens?"<br>Otevírá se s ní z: <b>"+opens+"</b>.":""),
   gridTop:"↑ nad diagonálou = stejná barva",
   gridBot:"pod diagonálou = různá ↓",
   sumHands:n=>n+" "+(n===1?"ruka":(n<5?"ruce":"rukou")),
   qAnswered:"odpovědí", qAcc:"úspěšnost", qStreak:"nejlepší série",
+  glossTitle:"Slovníček",
+  glossSub:"Co znamenají všechny ty zkratky a slova, co na tebe appka háže.",
+  rowGloss:"Slovníček", rowGlossSub:"UTG, 3-bet, equity — co to vlastně je",
+  posHint:(p,full)=>"Tvoje pozice: <b>"+p+"</b> — "+full+".",
+  gloss:[
+   {h:"Kde u stolu sedíš",items:[
+    ["UTG","under the gun","Jsi <b>první na řadě</b>. Rozhoduješ se dřív než kdokoli jiný a nevíš, co udělají ostatní — proto se odtud hrají jen ty nejlepší karty."],
+    ["HJ","hijack","Druhý na řadě. Už je před tebou o jednoho hráče míň, takže si můžeš dovolit trochu víc rukou."],
+    ["CO","cutoff","Sedíš hned před buttonem. Dobrá pozice — po tobě mluví už jen tři hráči."],
+    ["BTN","button","Nejlepší místo u stolu. Značí ho žlutý žeton <b>D</b>. Ve všech dalších kolech se rozhoduješ jako poslední, takže vidíš, co udělali ostatní."],
+    ["SB","small blind, malý blind","Povinná sázka, kterou musíš vložit ještě před rozdáním karet."],
+    ["BB","big blind, velký blind","Druhá povinná sázka, obvykle dvakrát větší než malý blind. Po flopu hraješ první, což je nevýhoda."],
+    ["V pozici","IP, in position","Po flopu se rozhoduješ až potom, co něco udělá soupeř. Vidíš víc, takže se rozhoduješ líp."],
+    ["Mimo pozici","OOP, out of position","Hraješ první a nevíš, co soupeř udělá. Proto se odtud hraje opatrněji."]
+   ]},
+   {h:"Jak jde rozdání",items:[
+    ["Preflop","","Máš jen dvě karty v ruce, na stole ještě nic neleží."],
+    ["Flop","","Dealer vyloží <b>tři</b> společné karty najednou."],
+    ["Turn","","Čtvrtá společná karta. Po ní zbývá do konce už jen jedna."],
+    ["River","","Pátá a poslední společná karta. Dál už nic nepřijde."],
+    ["Showdown","","Kdo zůstal ve hře, otočí karty. Nejlepší kombinace bere bank."],
+    ["Ulice","street","Jedno z těch kol — preflop, flop, turn nebo river. Statistiky ti ukazují, na které ulici chybuješ nejvíc."]
+   ]},
+   {h:"Co můžeš udělat",items:[
+    ["Složit","fold","Zahodíš karty a z rozdání odstoupíš. Přijdeš o to, cos už vsadil, ale nic dalšího neplatíš."],
+    ["Dorovnat","call","Doplatíš tolik, kolik vsadil soupeř, a zůstáváš ve hře."],
+    ["Checknout","check","Nesázíš nic, ale zůstáváš ve hře. Jde to jen tehdy, když před tebou nikdo nevsadil."],
+    ["Zvýšit / otevřít","raise, open","Vsadíš víc, než vsadil soupeř. Kdo chce zůstat, musí doplatit."],
+    ["3-bet","","Zvýšení proti něčímu otevření. Velký blind se počítá jako první sázka, otevření jako druhá — takže tohle je <b>třetí</b>."],
+    ["4-bet","","Zvýšení proti 3-betu. Na tuhle úroveň se dostanou jen hodně silné ruce."],
+    ["Blaf","bluf, bluff","Sázíš se slabou rukou a spoléháš na to, že soupeř složí."],
+    ["Polo-blaf","semi-bluff","Sázíš s rukou, která zatím prohrává, ale má draw. Vyhrát můžeš dvěma způsoby: soupeř složí, nebo to dotrefíš."],
+    ["Hodnotová sázka","value bet","Sázíš se silnou rukou právě proto, že chceš, aby ti slabší ruce dorovnaly a zaplatily."]
+   ]},
+   {h:"Peníze na stole",items:[
+    ["Bank","pot","Všechny peníze uprostřed stolu. Sebere je vítěz rozdání."],
+    ["Stack","","Kolik peněz máš před sebou. „100 BB“ znamená stokrát velký blind."],
+    ["Pot odds","","Poměr mezi tím, kolik musíš dát, a tím, co můžeš vyhrát. Řekne ti, jak často musíš vyhrávat, aby se dorovnání vyplatilo."],
+    ["6-max","","Stůl pro šest hráčů. Na takovém tahle appka trénuje."],
+    ["Cash game","","Hraje se o skutečné peníze a žetony jdou kdykoli vyměnit zpátky. Opak turnaje, kde hraješ o postup."]
+   ]},
+   {h:"Pojmy o kartách",items:[
+    ["Ruka","","Buď tvoje dvě karty, nebo výsledná pětikaretní kombinace. Z kontextu je většinou jasné které."],
+    ["Hotová ruka","made hand","Kombinaci už máš, nemusíš nic dalšího trefit."],
+    ["Draw","","Zatím nemáš nic, ale jedna správná karta ti udělá barvu nebo postupku."],
+    ["Out","","Karta, která ti udělá lepší kombinaci. Devět outů znamená, že v balíčku je devět karet, co ti pomůžou."],
+    ["Equity","","Jak často ruka vyhraje, kdyby se rozdání dohrálo až do konce. Udává se v procentech."],
+    ["Kicker","","Nejvyšší karta mimo kombinaci. Rozhoduje, když mají oba hráči to samé — pár es s králem poráží pár es s dámou."],
+    ["s / o","suited / offsuit","<b>s</b> = obě karty stejné barvy, <b>o</b> = různé. Proto <b>AKs</b> a <b>AKo</b>."],
+    ["Výběr rukou","range","Všechny ruce, se kterými hráč v dané situaci hraje. Čím dřívější pozice, tím užší."],
+    ["Odpad","","Ruka, se kterou se nevyplatí hrát z žádné pozice."]
+   ]},
+   {h:"Zkratky ve statistikách",items:[
+    ["H-SEL","","Výběr rukou — které karty hrát a odkud."],
+    ["H-SCN","","Herní situace — rozhodování po flopu."],
+    ["THEORY","","Čtení kombinací — co máš a kdo vyhrál."],
+    ["PMATH","","Počty — outy, pot odds, equity."],
+    ["Bank po zvýšení","SRP, single raised pot","Bank, kde někdo jen otevřel a ostatní dorovnali. Nejběžnější situace."],
+    ["3-bet bank","","Bank, ve kterém padlo přeplacení. Je větší a hraje se v něm opatrněji."]
+   ]},
+   {h:"Co appka nemá",items:[
+    ["Solver","","Program, který spočítá matematicky nevykořistitelnou strategii. Tahle appka žádný nemá a nepředstírá to."],
+    ["GTO","game theory optimal","Strategie, proti které nikdo nemůže dlouhodobě vydělávat. To, co ti tady radím, jsou <b>běžná začátečnická doporučení</b> — vypadají podobně, ale nejsou to výstupy ze solveru."]
+   ]}
+  ],
   rowStats:"Statistiky", rowStatsSub:"Kde ti to jde a kde ztrácíš",
   rowCharts:"Tabulky", rowChartsSub:"Co hrát z které pozice a proti čemu",
-  menuNote:'<b>Co je tu spočítané a co ne.</b> Kombinace, outy a equity se počítají — u pot odds přesně přes všech 990 možných konců rozdání. Otevírací tabulky a pravidlo „sázej se silnou rukou nebo s velkým draw" jsou <b>běžná začátečnická doporučení, ne výstup ze solveru</b>. Proto tu nenajdeš smíšené strategie typu „35 % zvýšit" ani výběr velikosti sázky.',
+  menuNote:'<b>Co je tu spočítané a co ne.</b> Síla kombinací, outy i equity se počítají — u pot odds přesně přes všech 990 možných konců rozdání. Otevírací tabulky a pravidlo „sázej se silnou rukou nebo s velkým draw" jsou <b>běžná začátečnická doporučení, ne výstup ze solveru</b>. Proto tu nenajdeš smíšené strategie typu „35 % zvýšit" ani výběr velikosti sázky.',
   companions:'Vedle to máš rozebrané: <a href="https://claude.ai/artifact/5MSNFss5X2nTamgcXTCXdM">169 startovních rukou</a> a <a href="https://claude.ai/artifact/6cHnQkoGFnbkZYec86VhQ1">Pokerové drily</a>.',
-  stakes:(sb,bb,q,n)=>"6-max cash · $"+sb+"/$"+bb+" · 100 BB stacky · otázka "+q+"/"+n,
+  stakes:(sb,bb,q,n)=>"6 hráčů · $"+sb+"/$"+bb+" · každý má 100 BB · situace "+q+"/"+n,
   potLabel:"Bank:", qDefault:"Co uděláš?",
   vOk:"Přesně tak", vNo:"Vedle", vTime:"Vypršel čas",
   next:"Další", showResult:"Zobrazit výsledek", nextRound:"Další kolo",
   roundDone:(ok,n)=>"Kolo hotové — "+ok+" z "+n,
   roundMsg:p=>p>=90?"Skoro bez chyby. Mrkni do statistik, jestli je ještě kde přidat."
             :p>=70?"Slušné. Ve statistikách uvidíš, která oblast tě táhne dolů."
-            :"Zatím to dře. To je v pohodě — u každé chyby si přečti vysvětlení, tam je ta podstata.",
-  freqNote:"Procenta = jak velkou část všech rozdání tabulka takhle hraje.",
+            :"Zatím to skřípe, a to je v pohodě. U každé chyby si přečti vysvětlení — tam je celá podstata.",
+  freqNote:"Procenta říkají, jakou část všech rozdání hraje tabulka danou akcí.",
   villainShowed:p=>"Soupeř ("+p+") ukázal:",
   aFold:"Složit", aCall:a=>"Dorovnat "+money(a), aRaiseTo:a=>"Zvýšit na "+money(a),
   a3bet:a=>"3-bet na "+money(a), a4bet:a=>"4-bet na "+money(a),
@@ -551,13 +638,13 @@ const TX={
   statsSub:"Kolik procent rozhodnutí trefíš v jednotlivých oblastech.",
   statsEmpty:"Zatím tu nic není.<br>Odpověz na pár otázek v tréninku a statistiky se naplní.",
   secStreets:"Výkon po ulicích", secPos:"Pozice", secPot:"Typ banku", secTotal:"Celkem", secWeak:"Kde ztrácíš nejvíc",
-  lblIP:"V pozici", lblOOP:"Mimo pozici", lblSRP:"Obyčejný bank", lblP3:"3-bet bank",
+  lblIP:"V pozici", lblOOP:"Mimo pozici", lblSRP:"Bank po zvýšení", lblP3:"3-bet bank",
   lblAcc:"Úspěšnost", lblBest:"Nejdelší série",
   ofDecisions:(a,b)=>a+" z "+b+" rozhodnutí",
   streakNow:(s,r)=>"teď v řadě: "+s+" · dohraných kol: "+r,
   weakMsg:(name,hint,a,n)=>hint+" Máš tu "+a+" % z "+plur(n,["otázky","otázek","otázek"],["question","questions"])+" — nejmíň ze všech oblastí.",
-  statsNote:"<b>Jak se to počítá.</b> Každé číslo je prostě podíl správných odpovědí v dané oblasti, ne žádné skryté skóre. Ulice se počítá podle toho, v jaké fázi rozdání se rozhoduješ.",
-  chartsTitle:"Tabulky", chartsSub:"Co hrát v které situaci. Klikni na situaci a uvidíš celou tabulku.",
+  statsNote:"<b>Jak se to počítá.</b> Každé číslo je prostě podíl správných odpovědí v dané oblasti, žádné skryté skóre. Ulice znamená fázi rozdání, ve které ses rozhodoval.",
+  chartsTitle:"Tabulky", chartsSub:"Co hrát v které situaci. Klepni na situaci a uvidíš celou tabulku.",
   lgRaise:"Zvýšit", lgCall:"Dorovnat", lgFold:"Složit", lgMine:"tvoje ruka",
   chartOpen:p=>"Otevírám z "+p,
   chartsNote:'<b>Odkud jsou.</b> Běžně doporučované začátečnické tabulky, ne výstup ze solveru — proto jedna akce na ruku, žádné „30 % zvýšit, 70 % dorovnat". Ověřené je na nich to, že mají rozumné frekvence, že se žádná ruka neobjevuje ve dvou akcích zároveň a že do sebe zapadají: proti 3-betu se hraje těsněji než proti otevření a obrana blindu je nejširší. Skutečné GTO ranges vypadají podobně, ne stejně.',
@@ -565,51 +652,51 @@ const TX={
   cats:{HSEL:"Výběr rukou",HSCN:"Herní situace",THEORY:"Kombinace",PMATH:"Počty"},
   catHints:{HSEL:"Které ruce hrát z které pozice a proti čemu.",HSCN:"Rozhodnutí po flopu — sázet, nebo checkovat.",
             THEORY:"Přečíst, co máš a kdo vyhrál.",PMATH:"Outy, pot odds, šance."},
-  posFull:{UTG:"první na řadě",HJ:"druhý na řadě",CO:"předposlední",BTN:"button, mluvíš poslední",SB:"malý blind",BB:"velký blind"},
+  posFull:{UTG:"první na řadě",HJ:"druhý na řadě",CO:"hned před buttonem",BTN:"button, poslední na řadě",SB:"malý blind",BB:"velký blind, po flopu hraješ první"},
   spotLabel:{IP_EARLY:"v pozici proti ranému otevření",IP_LATE:"v pozici proti pozdnímu otevření",
              BB_DEFEND:"obrana velkého blindu",VS3_IP:"proti 3-betu, v pozici",VS3_OOP:"proti 3-betu, mimo pozici"},
-  spotShort:{IP_EARLY:"vs. rané",IP_LATE:"vs. pozdní",BB_DEFEND:"obrana BB",VS3_IP:"vs. 3-bet IP",VS3_OOP:"vs. 3-bet OOP"},
+  spotShort:{IP_EARLY:"proti rané",IP_LATE:"proti pozdní",BB_DEFEND:"obrana BB",VS3_IP:"3-bet, v pozici",VS3_OOP:"3-bet, mimo pozici"},
   tagRaised:"zvýšil", tag3bet:"3-bet", tagBets:"sází",
   /* --- příběhy a vysvětlení --- */
-  stRFI:p=>p==='UTG'?"Jsi <b>první na řadě</b>.":"Všichni před tebou složili. Sedíš na <b>"+p+"</b>.",
-  whyRFI:(p,full,w,code,inR)=>"Z <b>"+p+"</b> ("+full+") se otevírá zhruba nejsilnějších <b>"+w+" %</b> rukou. "+
+  stRFI:p=>p==='UTG'?"Jsi <b>první na řadě</b> — nikdo před tebou ještě nehrál.":"Všichni před tebou složili. Sedíš na pozici <b>"+p+"</b>.",
+  whyRFI:(p,full,w,code,inR)=>"Z pozice <b>"+p+"</b> ("+full+") se otevírá zhruba <b>"+w+" %</b> nejsilnějších rukou. "+
     "<span class='mono'>"+code+"</span> "+(inR?"do té skupiny <b>patří</b>":"tam <b>nepatří</b>")+". "+
-    "Čím dřív mluvíš, tím míň rukou si můžeš dovolit — po tobě je víc hráčů, kteří tě můžou přeplatit.",
+    "Čím dřív jsi na řadě, tím míň rukou si můžeš dovolit — po tobě sedí víc hráčů, kteří tě ještě můžou přeplatit.",
   stVsRaise:(r,o,h,bb)=>"<b>"+r+"</b> zvýšil na "+money(o)+". Ostatní složili. Jsi na <b>"+h+"</b>"+
     (bb?" a máš tam už vsazený velký blind":"")+".",
   whyVsRaise:(label,code,act,isBB,early)=>"Situace: <b>"+label+"</b>. S <span class='mono'>"+code+"</span> se tady "+
     (act==='raise'?"<b>3-betuje</b> — je to dost silná ruka na to, aby sis o bank řekl sám"
      :act==='call'?"<b>dorovnává</b> — na 3-bet je slabá, ale hrát se s ní dá":"<b>skládá</b>")+". "+
-    (isBB?"Z velkého blindu dorovnáváš hodně široce — část peněz už v banku máš, takže platíš míň než ostatní."
-      :"Zvyšoval hráč z "+(early?"rané pozice, má úzkou a silnou range — proto se proti němu hraje těsněji"
-                                 :"pozdní pozice, má širokou range — proto se proti němu dá hrát víc rukou")+"."),
+    (isBB?"Z velkého blindu dorovnáváš hodně široce. Část peněz už v banku máš, takže na dorovnání doplácíš míň než ostatní."
+      :"Zvyšoval hráč z "+(early?"rané pozice, takže má úzký a silný výběr rukou — proto se proti němu hraje těsněji"
+                                 :"pozdní pozice, takže má široký výběr rukou — proto se proti němu dá hrát víc rukou")+"."),
   stVs3bet:(o,h,v,t)=>"Zvýšil jsi na "+money(o)+" z <b>"+h+"</b> a <b>"+v+"</b> 3-betnul na "+money(t)+". Ostatní složili.",
   whyVs3bet:(label,code,act,ip)=>"Situace: <b>"+label+"</b>. Když tě někdo 3-betne, má skoro vždycky silnou ruku — "+
     "proto se tady hraje <b>mnohem těsněji</b> než při otevírání. S <span class='mono'>"+code+"</span> se "+
     (act==='raise'?"<b>4-betuje</b>":act==='call'?"<b>dorovnává</b>":"<b>skládá</b>")+"."+
     (ip?" Jsi v pozici, takže si můžeš dovolit dorovnat o něco víc rukou — po flopu se rozhoduješ až po soupeři."
        :" Jsi mimo pozici: po flopu budeš hrát první, což je nevýhoda. Proto dorovnáváš míň."),
-  stPost:(v,ip,street)=>"Hrajete jen vy dva proti sobě, <b>"+v+"</b> checkl. Jsi "+(ip?"<b>v pozici</b>":"<b>mimo pozici</b>")+
+  stPost:(v,ip,street)=>"Zůstali jste ve hře jen vy dva a <b>"+v+"</b> checkl. Jsi "+(ip?"<b>v pozici</b>":"<b>mimo pozici</b>")+
     " a na "+({flop:'flopu',turn:'turnu',river:'riveru'}[street])+" je to na tobě.",
   whyPost:(made,eq,exact,tot,value,dr,th)=>"Máš <b>"+made+"</b> a proti náhodné soupeřově ruce vyhráváš <b>"+eq+" %</b>"+
     (exact?" (přesně — prošlo se všech "+tot+" možných soupeřových rukou)":" (simulace 12 000 rozdání)")+".<br><br>"+
-    (value?"Silná hotová ruka (hranice je "+th+" %). <b>Sázej kvůli hodnotě</b> — chceš, aby ti slabší ruce dorovnávaly."
-     :dr.big?"Na sázku kvůli hodnotě je to málo, ale máš <b>"+(dr.flush?"draw na barvu":"oboustrannou postupku")+
+    (value?"To je silná hotová ruka (hranice je "+th+" %). <b>Sázej na hodnotu</b> — chceš, aby ti slabší ruce dorovnávaly."
+     :dr.big?"Na hodnotovou sázku je to málo, ale máš <b>"+(dr.flush?"draw na barvu":"oboustrannou postupku")+
              "</b>. <b>Sázej jako polo-blaf</b> — vyhrát můžeš dvěma způsoby."
-     :"Na hodnotu je to málo a velké draw nemáš"+(dr.gut?" (vnitřní postupka je moc slabá)":"")+
-      ". <b>Checkuj</b> — necpi peníze do banku s rukou, která většinou prohrává.")+
+     :"Na hodnotovou sázku je to málo a velké draw nemáš"+(dr.gut?" (vnitřní postupka je moc slabá)":"")+
+      ". <b>Checkuj</b> — nenalévej peníze do banku s rukou, která většinou prohrává.")+
     "<br><br><span class='subtle'>Pravidlo: sázej se silnou hotovou rukou nebo s velkým draw, jinak checkuj. Začátečnické vodítko, ne GTO.</span>",
   stRead:"Došli jste až do konce. Na stole leží všech pět karet.",
   qRead:"Jakou nejlepší kombinaci máš?",
   whyRead:(d,cards)=>"Nejlepších 5 karet ze sedmi ti dává <b>"+d+"</b> — "+cards+
     ". Zbylé dvě karty se zahodí; v Hold'emu si vždycky bereš nejlepší možnou pětici.",
-  stShow:v=>"Showdown — <b>"+v+"</b> otočil karty.",
+  stShow:v=>"Došlo na showdown a <b>"+v+"</b> otočil karty.",
   qShow:"Kdo vyhrál bank?",
   whyShow:(a,b,correct,same)=>"Ty máš <b>"+a+"</b>, soupeř <b>"+b+"</b>. "+
     (correct==='split'?"Úplně stejně silné ruce — bank se dělí. Většinou to znamená, že nejlepší pětice leží celá na stole."
      :same?"Stejná kombinace, takže rozhoduje, čí je vyšší — a při shodě kicker, tedy další nejvyšší karta."
      :(correct==='me'?"Tvoje":"Soupeřova")+" kombinace je v žebříčku výš."),
-  stOuts:"Na flopu ještě nemáš hotovou ruku, ale máš šanci se zlepšit.",
+  stOuts:"Na flopu zatím nemáš hotovou kombinaci, ale pořád se můžeš zlepšit.",
   qOuts:"Kolik karet ti na turnu udělá lepší kombinaci?",
   whyOuts:(made,n,list)=>"Teď máš <b>"+made+"</b>. Ze zbylých 47 karet ti pomůže <b>"+n+"</b> — to jsou tvoje <b>outy</b>:"+
     "<br><span class='mono' style='font-size:.82rem'>"+list+"</span>"+
@@ -653,6 +740,71 @@ const TX={
   gridBot:"below = offsuit ↓",
   sumHands:n=>n+" "+(n===1?"hand":"hands"),
   qAnswered:"answered", qAcc:"accuracy", qStreak:"best streak",
+  glossTitle:"Glossary",
+  glossSub:"What all those abbreviations and terms actually mean.",
+  rowGloss:"Glossary", rowGlossSub:"UTG, 3-bet, equity — what they mean",
+  posHint:(p,full)=>"Your position: <b>"+p+"</b> — "+full+".",
+  gloss:[
+   {h:"Where you sit",items:[
+    ["UTG","under the gun","You're <b>first to act</b>. You decide before anyone else and have no idea what they'll do — which is why only the very best hands are played from here."],
+    ["HJ","hijack","Second to act. One fewer player ahead of you, so you can afford a few more hands."],
+    ["CO","cutoff","The seat right before the button. A good spot — only three players act after you."],
+    ["BTN","button","The best seat at the table, marked by the yellow <b>D</b> chip. On every later street you act last, so you see what everyone else did first."],
+    ["SB","small blind","A forced bet you post before the cards are even dealt."],
+    ["BB","big blind","The second forced bet, usually twice the small blind. You act first after the flop, which is a disadvantage."],
+    ["In position","IP","After the flop you act after your opponent. You see more, so you decide better."],
+    ["Out of position","OOP","You act first and don't know what they'll do. That's why you play tighter from here."]
+   ]},
+   {h:"How a hand unfolds",items:[
+    ["Preflop","","You only have your two cards; nothing is on the table yet."],
+    ["Flop","","The dealer turns over <b>three</b> community cards at once."],
+    ["Turn","","The fourth community card. Only one more to come after it."],
+    ["River","","The fifth and final community card. Nothing more is coming."],
+    ["Showdown","","Everyone still in turns their cards over. Best hand takes the pot."],
+    ["Street","","One of those rounds — preflop, flop, turn or river. The stats show which street costs you most."]
+   ]},
+   {h:"What you can do",items:[
+    ["Fold","","Throw your cards away and give up the hand. You lose what you've already put in, nothing more."],
+    ["Call","","Match the current bet and stay in the hand."],
+    ["Check","","Bet nothing but stay in. Only possible if nobody has bet before you."],
+    ["Raise / open","","Bet more than the current bet. Anyone who wants to continue has to match it."],
+    ["3-bet","","A raise over someone's opening raise. The big blind counts as the first bet and the open as the second — so this is the <b>third</b>."],
+    ["4-bet","","A raise over a 3-bet. Only very strong hands get this far."],
+    ["Bluff","","Betting with a weak hand, hoping they fold."],
+    ["Semi-bluff","","Betting with a hand that's behind but has a draw. You can win two ways: they fold, or you hit."],
+    ["Value bet","","Betting with a strong hand precisely because you want weaker hands to call and pay you."]
+   ]},
+   {h:"Money on the table",items:[
+    ["Pot","","All the money in the middle. The winner of the hand takes it."],
+    ["Stack","","How much money you have in front of you. \"100 BB\" means a hundred big blinds."],
+    ["Pot odds","","The ratio between what you must put in and what you can win. It tells you how often you need to win for a call to pay off."],
+    ["6-max","","A six-handed table — what this app trains on."],
+    ["Cash game","","Real money, and chips can be cashed out at any time. The opposite of a tournament."]
+   ]},
+   {h:"Card terms",items:[
+    ["Hand","","Either your two cards or the final five-card combination. Context usually makes it clear."],
+    ["Made hand","","You already have a combination; you don't need to hit anything."],
+    ["Draw","","You have nothing yet, but one right card completes a flush or a straight."],
+    ["Out","","A card that improves you. Nine outs means nine cards in the deck help you."],
+    ["Equity","","How often the hand wins if the hand is played to the end. Given as a percentage."],
+    ["Kicker","","Your highest card outside the combination. It decides ties — aces with a king beat aces with a queen."],
+    ["s / o","suited / offsuit","<b>s</b> = both cards the same suit, <b>o</b> = different suits. Hence <b>AKs</b> and <b>AKo</b>."],
+    ["Range","","Every hand a player would play in a given spot. The earlier the position, the narrower it is."],
+    ["Trash","","A hand not worth playing from any position."]
+   ]},
+   {h:"Abbreviations in the stats",items:[
+    ["H-SEL","","Hand selection — which cards to play and from where."],
+    ["H-SCN","","Postflop spots — decisions after the flop."],
+    ["THEORY","","Reading hands — what you have and who won."],
+    ["PMATH","","Poker math — outs, pot odds, equity."],
+    ["Single raised pot","SRP","A pot where someone opened and the rest just called. The most common situation."],
+    ["3-bet pot","","A pot where someone re-raised. Bigger, and played more carefully."]
+   ]},
+   {h:"What this app doesn't have",items:[
+    ["Solver","","A program that computes a mathematically unexploitable strategy. This app has none and doesn't pretend to."],
+    ["GTO","game theory optimal","A strategy nobody can profit against long-term. What you get here is <b>conventional beginner advice</b> — it looks similar, but it isn't solver output."]
+   ]}
+  ],
   rowStats:"Statistics", rowStatsSub:"Where you're solid and where you leak",
   rowCharts:"Charts", rowChartsSub:"What to play from each position and against what",
   menuNote:'<b>What is computed here and what is not.</b> Hand strength, outs and equity are computed — the pot-odds spots exactly, across all 990 possible run-outs. The opening charts and the "bet with a strong hand or a big draw" rule are <b>conventional beginner advice, not solver output</b>. That is why you will not find mixed strategies like "raise 35%" or a choice of bet sizing here.',
@@ -1134,6 +1286,7 @@ function renderQuestion(){
   document.getElementById('stakes').textContent=T().stakes(sp.st.sb,sp.st.bb,Math.min(qn+1,SESSION),SESSION);
   renderFelt(sp);
   document.getElementById('story').innerHTML=sp.story();
+  document.getElementById('poshint').innerHTML=T().posHint(sp.heroPos,T().posFull[sp.heroPos]);
   document.getElementById('qline').textContent=sp.qline?sp.qline():T().qDefault;
   const sub=document.getElementById('qsub');
   if(sp.villainCards){
@@ -1519,11 +1672,25 @@ function renderVerdict(){
   box.innerHTML=html;
 }
 
+/* ============================ slovníček ============================ */
+function renderGloss(){
+  document.getElementById('gl-title').textContent=T().glossTitle;
+  document.getElementById('gl-sub').textContent=T().glossSub;
+  const b=document.getElementById('gl-body');
+  b.innerHTML=T().gloss.map(sec=>
+    '<div class="glsec"><h3>'+sec.h+'</h3>'+
+    sec.items.map(it=>
+      '<div class="glrow"><div class="t">'+it[0]+(it[1]?'<span>'+it[1]+'</span>':'')+'</div>'+
+      '<div class="d">'+it[2]+'</div></div>').join('')+
+    '</div>').join('');
+}
+
 /* ============================ menu ============================ */
 const ICON={
   stats:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   charts:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/>',
-  hand:'<rect x="3" y="4" width="11" height="16" rx="2"/><path d="M17 7l4 1.5-3 9-4-1.5"/>'
+  hand:'<rect x="3" y="4" width="11" height="16" rx="2"/><path d="M17 7l4 1.5-3 9-4-1.5"/>',
+  gloss:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3 2.45V14"/><path d="M12 17.2v.1"/>'
 };
 function renderMenu(){
   document.getElementById('m-title').textContent=T().appName;
@@ -1539,7 +1706,8 @@ function renderMenu(){
   const rows=[
     {v:'stats',ic:ICON.stats,t:T().rowStats,s:T().rowStatsSub},
     {v:'charts',ic:ICON.charts,t:T().rowCharts,s:T().rowChartsSub},
-    {v:'hand',ic:ICON.hand,t:T().rowHand,s:T().rowHandSub}
+    {v:'hand',ic:ICON.hand,t:T().rowHand,s:T().rowHandSub},
+    {v:'gloss',ic:ICON.gloss,t:T().rowGloss,s:T().rowGlossSub}
   ];
   const l=document.getElementById('m-list'); l.innerHTML='';
   rows.forEach(r=>{
@@ -1597,7 +1765,7 @@ function applyLang(){
   });
   document.getElementById('qline').textContent=sp&&sp.qline?sp.qline():T().qDefault;
   ['cs','en'].forEach(k=>document.getElementById('lang-'+k).setAttribute('aria-pressed',k===LANG?'true':'false'));
-  renderMenu(); renderStats(); renderCharts(); renderHand();
+  renderMenu(); renderStats(); renderCharts(); renderHand(); renderGloss();
   if(sp){ renderQuestion(); if(answered) renderSheet(lastKey===sp.correct,lastKey); }
 }
 function setLang(l){ if(l===LANG) return; LANG=l; save(); applyLang(); }
@@ -1607,21 +1775,28 @@ document.getElementById('h-clear').addEventListener('click',()=>{
 document.getElementById('lang-cs').addEventListener('click',()=>setLang('cs'));
 document.getElementById('lang-en').addEventListener('click',()=>setLang('en'));
 
-const VIEWS={menu:'v-menu',drill:'v-drill',stats:'v-stats',charts:'v-charts',hand:'v-hand'};
+const VIEWS={menu:'v-menu',drill:'v-drill',stats:'v-stats',charts:'v-charts',hand:'v-hand',gloss:'v-gloss'};
 function show(v){
   Object.keys(VIEWS).forEach(k=>{
     document.getElementById(VIEWS[k]).hidden=k!==v;
-    document.getElementById('tab-'+k).setAttribute('aria-pressed',k===v?'true':'false');
+    const t=document.getElementById('tab-'+k);       /* slovníček nemá vlastní záložku */
+    if(t) t.setAttribute('aria-pressed',k===v?'true':'false');
   });
   if(v==='menu') renderMenu();
   if(v==='stats') renderStats();
   if(v==='charts') renderCharts();
   if(v==='hand') renderHand();
+  if(v==='gloss') renderGloss();
   if(v==='drill'){ if(!sp) newQuestion(); else if(!answered) startTimer(); }
   else clearInterval(ticker);
   window.scrollTo(0,0);
 }
-Object.keys(VIEWS).forEach(k=>document.getElementById('tab-'+k).addEventListener('click',()=>show(k)));
+Object.keys(VIEWS).forEach(k=>{
+  const t=document.getElementById('tab-'+k);
+  if(t) t.addEventListener('click',()=>show(k));
+});
+document.getElementById('btn-help').addEventListener('click',()=>show('gloss'));
+document.getElementById('gl-back').addEventListener('click',()=>show('menu'));
 document.getElementById('btn-back').addEventListener('click',()=>show('menu'));
 document.getElementById('m-start').addEventListener('click',()=>{
   if(!(qn>0&&qn<SESSION)){ qn=0; roundOk=0; sp=null; }
