@@ -70,8 +70,19 @@ p{margin:0}
 .progress i{display:block;height:100%;background:var(--blue);border-radius:99px;transition:width .3s ease}
 .timer{flex:none;display:flex;align-items:center;gap:.35rem;border:1px solid var(--line-2);
   background:var(--panel);border-radius:99px;padding:.4rem .75rem;font-size:.84rem;
-  font-weight:600;font-variant-numeric:tabular-nums}
+  font-weight:600;font-variant-numeric:tabular-nums;color:var(--tx);
+  font-family:inherit;cursor:pointer}
+.timer:hover{border-color:var(--blue)}
+.timer:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
 .timer.low{color:var(--red);border-color:rgba(239,68,68,.5)}
+.timer.off{color:var(--tx-3)}
+.timer.off svg{opacity:.5}
+.sw{width:38px;height:22px;border-radius:99px;background:#232C42;flex:none;position:relative;
+  transition:background .15s}
+.sw i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;
+  background:#6B7280;transition:transform .15s,background .15s}
+.sw.on{background:rgba(47,107,255,.35)}
+.sw.on i{transform:translateX(16px);background:var(--blue)}
 .timer svg{width:14px;height:14px;flex:none}
 
 /* ---------- stůl ---------- */
@@ -323,11 +334,11 @@ p{margin:0}
       <button class="iconbtn" id="btn-back" type="button" aria-label="Menu">‹</button>
       <button class="iconbtn" id="btn-help" type="button" aria-label="?">?</button>
       <div class="progress"><i id="prog" style="width:0%"></i></div>
-      <div class="timer" id="timer">
+      <button class="timer" id="timer" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
           <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         <span id="tval">0:30</span>
-      </div>
+      </button>
     </div>
     <p class="stakes" id="stakes">—</p>
     <div class="felt" id="felt"></div>
@@ -522,7 +533,10 @@ const TX={
  cs:{
   appName:"U stolu",
   appTag:"Trenažér pokerových situací. Stůl, konkrétní rozdání, rozhodnutí — a hned vysvětlení proč.",
-  start:"Spustit kolo", startSub:"10 situací · na každou 30 vteřin",
+  start:"Spustit kolo", startSub:t=>t?"10 situací · na každou 30 vteřin":"10 situací · bez časomíry",
+  rowTimer:"Časomíra", timerOnSub:"30 vteřin na každou situaci",
+  timerOffSub:"Vypnutá — přemýšlej, jak dlouho potřebuješ",
+  timerOffShort:"vyp", timerTip:"Klepnutím časomíru vypneš nebo zapneš",
   resume:"Pokračovat v kole", resumeSub:qn=>((10-qn)>=2&&(10-qn)<=4?"zbývají ":"zbývá ")+(10-qn)+" z 10",
   tabMenu:"Menu", tabDrill:"Trénink", tabStats:"Statistiky", tabCharts:"Tabulky", tabHand:"Moje karty",
   rowHand:"Moje karty", rowHandSub:"Vyber dvě karty a uvidíš, co s nimi",
@@ -712,7 +726,10 @@ const TX={
  en:{
   appName:"At the Table",
   appTag:"A poker spot trainer. A real table, a real hand, one decision — and the reasoning right after.",
-  start:"Start a round", startSub:"10 spots · 30 seconds each",
+  start:"Start a round", startSub:t=>t?"10 spots · 30 seconds each":"10 spots · no timer",
+  rowTimer:"Timer", timerOnSub:"30 seconds per spot",
+  timerOffSub:"Off — take as long as you need",
+  timerOffShort:"off", timerTip:"Tap to turn the timer off or on",
   resume:"Resume round", resumeSub:qn=>(10-qn)+" of 10 left",
   tabMenu:"Menu", tabDrill:"Train", tabStats:"Stats", tabCharts:"Charts", tabHand:"My hand",
   rowHand:"My hand", rowHandSub:"Pick two cards and see what to do with them",
@@ -1269,6 +1286,7 @@ function blank(){
 }
 let stats=blank();
 let sp=null, answered=false, lastKey=null, qn=0, roundOk=0, tleft=30, ticker=null, dbRef=null, saveT=null;
+let timerOn=true;
 const acc=o=>o.n>0?Math.round(o.ok/o.n*100):null;
 
 /* ============================ otázka ============================ */
@@ -1316,12 +1334,26 @@ function renderQuestion(){
 }
 function startTimer(){
   clearInterval(ticker); tleft=30; paintTimer();
+  if(!timerOn) return;                       /* bez časomíry se nikam nespěchá */
   ticker=setInterval(()=>{ tleft--; paintTimer();
     if(tleft<=0){ clearInterval(ticker); if(!answered) answer(null); } },1000);
 }
 function paintTimer(){
+  const t=document.getElementById('timer');
+  t.title=T().timerTip;
+  t.setAttribute('aria-label',T().rowTimer+': '+(timerOn?'on':T().timerOffShort));
+  if(!timerOn){
+    document.getElementById('tval').textContent=T().timerOffShort;
+    t.classList.remove('low'); t.classList.add('off');
+    return;
+  }
+  t.classList.remove('off');
   document.getElementById('tval').textContent='0:'+String(Math.max(0,tleft)).padStart(2,'0');
-  document.getElementById('timer').classList.toggle('low',tleft<=10);
+  t.classList.toggle('low',tleft<=10);
+}
+function toggleTimer(){
+  timerOn=!timerOn; save(); renderMenu();
+  if(sp && !answered) startTimer(); else { clearInterval(ticker); paintTimer(); }
 }
 function answer(key){
   if(answered) return;
@@ -1697,7 +1729,8 @@ function renderMenu(){
   document.getElementById('m-tag').textContent=T().appTag;
   const started = qn>0 && qn<SESSION;
   document.getElementById('m-start').innerHTML=
-    (started?T().resume:T().start)+'<span class="sub">'+(started?T().resumeSub(qn):T().startSub)+'</span>';
+    (started?T().resume:T().start)+'<span class="sub">'+
+    (started?T().resumeSub(qn):T().startSub(timerOn))+'</span>';
   const a=stats.total>0?Math.round(stats.correct/stats.total*100)+' %':'—';
   document.getElementById('m-quick').innerHTML=
     '<div class="qcard"><div class="v">'+stats.total+'</div><div class="k">'+T().qAnswered+'</div></div>'+
@@ -1710,6 +1743,15 @@ function renderMenu(){
     {v:'gloss',ic:ICON.gloss,t:T().rowGloss,s:T().rowGlossSub}
   ];
   const l=document.getElementById('m-list'); l.innerHTML='';
+  const tg=document.createElement('button');
+  tg.type='button'; tg.className='mrow';
+  tg.setAttribute('aria-pressed',timerOn?'true':'false');
+  tg.innerHTML='<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '+
+    'stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>'+
+    '<span class="tt"><b>'+T().rowTimer+'</b><span>'+(timerOn?T().timerOnSub:T().timerOffSub)+'</span></span>'+
+    '<span class="sw'+(timerOn?' on':'')+'"><i></i></span>';
+  tg.addEventListener('click',toggleTimer);
+  l.appendChild(tg);
   rows.forEach(r=>{
     const b=document.createElement('button');
     b.type='button'; b.className='mrow';
@@ -1730,7 +1772,7 @@ async function initStore(){
     try{ dbRef=ns.doc('progress/stul'); const s=await dbRef.get(); if(s.exists) merge(s.data()); }
     catch(e){ dbRef=null; localLoad(); }
   } else localLoad();
-  applyLang(); renderMenu(); renderStats();
+  applyLang(); renderMenu(); renderStats(); paintTimer();
 }
 function merge(d){
   if(!d||typeof d!=='object') return;
@@ -1743,6 +1785,7 @@ function merge(d){
   });
   stats=b;
   if(d.lang==='en'||d.lang==='cs') LANG=d.lang;
+  if(typeof d.timerOn==='boolean') timerOn=d.timerOn;
 }
 function localLoad(){
   try{ const raw=localStorage.getItem('ustolu'); if(raw) merge(JSON.parse(raw)); }catch(e){}
@@ -1751,7 +1794,7 @@ function save(){
   clearTimeout(saveT);
   saveT=setTimeout(async()=>{
     const body={total:stats.total,correct:stats.correct,streak:stats.streak,best:stats.best,
-                rounds:stats.rounds,cats:stats.cats,streets:stats.streets,pos:stats.pos,pots:stats.pots,lang:LANG};
+                rounds:stats.rounds,cats:stats.cats,streets:stats.streets,pos:stats.pos,pots:stats.pots,lang:LANG,timerOn:timerOn};
     if(dbRef){ try{ await dbRef.set(body); }catch(e){} }
     else { try{ localStorage.setItem('ustolu',JSON.stringify(body)); }catch(e){} }
   },700);
@@ -1796,6 +1839,7 @@ Object.keys(VIEWS).forEach(k=>{
   if(t) t.addEventListener('click',()=>show(k));
 });
 document.getElementById('btn-help').addEventListener('click',()=>show('gloss'));
+document.getElementById('timer').addEventListener('click',toggleTimer);
 document.getElementById('gl-back').addEventListener('click',()=>show('menu'));
 document.getElementById('btn-back').addEventListener('click',()=>show('menu'));
 document.getElementById('m-start').addEventListener('click',()=>{
