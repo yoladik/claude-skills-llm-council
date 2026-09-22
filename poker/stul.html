@@ -1,0 +1,1911 @@
+<title>U stolu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#05070E; --panel:#0D1322; --panel-2:#141C30; --panel-3:#1B2540;
+  --line:rgba(255,255,255,.075); --line-2:rgba(255,255,255,.14);
+  --tx:#FFFFFF; --tx-2:#939DB4; --tx-3:#5B6478;
+  --blue:#2F6BFF; --blue-2:#5B8CFF; --blue-glow:rgba(47,107,255,.45);
+  --green:#22C55E; --green-2:#4ADE80; --green-bg:rgba(34,197,94,.13);
+  --red:#EF4444; --red-bg:rgba(239,68,68,.13);
+  --amber:#F5C542; --chip:#E8862A;
+  --felt-1:#101A35; --felt-2:#0A1024;
+  --card:#FFFFFF; --pip-red:#D32F2F; --pip-black:#15181F;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  font-size:15px;line-height:1.45;padding-inline:14px;-webkit-font-smoothing:antialiased}
+.app{max-width:470px;margin:0 auto;padding-block:.9rem 5.4rem;position:relative}
+h1,h2,h3{margin:0;font-weight:800;text-wrap:balance;letter-spacing:-.015em}
+h1{font-size:1.45rem} h2{font-size:1.05rem}
+h3{font-size:.82rem;font-weight:700;color:var(--tx-2)}
+p{margin:0}
+.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+
+/* ---------- menu ---------- */
+.brand{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.2rem}
+.brand h1{font-size:1.9rem;line-height:1.05}
+.lang{display:flex;gap:2px;background:var(--panel-2);border:1px solid var(--line-2);
+  border-radius:99px;padding:2px;flex:none}
+.lang button{border:0;background:transparent;color:var(--tx-3);font-family:inherit;font-size:.7rem;
+  font-weight:800;padding:.3rem .55rem;border-radius:99px;cursor:pointer;letter-spacing:.03em}
+.lang button[aria-pressed="true"]{background:var(--blue);color:#fff}
+.lang button:focus-visible{outline:2px solid var(--blue-2);outline-offset:1px}
+.tagline{color:var(--tx-2);font-size:.92rem;margin-bottom:1.1rem;max-width:40ch}
+.bigbtn{width:100%;border:0;border-radius:14px;padding:1rem;cursor:pointer;
+  background:var(--blue);color:#fff;font-family:inherit;font-weight:800;font-size:1rem;
+  box-shadow:0 6px 22px rgba(47,107,255,.32)}
+.bigbtn:hover{filter:brightness(1.08)}
+.bigbtn:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px}
+.bigbtn .sub{display:block;font-weight:600;font-size:.76rem;opacity:.82;margin-top:.15rem}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.85rem 0 1.2rem}
+.qcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.65rem .5rem;text-align:center}
+.qcard .v{font-size:1.25rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.qcard .k{font-size:.66rem;color:var(--tx-3);margin-top:.2rem;font-weight:600}
+.menulist{display:flex;flex-direction:column;gap:.5rem}
+.mrow{display:flex;align-items:center;gap:.75rem;width:100%;text-align:left;cursor:pointer;
+  background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:.8rem .9rem;
+  font-family:inherit;color:var(--tx)}
+.mrow:hover{border-color:var(--blue)}
+.mrow:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.mrow .ic{width:34px;height:34px;flex:none;border-radius:10px;background:var(--panel-3);
+  display:flex;align-items:center;justify-content:center;color:var(--blue-2)}
+.mrow .ic svg{width:17px;height:17px}
+.mrow .tt{flex:1;min-width:0}
+.mrow .tt b{display:block;font-size:.92rem;font-weight:700}
+.mrow .tt span{display:block;font-size:.76rem;color:var(--tx-3);line-height:1.35;margin-top:.1rem}
+.mrow .ch{color:var(--tx-3);flex:none;font-size:1.1rem}
+
+/* ---------- horní lišta ---------- */
+.appbar{display:flex;align-items:center;gap:.6rem;margin-bottom:.85rem}
+.iconbtn{width:38px;height:38px;flex:none;border-radius:50%;border:1px solid var(--line-2);
+  background:var(--panel);color:var(--tx-2);cursor:pointer;font-size:1.05rem;
+  display:flex;align-items:center;justify-content:center}
+.iconbtn:hover{color:var(--tx);border-color:var(--blue)}
+.iconbtn:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.progress{flex:1;height:5px;border-radius:99px;background:var(--panel-3);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--blue);border-radius:99px;transition:width .3s ease}
+.timer{flex:none;display:flex;align-items:center;gap:.35rem;border:1px solid var(--line-2);
+  background:var(--panel);border-radius:99px;padding:.4rem .75rem;font-size:.84rem;
+  font-weight:600;font-variant-numeric:tabular-nums;color:var(--tx);
+  font-family:inherit;cursor:pointer}
+.timer:hover{border-color:var(--blue)}
+.timer:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.timer.low{color:var(--red);border-color:rgba(239,68,68,.5)}
+.timer.off{color:var(--tx-3)}
+.timer.off svg{opacity:.5}
+.sw{width:38px;height:22px;border-radius:99px;background:#232C42;flex:none;position:relative;
+  transition:background .15s}
+.sw i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;
+  background:#6B7280;transition:transform .15s,background .15s}
+.sw.on{background:rgba(47,107,255,.35)}
+.sw.on i{transform:translateX(16px);background:var(--blue)}
+.timer svg{width:14px;height:14px;flex:none}
+
+/* ---------- stůl ---------- */
+.stakes{text-align:center;color:var(--tx-2);font-size:.79rem;font-weight:600;
+  padding-bottom:.6rem;margin-bottom:.7rem;border-bottom:1px solid var(--line)}
+.felt{position:relative;width:100%;aspect-ratio:1/1.02;margin-bottom:1rem}
+.feltring{position:absolute;inset:11% 7%;border-radius:48% / 42%;
+  background:radial-gradient(ellipse at 50% 38%, var(--felt-1) 0%, var(--felt-2) 74%);
+  border:2px solid rgba(91,140,255,.55);
+  box-shadow:0 0 26px 2px var(--blue-glow), inset 0 0 40px rgba(47,107,255,.14)}
+.feltring::after{content:"";position:absolute;inset:7px;border-radius:48% / 42%;
+  border:1px solid rgba(91,140,255,.22)}
+.seat{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:0;
+  white-space:nowrap;border-radius:99px;background:#121829;border:1px solid var(--line-2);
+  font-size:.66rem;font-weight:700;overflow:hidden}
+.seat .p{padding:.24rem .42rem;color:var(--tx-2)}
+.seat .s{padding:.24rem .45rem;background:#1D2740;color:var(--tx);font-variant-numeric:tabular-nums}
+.seat.hero{border-color:var(--green);background:rgba(34,197,94,.14)}
+.seat.hero .p{color:var(--green-2)}
+.seat.hero .s{background:rgba(34,197,94,.2)}
+.seat.out{opacity:.34}
+.dealer{position:absolute;transform:translate(-50%,-50%);width:17px;height:17px;border-radius:50%;
+  background:var(--amber);color:#2A1D00;font-size:.6rem;font-weight:800;display:flex;
+  align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.5)}
+.bet{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:.22rem;
+  font-size:.66rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--tx)}
+.bet .c{width:13px;height:13px;border-radius:50%;flex:none;
+  background:radial-gradient(circle at 50% 50%, #2A1B08 0 26%, var(--chip) 27% 100%);
+  border:1.5px dashed rgba(255,255,255,.55)}
+.tag{position:absolute;transform:translate(-50%,-50%);background:var(--blue);color:#fff;
+  border-radius:5px;padding:.13rem .38rem;font-size:.6rem;font-weight:700;white-space:nowrap}
+.center{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.55rem}
+.pot{background:#0B1122;border:1px solid var(--line-2);border-radius:99px;padding:.3rem .7rem;
+  font-size:.76rem;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pot b{color:var(--tx)} .pot span{color:var(--tx-2);font-weight:600}
+.board{display:flex;gap:4px}
+.herocards{position:absolute;left:50%;top:81.5%;transform:translate(-50%,-50%);display:flex;gap:4px;z-index:3}
+
+.pc{--w:34px;--h:46px;width:var(--w);height:var(--h);flex:none;background:var(--card);
+  border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-weight:800;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,.55)}
+.pc .r{font-size:.82rem} .pc .s{font-size:.72rem;margin-top:1px}
+.pc.red{color:var(--pip-red)} .pc.black{color:var(--pip-black)}
+.pc.sm{--w:26px;--h:35px}
+.pc.sm .r{font-size:.64rem} .pc.sm .s{font-size:.56rem}
+@media(max-width:400px){.pc{--w:30px;--h:41px}.seat{font-size:.61rem}}
+
+/* ---------- otázka ---------- */
+.story{font-size:.95rem;line-height:1.5;margin-bottom:.35rem}
+.story b{color:var(--blue-2);font-weight:700}
+.poshint{font-size:.76rem;color:var(--tx-3);margin-top:.35rem;line-height:1.4}
+.poshint b{color:var(--tx-2);font-family:'IBM Plex Mono',monospace;font-weight:600}
+.glsec{margin-bottom:1.4rem}
+.glsec h3{color:var(--blue-2);font-size:.7rem;letter-spacing:.11em;text-transform:uppercase;
+  margin-bottom:.5rem;font-weight:800}
+.glrow{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+  padding:.7rem .85rem;margin-bottom:.4rem}
+.glrow .t{font-weight:800;font-size:.9rem;margin-bottom:.15rem}
+.glrow .t span{font-family:'IBM Plex Mono',monospace;color:var(--tx-3);font-weight:600;
+  font-size:.76rem;margin-left:.35rem}
+.glrow .d{font-size:.83rem;line-height:1.5;color:#B4BECE}
+.qline{font-weight:800;font-size:1.02rem;margin:.65rem 0 .2rem}
+.subtle{color:var(--tx-3);font-size:.78rem}
+.peek{display:flex;gap:.5rem;align-items:flex-start;background:rgba(245,197,66,.09);
+  border:1px solid rgba(245,197,66,.32);border-radius:10px;padding:.6rem .7rem;
+  margin-top:.55rem;font-size:.77rem;line-height:1.45;color:#DFCF9E}
+.peek b{color:var(--amber)}
+.peek .ex{flex:none;font-weight:800;color:var(--amber)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.9rem}
+.acts.one{grid-template-columns:1fr}
+.act{border:1px solid var(--line-2);background:var(--panel-2);color:var(--tx);border-radius:12px;
+  padding:.8rem .6rem;cursor:pointer;font-family:inherit;font-weight:700;font-size:.92rem;
+  text-align:center;transition:border-color .12s,background .12s}
+.act:hover:not(:disabled){border-color:var(--blue);background:var(--panel-3)}
+.act:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.act:disabled{cursor:default}
+.act.right{border-color:var(--green);background:var(--green-bg);color:var(--green-2);
+  box-shadow:0 0 0 1px var(--green),0 0 18px rgba(34,197,94,.3)}
+.act.wrong{border-color:var(--red);background:var(--red-bg);color:var(--red)}
+.act.mute{opacity:.4}
+
+.sheet{margin-top:1rem;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1rem}
+.sheet .head{display:flex;align-items:center;gap:.55rem;margin-bottom:.7rem}
+.badge{width:26px;height:26px;border-radius:50%;flex:none;display:flex;align-items:center;
+  justify-content:center;font-size:.85rem;font-weight:800}
+.badge.ok{background:var(--green);color:#04240F}
+.badge.no{background:var(--red);color:#2A0505}
+.sheet .head .t{font-weight:800;font-size:1rem}
+.sheet .body{font-size:.89rem;line-height:1.55;color:#C9D1E0}
+.sheet .body b{color:var(--tx);font-weight:700}
+.freqs{display:flex;gap:.4rem;margin-top:.85rem}
+.freq{flex:1;text-align:center}
+.freq .v{font-size:.82rem;font-weight:800;padding:.3rem 0;border-radius:8px;
+  border:1px solid var(--line-2);color:var(--tx-2);font-variant-numeric:tabular-nums}
+.freq .k{font-size:.72rem;color:var(--tx-3);margin-top:.28rem;font-weight:600}
+.freq.hit .v{border-color:var(--green);color:var(--green-2);background:var(--green-bg)}
+.rangewrap{margin-top:.9rem}
+.gwrap{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:3px}
+.gcols,.grows{display:grid;gap:1.5px}
+.gcols{grid-template-columns:repeat(13,1fr)}
+.grows{grid-template-rows:repeat(13,1fr)}
+.gcols b,.grows b{display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;
+  font-size:.6rem;font-weight:600;color:var(--tx-3);min-width:11px}
+.rgrid{display:grid;grid-template-columns:repeat(13,1fr);gap:1.5px}
+.rgrid i{aspect-ratio:1;border-radius:2px;background:#1A2134;display:flex;align-items:center;
+  justify-content:center;font-weight:600;overflow:hidden;font-size:clamp(5px,1.55vw,9px);
+  line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.3);font-family:'IBM Plex Mono',monospace}
+.rgrid i.r{background:#1D8A4E;color:#EAFBF0}
+.rgrid i.c{background:#2B5DC9;color:#EAF0FF}
+.rgrid i.me{outline:2px solid var(--amber);outline-offset:-1px;z-index:2;position:relative}
+.rgrid i.pair{box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
+.rgrid i.tap{cursor:pointer}
+.rgrid i.tap:hover{filter:brightness(1.4)}
+.rgrid i.sel{outline:2px solid #fff;outline-offset:-1px;z-index:3;position:relative}
+.gnote{display:flex;justify-content:space-between;gap:.5rem;margin-top:.45rem;
+  font-size:.66rem;color:var(--tx-3);font-family:'IBM Plex Mono',monospace}
+.cellinfo{margin-top:.6rem;background:var(--panel-2);border-radius:10px;padding:.6rem .7rem;
+  font-size:.82rem;line-height:1.5;min-height:2.2rem}
+.cellinfo b{color:var(--tx)}
+.cellinfo .ph{color:var(--tx-3)}
+.actsum{display:flex;gap:.4rem;margin-bottom:.7rem}
+.actsum div{flex:1;border-radius:9px;padding:.45rem .3rem;text-align:center;border:1px solid var(--line-2)}
+.actsum .n{font-size:.95rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.actsum .k{font-size:.63rem;color:var(--tx-3);margin-top:.15rem;font-weight:600}
+.actsum .r{border-color:rgba(29,138,78,.6);background:rgba(29,138,78,.14)}
+.actsum .r .n{color:#4ADE80}
+.actsum .c{border-color:rgba(43,93,201,.6);background:rgba(43,93,201,.14)}
+.actsum .c .n{color:#7EA5FF}
+
+/* ---------- výběr karet ---------- */
+.slots{display:flex;gap:.6rem;justify-content:center;align-items:center;margin:.2rem 0 1rem}
+.slot{--w:66px;--h:92px;width:var(--w);height:var(--h);border-radius:9px;flex:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;
+  font-family:inherit;font-weight:800;line-height:1;background:var(--card);border:0;
+  box-shadow:0 3px 10px rgba(0,0,0,.5)}
+.slot .r{font-size:1.5rem} .slot .s{font-size:1.25rem;margin-top:3px}
+.slot.red{color:var(--pip-red)} .slot.black{color:var(--pip-black)}
+.slot.empty{background:transparent;border:2px dashed var(--line-2);color:var(--tx-3);
+  box-shadow:none;font-size:.72rem;font-weight:700}
+.slot.active{border-color:var(--blue);color:var(--blue-2)}
+.slot:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px}
+.picklab{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tx-3);
+  font-weight:700;margin-bottom:.45rem}
+.suits{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin-bottom:.9rem}
+.suitbtn{border:1px solid var(--line-2);background:var(--panel-2);border-radius:11px;padding:.6rem 0;
+  cursor:pointer;font-size:1.35rem;line-height:1;font-family:inherit}
+.suitbtn.red{color:#FF6B5E} .suitbtn.black{color:#D6DEEC}
+.suitbtn:hover{border-color:var(--blue)}
+.suitbtn[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.suitbtn:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.ranks{display:grid;grid-template-columns:repeat(7,1fr);gap:.35rem}
+.rankbtn{border:1px solid var(--line-2);background:var(--panel-2);color:var(--tx);border-radius:9px;
+  padding:.55rem 0;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.88rem}
+.rankbtn:hover:not(:disabled){border-color:var(--blue)}
+.rankbtn:disabled{opacity:.25;cursor:not-allowed}
+.rankbtn:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.clearbtn{width:100%;margin-top:.7rem;border:1px solid var(--line-2);background:var(--panel-2);
+  color:var(--tx-2);border-radius:11px;padding:.65rem;cursor:pointer;font-family:inherit;
+  font-weight:700;font-size:.85rem}
+.clearbtn:hover{border-color:var(--blue);color:var(--tx)}
+.clearbtn:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.verdict{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1rem;margin-top:1.1rem}
+.vhead{display:flex;align-items:center;gap:.6rem;margin-bottom:.15rem}
+.vdot{width:12px;height:12px;border-radius:50%;flex:none}
+.vtitle{font-size:1.15rem;font-weight:800}
+.vcode{font-family:'IBM Plex Mono',monospace;color:var(--tx-3);font-size:.8rem;font-weight:600}
+.vbody{font-size:.88rem;line-height:1.55;color:#C9D1E0;margin-top:.55rem}
+.vbody b{color:var(--tx)}
+.poschips{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.5rem}
+.pchip{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:700;border-radius:99px;
+  padding:.26rem .6rem;border:1px solid var(--line-2);color:var(--tx-3);background:var(--panel-2)}
+.pchip.on{background:rgba(29,138,78,.22);border-color:#1D8A4E;color:#6EE7A0}
+.obar{display:flex;height:16px;border-radius:5px;overflow:hidden;margin-top:.45rem;border:1px solid var(--line)}
+.obar i{display:block;height:100%}
+.olist{display:flex;flex-wrap:wrap;gap:.3rem .7rem;margin-top:.45rem;font-size:.74rem;color:var(--tx-2)}
+.olist span{display:flex;align-items:center;gap:.3rem}
+.olist i{width:8px;height:8px;border-radius:2px;display:block}
+.rlegend{display:flex;gap:.8rem;margin-top:.5rem;flex-wrap:wrap;font-size:.73rem;color:var(--tx-2)}
+.rlegend span{display:flex;align-items:center;gap:.3rem}
+.rlegend i{width:9px;height:9px;border-radius:2px;display:block}
+.cont{width:100%;margin-top:.9rem;border:0;border-radius:12px;padding:.85rem;background:#fff;
+  color:#0A0D16;font-family:inherit;font-weight:800;font-size:.95rem;cursor:pointer}
+.cont:hover{background:#E6EAF2}
+.cont:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+
+/* ---------- statistiky ---------- */
+.sechead{display:flex;align-items:center;gap:.4rem;margin:1.3rem 0 .6rem}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.mcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:.8rem .85rem}
+.mcard .lab{display:flex;align-items:center;gap:.3rem;font-size:.68rem;font-weight:700;
+  color:var(--tx-3);letter-spacing:.06em;text-transform:uppercase}
+.mcard .val{font-size:1.65rem;font-weight:800;margin-top:.3rem;font-variant-numeric:tabular-nums;line-height:1}
+.mcard .val small{font-size:.8rem;color:var(--tx-3);font-weight:600}
+.segs{display:flex;gap:3px;margin-top:.6rem}
+.segs i{flex:1;height:4px;border-radius:99px;background:#232C42}
+.segs i.on{background:linear-gradient(90deg,var(--blue),#3FD2C7)}
+.mcard .hint{font-size:.7rem;color:var(--tx-3);margin-top:.45rem;line-height:1.35}
+.gauges{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;background:var(--panel);
+  border:1px solid var(--line);border-radius:14px;padding:.9rem .7rem}
+.gauges.two{grid-template-columns:repeat(2,1fr)}
+.g{display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.g svg{width:100%;max-width:62px;height:auto;display:block}
+.g .gk{font-size:.66rem;color:var(--tx-3);text-align:center;font-weight:600;line-height:1.25}
+.empty{color:var(--tx-3);font-size:.84rem;text-align:center;padding:1.6rem .8rem;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;line-height:1.5}
+
+/* ---------- tabulky ---------- */
+.pills{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.85rem}
+.pill{border:1px solid var(--line-2);background:var(--panel);color:var(--tx-2);border-radius:99px;
+  padding:.35rem .7rem;font-family:inherit;font-size:.76rem;font-weight:700;cursor:pointer}
+.pill:hover{color:var(--tx);border-color:var(--blue)}
+.pill[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.pill:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.chartbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:.9rem}
+.chartbox .cname{font-weight:800;font-size:.95rem;margin-bottom:.15rem}
+.chartbox .cdesc{font-size:.78rem;color:var(--tx-3);margin-bottom:.8rem;line-height:1.45}
+
+.tabbar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:470px;
+  display:flex;gap:.3rem;background:rgba(5,7,14,.93);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);padding:.5rem 14px calc(.6rem + env(safe-area-inset-bottom,0px));z-index:20}
+.tab{flex:1;border:0;background:transparent;color:var(--tx-3);font-family:inherit;font-size:.63rem;
+  font-weight:700;cursor:pointer;padding:.35rem .1rem;border-radius:10px;display:flex;
+  flex-direction:column;align-items:center;gap:.2rem}
+.tab svg{width:19px;height:19px}
+.tab[aria-pressed="true"]{color:var(--blue-2)}
+.tab:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+
+.note{color:var(--tx-3);font-size:.76rem;line-height:1.6;margin-top:1.5rem;
+  border-top:1px solid var(--line);padding-top:1rem}
+.note b{color:var(--tx-2)} .note a{color:var(--blue-2)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+
+  <section id="v-menu">
+    <div class="brand">
+      <h1 id="m-title">U stolu</h1>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" id="lang-cs" aria-pressed="true">CS</button>
+        <button type="button" id="lang-en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+    <p class="tagline" id="m-tag"></p>
+    <button class="bigbtn" id="m-start" type="button"></button>
+    <div class="quick" id="m-quick"></div>
+    <div class="menulist" id="m-list"></div>
+    <p class="note" id="m-note"></p>
+  </section>
+
+  <section id="v-drill" hidden>
+    <div class="appbar">
+      <button class="iconbtn" id="btn-back" type="button" aria-label="Menu">‹</button>
+      <button class="iconbtn" id="btn-help" type="button" aria-label="?">?</button>
+      <div class="progress"><i id="prog" style="width:0%"></i></div>
+      <button class="timer" id="timer" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span id="tval">0:30</span>
+      </button>
+    </div>
+    <p class="stakes" id="stakes">—</p>
+    <div class="felt" id="felt"></div>
+    <p class="story" id="story"></p>
+    <p class="poshint" id="poshint"></p>
+    <p class="qline" id="qline"></p>
+    <p class="subtle" id="qsub"></p>
+    <div id="peek"></div>
+    <div class="acts" id="acts"></div>
+    <div id="sheet"></div>
+  </section>
+
+  <section id="v-stats" hidden>
+    <h1 id="s-title"></h1>
+    <p class="subtle" style="margin-top:.3rem" id="s-sub"></p>
+    <div id="stats-body"></div>
+  </section>
+
+  <section id="v-hand" hidden>
+    <h1 id="h-title"></h1>
+    <p class="subtle" style="margin-top:.3rem;margin-bottom:1rem" id="h-sub"></p>
+    <div class="slots" id="h-slots"></div>
+    <p class="picklab" id="h-suitlab"></p>
+    <div class="suits" id="h-suits"></div>
+    <p class="picklab" id="h-ranklab"></p>
+    <div class="ranks" id="h-ranks"></div>
+    <button class="clearbtn" id="h-clear" type="button" hidden></button>
+    <div id="h-verdict"></div>
+  </section>
+
+  <section id="v-gloss" hidden>
+    <div class="appbar" style="margin-bottom:1rem">
+      <button class="iconbtn" id="gl-back" type="button" aria-label="Menu">‹</button>
+      <h1 id="gl-title" style="flex:1"></h1>
+    </div>
+    <p class="subtle" style="margin-bottom:1.1rem" id="gl-sub"></p>
+    <div id="gl-body"></div>
+  </section>
+
+  <section id="v-charts" hidden>
+    <h1 id="c-title"></h1>
+    <p class="subtle" style="margin-top:.3rem;margin-bottom:.9rem" id="c-sub"></p>
+    <div class="pills" id="chart-pills"></div>
+    <div class="chartbox" id="chart-box"></div>
+    <p class="note" id="c-note"></p>
+  </section>
+
+  <nav class="tabbar">
+    <button class="tab" id="tab-menu" type="button" aria-pressed="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M3 12l9-8 9 8M5 10v10h14V10"/></svg><span id="tl-menu"></span>
+    </button>
+    <button class="tab" id="tab-drill" type="button" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="3"/><path d="M8 12h8"/></svg><span id="tl-drill"></span>
+    </button>
+    <button class="tab" id="tab-stats" type="button" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span id="tl-stats"></span>
+    </button>
+    <button class="tab" id="tab-hand" type="button" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <rect x="3" y="4" width="11" height="16" rx="2"/><path d="M17 7l4 1.5-3 9-4-1.5"/></svg><span id="tl-hand"></span>
+    </button>
+    <button class="tab" id="tab-charts" type="button" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg><span id="tl-charts"></span>
+    </button>
+  </nav>
+</div>
+
+<script>
+/* ============================ karty / cards ============================ */
+const RANKCH="23456789TJQKA";
+const R_LABEL=["2","3","4","5","6","7","8","9","10","J","Q","K","A"];
+const SUIT=["♠","♥","♦","♣"];
+const RED=[false,true,true,false];
+
+const SH=new Int8Array(8192);
+for(let m=0;m<8192;m++){
+  let best=-1;
+  for(let hi=12;hi>=4;hi--){
+    const need=(1<<hi)|(1<<(hi-1))|(1<<(hi-2))|(1<<(hi-3))|(1<<(hi-4));
+    if((m&need)===need){best=hi;break;}
+  }
+  if(best<0){const w=(1<<12)|1|2|4|8; if((m&w)===w) best=3;}
+  SH[m]=best;
+}
+const _rc=new Int8Array(13),_sc=new Int8Array(4),_sm=new Int16Array(4);
+function ev(cards){
+  _rc.fill(0);_sc.fill(0);_sm.fill(0);
+  let mask=0;
+  for(let i=0;i<cards.length;i++){const c=cards[i],r=c>>2,s=c&3;_rc[r]++;_sc[s]++;_sm[s]|=1<<r;mask|=1<<r;}
+  let cat,rk=[0,0,0,0,0],fs=-1;
+  for(let s=0;s<4;s++) if(_sc[s]>=5) fs=s;
+  out:{
+    if(fs>=0){const h=SH[_sm[fs]]; if(h>=0){cat=(h===12)?9:8;rk[0]=h;break out;}}
+    let quad=-1,tr=[],pr=[];
+    for(let r=12;r>=0;r--){ if(_rc[r]===4)quad=r; else if(_rc[r]===3)tr.push(r); else if(_rc[r]===2)pr.push(r); }
+    if(quad>=0){cat=7;rk[0]=quad;for(let r=12;r>=0;r--)if(r!==quad&&_rc[r]>0){rk[1]=r;break;}break out;}
+    if(tr.length>=2){cat=6;rk[0]=tr[0];rk[1]=tr[1];break out;}
+    if(tr.length===1&&pr.length>=1){cat=6;rk[0]=tr[0];rk[1]=pr[0];break out;}
+    if(fs>=0){cat=5;let k=0;for(let r=12;r>=0&&k<5;r--)if(_sm[fs]&(1<<r))rk[k++]=r;break out;}
+    const s=SH[mask]; if(s>=0){cat=4;rk[0]=s;break out;}
+    if(tr.length===1){cat=3;rk[0]=tr[0];let k=1;for(let r=12;r>=0&&k<3;r--)if(r!==tr[0]&&_rc[r]>0)rk[k++]=r;break out;}
+    if(pr.length>=2){cat=2;rk[0]=pr[0];rk[1]=pr[1];for(let r=12;r>=0;r--)if(r!==pr[0]&&r!==pr[1]&&_rc[r]>0){rk[2]=r;break;}break out;}
+    if(pr.length===1){cat=1;rk[0]=pr[0];let k=1;for(let r=12;r>=0&&k<4;r--)if(r!==pr[0]&&_rc[r]>0)rk[k++]=r;break out;}
+    cat=0;let k=0;for(let r=12;r>=0&&k<5;r--)if(_rc[r]>0)rk[k++]=r;
+  }
+  let sc=cat; for(let i=0;i<5;i++) sc=sc*13+rk[i];
+  return {cat:cat,rk:rk,score:sc};
+}
+function best5(cards){
+  if(cards.length<=5){const e=ev(cards);return {cards:cards.slice(),cat:e.cat,rk:e.rk,score:e.score};}
+  let bs=-1,bset=null,bcat=0,brk=null;
+  const n=cards.length,ch=[];
+  (function rec(st){
+    if(ch.length===5){const e=ev(ch); if(e.score>bs){bs=e.score;bset=ch.slice();bcat=e.cat;brk=e.rk;} return;}
+    for(let i=st;i<n;i++){ch.push(cards[i]);rec(i+1);ch.pop();}
+  })(0);
+  return {cards:bset,cat:bcat,rk:brk,score:bs};
+}
+function shuffled(){
+  const d=[]; for(let i=0;i<52;i++) d.push(i);
+  for(let i=51;i>0;i--){const j=Math.floor(Math.random()*(i+1));[d[i],d[j]]=[d[j],d[i]];}
+  return d;
+}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function fmt(x,d){ d=(d===undefined)?1:d; const s=x.toFixed(d); return LANG==='cs'?s.replace('.',','):s; }
+function codeOf(a,b){
+  let r1=a>>2,r2=b>>2; const s=(a&3)===(b&3);
+  if(r1<r2){const t=r1;r1=r2;r2=t;}
+  return r1===r2 ? RANKCH[r1]+RANKCH[r2] : RANKCH[r1]+RANKCH[r2]+(s?'s':'o');
+}
+function cardsFor(code){
+  const r1=RANKCH.indexOf(code[0]),r2=RANKCH.indexOf(code[1]);
+  if(code.length===2) return [r1*4+0,r2*4+1];
+  if(code[2]==='s')   return [r1*4+0,r2*4+0];
+  return [r1*4+0,r2*4+1];
+}
+const combosOf=c=>c.length===2?6:(c[2]==='s'?4:12);
+
+/* ============================ jazyk / language ============================ */
+let LANG='cs';
+const CZ={
+  SG:["dvojka","trojka","čtyřka","pětka","šestka","sedmička","osmička","devítka","desítka","kluk","dáma","král","eso"],
+  PL:["dvojky","trojky","čtyřky","pětky","šestky","sedmičky","osmičky","devítky","desítky","kluci","dámy","králové","esa"],
+  GPL:["dvojek","trojek","čtyřek","pětek","šestek","sedmiček","osmiček","devítek","desítek","kluků","dam","králů","es"],
+  GSG:["dvojky","trojky","čtyřky","pětky","šestky","sedmičky","osmičky","devítky","desítky","kluka","dámy","krále","esa"]
+};
+const EN={
+  SG:["deuce","three","four","five","six","seven","eight","nine","ten","jack","queen","king","ace"],
+  PL:["deuces","threes","fours","fives","sixes","sevens","eights","nines","tens","jacks","queens","kings","aces"]
+};
+const CATS={
+  cs:["Vysoká karta","Pár","Dva páry","Trojice","Postupka","Barva","Full house","Čtveřice","Straight flush","Royal flush"],
+  en:["High card","Pair","Two pair","Three of a kind","Straight","Flush","Full house","Four of a kind","Straight flush","Royal flush"]
+};
+function describe(e){
+  const k=e.rk;
+  if(LANG==='cs') switch(e.cat){
+    case 0: return "vysoká karta — "+CZ.SG[k[0]];
+    case 1: return "pár "+CZ.GPL[k[0]];
+    case 2: return "dva páry — "+CZ.PL[k[0]]+" a "+CZ.PL[k[1]];
+    case 3: return "trojice "+CZ.GPL[k[0]];
+    case 4: return "postupka do "+CZ.GSG[k[0]];
+    case 5: return "barva do "+CZ.GSG[k[0]];
+    case 6: return "full house — tři "+CZ.PL[k[0]]+" a dvě "+CZ.PL[k[1]];
+    case 7: return "čtveřice "+CZ.GPL[k[0]];
+    case 8: return "straight flush do "+CZ.GSG[k[0]];
+    default: return "royal flush";
+  }
+  switch(e.cat){
+    case 0: return EN.SG[k[0]]+" high";
+    case 1: return "a pair of "+EN.PL[k[0]];
+    case 2: return "two pair, "+EN.PL[k[0]]+" and "+EN.PL[k[1]];
+    case 3: return "three of a kind, "+EN.PL[k[0]];
+    case 4: return "a "+EN.SG[k[0]]+"-high straight";
+    case 5: return "an "+EN.SG[k[0]]+"-high flush";
+    case 6: return "a full house, "+EN.PL[k[0]]+" full of "+EN.PL[k[1]];
+    case 7: return "four of a kind, "+EN.PL[k[0]];
+    case 8: return "a "+EN.SG[k[0]]+"-high straight flush";
+    default: return "a royal flush";
+  }
+}
+const money=x=>'$'+Math.round(x);
+function plur(n,cs,en){ /* n otázek / n questions */
+  if(LANG==='en') return n+' '+(n===1?en[0]:en[1]);
+  return n+' '+(n===1?cs[0]:(n<5?cs[1]:cs[2]));
+}
+
+const TX={
+ cs:{
+  appName:"U stolu",
+  appTag:"Trenažér pokerových situací. Stůl, konkrétní rozdání, rozhodnutí — a hned vysvětlení proč.",
+  start:"Spustit kolo", startSub:t=>t?"10 situací · na každou 30 vteřin":"10 situací · bez časomíry",
+  rowTimer:"Časomíra", timerOnSub:"30 vteřin na každou situaci",
+  timerOffSub:"Vypnutá — přemýšlej, jak dlouho potřebuješ",
+  timerOffShort:"vyp", timerTip:"Klepnutím časomíru vypneš nebo zapneš",
+  resume:"Pokračovat v kole", resumeSub:qn=>((10-qn)>=2&&(10-qn)<=4?"zbývají ":"zbývá ")+(10-qn)+" z 10",
+  tabMenu:"Menu", tabDrill:"Trénink", tabStats:"Statistiky", tabCharts:"Tabulky", tabHand:"Moje karty",
+  rowHand:"Moje karty", rowHandSub:"Vyber dvě karty a uvidíš, co s nimi",
+  handTitle:"Moje karty", handSub:"Vyber barvu, pak hodnotu. Až budeš mít obě karty, řeknu ti, co s nimi.",
+  pickSuit:"1 · barva", pickRank:"2 · hodnota", slotEmpty:"prázdné", tapClear:"Klepnutím na kartu ji smažeš a vybereš jinou.", clearAll:"Nová ruka",
+  vPremium:"Prémiová ruka", vStrong:"Silná ruka", vSolid:"Solidní ruka",
+  vLate:"Jen z pozdní pozice", vTrash:"Odpad",
+  vDesc:{premium:"Tohle je špička. Hraj ji odkudkoli a rovnou zvyšuj.",
+         strong:"Dobrá ruka, otevírá se ze všech pozic.",
+         solid:"Hratelná, ale ne odkudkoli — z první pozice ji radši zahoď.",
+         late:"Slabší ruka. Dá se s ní otevřít, jen když je před tebou málo hráčů.",
+         trash:"Tuhle ruku se nevyplatí hrát z žádné pozice. Zahoď ji."},
+  vEq:(e,r)=>"Proti jedné náhodné ruce vyhraje <b>"+e+" %</b> případů — je <b>"+r+". nejsilnější ze 169</b>.",
+  vPosLabel:"Odkud se s ní otevírá, když všichni před tebou složí",
+  vNowhere:"Ze žádné pozice.",
+  vFacing:"Když někdo zvýší před tebou",
+  vOutcomes:"Co z ní do riveru vznikne",
+  aRaiseS:"3-bet", aCallS:"dorovnat", aFoldS:"složit",
+  vTrashNote:"Všimni si, že pár nebo dva páry z ní padnou skoro stejně často jako ze silných rukou. Rozdíl je v tom, že <b>pár trojek prohrává a pár es vyhrává</b> — nejde o to, jakou kombinaci uděláš, ale jestli je nejlepší u stolu.",
+  vPairNote:"Pár vypadá skromně, ale jeho síla je v tom, že občas udělá trojici — a tu na tobě nikdo nepozná.",
+  cellHint:"Klepni na políčko v tabulce a uvidíš, co ta ruka dělá.",
+  cellInfo:(code,act,eq,opens)=>"<b>"+code+"</b> — "+act+". Proti náhodné ruce vyhraje <b>"+eq+" %</b>."+
+    (opens?"<br>Otevírá se s ní z: <b>"+opens+"</b>.":""),
+  gridTop:"↑ nad diagonálou = stejná barva",
+  gridBot:"pod diagonálou = různá ↓",
+  sumHands:n=>n+" "+(n===1?"ruka":(n<5?"ruce":"rukou")),
+  qAnswered:"odpovědí", qAcc:"úspěšnost", qStreak:"nejlepší série",
+  glossTitle:"Slovníček",
+  glossSub:"Co znamenají všechny ty zkratky a slova, co na tebe appka háže.",
+  rowGloss:"Slovníček", rowGlossSub:"UTG, 3-bet, equity — co to vlastně je",
+  posHint:(p,full)=>"Tvoje pozice: <b>"+p+"</b> — "+full+".",
+  gloss:[
+   {h:"Kde u stolu sedíš",items:[
+    ["UTG","under the gun","Jsi <b>první na řadě</b>. Rozhoduješ se dřív než kdokoli jiný a nevíš, co udělají ostatní — proto se odtud hrají jen ty nejlepší karty."],
+    ["HJ","hijack","Druhý na řadě. Už je před tebou o jednoho hráče míň, takže si můžeš dovolit trochu víc rukou."],
+    ["CO","cutoff","Sedíš hned před buttonem. Dobrá pozice — po tobě mluví už jen tři hráči."],
+    ["BTN","button","Nejlepší místo u stolu. Značí ho žlutý žeton <b>D</b>. Ve všech dalších kolech se rozhoduješ jako poslední, takže vidíš, co udělali ostatní."],
+    ["SB","small blind, malý blind","Povinná sázka, kterou musíš vložit ještě před rozdáním karet."],
+    ["BB","big blind, velký blind","Druhá povinná sázka, obvykle dvakrát větší než malý blind. Po flopu hraješ první, což je nevýhoda."],
+    ["V pozici","IP, in position","Po flopu se rozhoduješ až potom, co něco udělá soupeř. Vidíš víc, takže se rozhoduješ líp."],
+    ["Mimo pozici","OOP, out of position","Hraješ první a nevíš, co soupeř udělá. Proto se odtud hraje opatrněji."]
+   ]},
+   {h:"Jak jde rozdání",items:[
+    ["Preflop","","Máš jen dvě karty v ruce, na stole ještě nic neleží."],
+    ["Flop","","Dealer vyloží <b>tři</b> společné karty najednou."],
+    ["Turn","","Čtvrtá společná karta. Po ní zbývá do konce už jen jedna."],
+    ["River","","Pátá a poslední společná karta. Dál už nic nepřijde."],
+    ["Showdown","","Kdo zůstal ve hře, otočí karty. Nejlepší kombinace bere bank."],
+    ["Ulice","street","Jedno z těch kol — preflop, flop, turn nebo river. Statistiky ti ukazují, na které ulici chybuješ nejvíc."]
+   ]},
+   {h:"Co můžeš udělat",items:[
+    ["Složit","fold","Zahodíš karty a z rozdání odstoupíš. Přijdeš o to, cos už vsadil, ale nic dalšího neplatíš."],
+    ["Dorovnat","call","Doplatíš tolik, kolik vsadil soupeř, a zůstáváš ve hře."],
+    ["Checknout","check","Nesázíš nic, ale zůstáváš ve hře. Jde to jen tehdy, když před tebou nikdo nevsadil."],
+    ["Zvýšit / otevřít","raise, open","Vsadíš víc, než vsadil soupeř. Kdo chce zůstat, musí doplatit."],
+    ["3-bet","","Zvýšení proti něčímu otevření. Velký blind se počítá jako první sázka, otevření jako druhá — takže tohle je <b>třetí</b>."],
+    ["4-bet","","Zvýšení proti 3-betu. Na tuhle úroveň se dostanou jen hodně silné ruce."],
+    ["Blaf","bluf, bluff","Sázíš se slabou rukou a spoléháš na to, že soupeř složí."],
+    ["Polo-blaf","semi-bluff","Sázíš s rukou, která zatím prohrává, ale má draw. Vyhrát můžeš dvěma způsoby: soupeř složí, nebo to dotrefíš."],
+    ["Hodnotová sázka","value bet","Sázíš se silnou rukou právě proto, že chceš, aby ti slabší ruce dorovnaly a zaplatily."],
+    ["Limp","","Jen dorovnáš velký blind místo toho, abys zvýšil. Vypadá to levně, ale pouštíš tím do banku kdekoho — začátečníkům se to nedoporučuje."],
+    ["Pokračovací sázka","c-bet, continuation bet","Sázka na flopu od toho, kdo zvyšoval už preflop. Pokračuje v příběhu „mám silné karty“, ať už flop trefil, nebo ne."],
+    ["Krádež blindů","steal","Otevření z pozdní pozice hlavně proto, aby blindy složily a ty sebral bank bez boje."]
+   ]},
+   {h:"Jak kdo hraje",items:[
+    ["Tight","těsně, málo rukou","Hraješ jen málo, zato dobrých rukou. Zbytek skládáš. Pro začátečníka je to ta správná cesta — většina chyb vzniká z hraní příliš mnoha rukou."],
+    ["Loose","volně, hodně rukou","Pouštíš se i do slabších rukou. Vidíš víc flopů, ale častěji se dostaneš do situace, kde máš druhou nejlepší ruku a zaplatíš za to."],
+    ["Agresivní","aggressive","Často sázíš a zvyšuješ místo pouhého dorovnávání. Tlak nutí soupeře skládat a ty vyhráváš i bez nejlepších karet."],
+    ["Pasivní","passive","Většinou jen dorovnáváš a checkuješ. Vyhraješ jen tehdy, když máš opravdu nejlepší karty — přicházíš o všechny banky, které bys sebral tlakem."],
+    ["TAG","tight-aggressive","Málo rukou, ale hrané agresivně. Nejspolehlivější styl pro začátečníka: nepouštíš se do odpadu a s tím, co hraješ, tlačíš."],
+    ["LAG","loose-aggressive","Hodně rukou a hodně tlaku. Umí to být velmi silné, ale vyžaduje to zkušenost — začátečníkovi to jen rychleji vysype peněženku."],
+    ["Nit","rock, skála","Extrémně opatrný hráč. Hraje tak málo rukou, že když už si vsadí, má skoro vždycky sílu. Poznáš ho a můžeš mu krást banky."],
+    ["Fish","ryba","Slabý hráč, který hraje moc rukou a platí i tam, kde by měl složit. Právě od takových hráčů pocházejí výhry ostatních."],
+    ["Reg","regular","Pravidelný, zkušený hráč. Proti němu se těžko vydělává — když si vybíráš stůl, hledej spíš ty ostatní."]
+   ]},
+   {h:"Peníze na stole",items:[
+    ["Bank","pot","Všechny peníze uprostřed stolu. Sebere je vítěz rozdání."],
+    ["Stack","","Kolik peněz máš před sebou. „100 BB“ znamená stokrát velký blind."],
+    ["Pot odds","","Poměr mezi tím, kolik musíš dát, a tím, co můžeš vyhrát. Řekne ti, jak často musíš vyhrávat, aby se dorovnání vyplatilo."],
+    ["6-max","","Stůl pro šest hráčů. Na takovém tahle appka trénuje."],
+    ["Cash game","","Hraje se o skutečné peníze a žetony jdou kdykoli vyměnit zpátky. Opak turnaje, kde hraješ o postup."]
+   ]},
+   {h:"Pojmy o kartách",items:[
+    ["Ruka","","Buď tvoje dvě karty, nebo výsledná pětikaretní kombinace. Z kontextu je většinou jasné které."],
+    ["Hotová ruka","made hand","Kombinaci už máš, nemusíš nic dalšího trefit."],
+    ["Draw","","Zatím nemáš nic, ale jedna správná karta ti udělá barvu nebo postupku."],
+    ["Out","","Karta, která ti udělá lepší kombinaci. Devět outů znamená, že v balíčku je devět karet, co ti pomůžou."],
+    ["Equity","","Jak často ruka vyhraje, kdyby se rozdání dohrálo až do konce. Udává se v procentech."],
+    ["Kicker","","Nejvyšší karta mimo kombinaci. Rozhoduje, když mají oba hráči to samé — pár es s králem poráží pár es s dámou."],
+    ["s / o","suited / offsuit","<b>s</b> = obě karty stejné barvy, <b>o</b> = různé. Proto <b>AKs</b> a <b>AKo</b>."],
+    ["Výběr rukou","range","Všechny ruce, se kterými hráč v dané situaci hraje. Čím dřívější pozice, tím užší."],
+    ["Odpad","","Ruka, se kterou se nevyplatí hrát z žádné pozice."],
+    ["Nuts","absolutní nejlepší ruka","Nejlepší možná kombinace na daném stole. Nikdo tě nemůže přebít, jen dorovnat nebo složit."]
+   ]},
+   {h:"Slova, co uslyšíš u stolu",items:[
+    ["Bad beat","","Prohrál jsi jako velký favorit, protože soupeři přišla jediná karta, co mu pomohla. Patří to ke hře, i když to štve."],
+    ["Cooler","","Oba měli silnou ruku a jeden prostě musel prohrát. Na rozdíl od bad beatu se tomu nedalo nijak vyhnout."],
+    ["Tilt","","Když ti po sérii smůly rupne a začneš hrát naštvaně místo rozumně. Nejdražší chyba v pokeru — v tu chvíli je lepší vstát od stolu."],
+    ["Variance","rozptyl","Krátkodobé výkyvy štěstí. I dobře hraný poker prohrává celé večery — o výsledku rozhodují až tisíce rozdání."],
+    ["Bankroll","","Peníze, které máš vyhrazené na poker. Pravidlo zní hrát jen o takové částky, aby tě jedna prohra nepoložila."]
+   ]},
+   {h:"Zkratky ve statistikách",items:[
+    ["H-SEL","","Výběr rukou — které karty hrát a odkud."],
+    ["H-SCN","","Herní situace — rozhodování po flopu."],
+    ["THEORY","","Čtení kombinací — co máš a kdo vyhrál."],
+    ["PMATH","","Počty — outy, pot odds, equity."],
+    ["Bank po zvýšení","SRP, single raised pot","Bank, kde někdo jen otevřel a ostatní dorovnali. Nejběžnější situace."],
+    ["3-bet bank","","Bank, ve kterém padlo přeplacení. Je větší a hraje se v něm opatrněji."]
+   ]},
+   {h:"Co appka nemá",items:[
+    ["Solver","","Program, který spočítá matematicky nevykořistitelnou strategii. Tahle appka žádný nemá a nepředstírá to."],
+    ["GTO","game theory optimal","Strategie, proti které nikdo nemůže dlouhodobě vydělávat. To, co ti tady radím, jsou <b>běžná začátečnická doporučení</b> — vypadají podobně, ale nejsou to výstupy ze solveru."]
+   ]}
+  ],
+  rowStats:"Statistiky", rowStatsSub:"Kde ti to jde a kde ztrácíš",
+  rowCharts:"Tabulky", rowChartsSub:"Co hrát z které pozice a proti čemu",
+  menuNote:'<b>Co je tu spočítané a co ne.</b> Síla kombinací, outy i equity se počítají — u pot odds přesně přes všech 990 možných konců rozdání. Otevírací tabulky a pravidlo „sázej se silnou rukou nebo s velkým draw" jsou <b>běžná začátečnická doporučení, ne výstup ze solveru</b>. Proto tu nenajdeš smíšené strategie typu „35 % zvýšit" ani výběr velikosti sázky.',
+  companions:'Vedle to máš rozebrané: <a href="https://claude.ai/artifact/5MSNFss5X2nTamgcXTCXdM">169 startovních rukou</a> a <a href="https://claude.ai/artifact/6cHnQkoGFnbkZYec86VhQ1">Pokerové drily</a>.',
+  stakes:(sb,bb,q,n)=>"6 hráčů · $"+sb+"/$"+bb+" · každý má 100 BB · situace "+q+"/"+n,
+  potLabel:"Bank:", qDefault:"Co uděláš?",
+  vOk:"Přesně tak", vNo:"Vedle", vTime:"Vypršel čas",
+  next:"Další", showResult:"Zobrazit výsledek", nextRound:"Další kolo",
+  roundDone:(ok,n)=>"Kolo hotové — "+ok+" z "+n,
+  roundMsg:p=>p>=90?"Skoro bez chyby. Mrkni do statistik, jestli je ještě kde přidat."
+            :p>=70?"Slušné. Ve statistikách uvidíš, která oblast tě táhne dolů."
+            :"Zatím to skřípe, a to je v pohodě. U každé chyby si přečti vysvětlení — tam je celá podstata.",
+  freqNote:"Procenta říkají, jakou část všech rozdání hraje tabulka danou akcí.",
+  villainShowed:p=>"Soupeř ("+p+") otočil:",
+  villainHolds:p=>"Soupeř ("+p+") drží:",
+  peekNote:'<b>Cvičná situace.</b> Soupeřovy karty ti ukazuju schválně — jinak by nešlo spočítat <b>přesnou</b> šanci, a přesně o tu tady jde. U stolu je pochopitelně nikdy neuvidíš; tam musíš odhadovat, co tak asi drží.',
+  aFold:"Složit", aCall:a=>"Dorovnat "+money(a), aRaiseTo:a=>"Zvýšit na "+money(a),
+  a3bet:a=>"3-bet na "+money(a), a4bet:a=>"4-bet na "+money(a),
+  aCheck:"Checknout", aBet:a=>"Sázet "+money(a),
+  aMe:"Já", aOpp:"Soupeř", aSplit:"Dělíme se",
+  outsUnit:v=>v+" "+(v===1?"karta":(v<5?"karty":"karet")),
+  statsTitle:"Tvoje statistiky",
+  statsSub:"Kolik procent rozhodnutí trefíš v jednotlivých oblastech.",
+  statsEmpty:"Zatím tu nic není.<br>Odpověz na pár otázek v tréninku a statistiky se naplní.",
+  secStreets:"Výkon po ulicích", secPos:"Pozice", secPot:"Typ banku", secTotal:"Celkem", secWeak:"Kde ztrácíš nejvíc",
+  lblIP:"V pozici", lblOOP:"Mimo pozici", lblSRP:"Bank po zvýšení", lblP3:"3-bet bank",
+  lblAcc:"Úspěšnost", lblBest:"Nejdelší série",
+  ofDecisions:(a,b)=>a+" z "+b+" rozhodnutí",
+  streakNow:(s,r)=>"teď v řadě: "+s+" · dohraných kol: "+r,
+  weakMsg:(name,hint,a,n)=>hint+" Máš tu "+a+" % z "+plur(n,["otázky","otázek","otázek"],["question","questions"])+" — nejmíň ze všech oblastí.",
+  statsNote:"<b>Jak se to počítá.</b> Každé číslo je prostě podíl správných odpovědí v dané oblasti, žádné skryté skóre. Ulice znamená fázi rozdání, ve které ses rozhodoval.",
+  chartsTitle:"Tabulky", chartsSub:"Co hrát v které situaci. Klepni na situaci a uvidíš celou tabulku.",
+  lgRaise:"Zvýšit", lgCall:"Dorovnat", lgFold:"Složit", lgMine:"tvoje ruka",
+  chartOpen:p=>"Otevírám z "+p,
+  chartsNote:'<b>Odkud jsou.</b> Běžně doporučované začátečnické tabulky, ne výstup ze solveru — proto jedna akce na ruku, žádné „30 % zvýšit, 70 % dorovnat". Ověřené je na nich to, že mají rozumné frekvence, že se žádná ruka neobjevuje ve dvou akcích zároveň a že do sebe zapadají: proti 3-betu se hraje těsněji než proti otevření a obrana blindu je nejširší. Skutečné GTO ranges vypadají podobně, ne stejně.',
+  streets:{preflop:"Preflop",flop:"Flop",turn:"Turn",river:"River"},
+  cats:{HSEL:"Výběr rukou",HSCN:"Herní situace",THEORY:"Kombinace",PMATH:"Počty"},
+  catHints:{HSEL:"Které ruce hrát z které pozice a proti čemu.",HSCN:"Rozhodnutí po flopu — sázet, nebo checkovat.",
+            THEORY:"Přečíst, co máš a kdo vyhrál.",PMATH:"Outy, pot odds, šance."},
+  posFull:{UTG:"první na řadě",HJ:"druhý na řadě",CO:"hned před buttonem",BTN:"button, poslední na řadě",SB:"malý blind",BB:"velký blind, po flopu hraješ první"},
+  spotLabel:{IP_EARLY:"v pozici proti ranému otevření",IP_LATE:"v pozici proti pozdnímu otevření",
+             BB_DEFEND:"obrana velkého blindu",VS3_IP:"proti 3-betu, v pozici",VS3_OOP:"proti 3-betu, mimo pozici"},
+  spotShort:{IP_EARLY:"proti rané",IP_LATE:"proti pozdní",BB_DEFEND:"obrana BB",VS3_IP:"3-bet, v pozici",VS3_OOP:"3-bet, mimo pozici"},
+  tagRaised:"zvýšil", tag3bet:"3-bet", tagBets:"sází",
+  /* --- příběhy a vysvětlení --- */
+  stRFI:p=>p==='UTG'?"Jsi <b>první na řadě</b> — nikdo před tebou ještě nehrál.":"Všichni před tebou složili. Sedíš na pozici <b>"+p+"</b>.",
+  whyRFI:(p,full,w,code,inR)=>"Z pozice <b>"+p+"</b> ("+full+") se otevírá zhruba <b>"+w+" %</b> nejsilnějších rukou. "+
+    "<span class='mono'>"+code+"</span> "+(inR?"do té skupiny <b>patří</b>":"tam <b>nepatří</b>")+". "+
+    "Čím dřív jsi na řadě, tím míň rukou si můžeš dovolit — po tobě sedí víc hráčů, kteří tě ještě můžou přeplatit.",
+  stVsRaise:(r,o,h,bb)=>"<b>"+r+"</b> zvýšil na "+money(o)+". Ostatní složili. Jsi na <b>"+h+"</b>"+
+    (bb?" a máš tam už vsazený velký blind":"")+".",
+  whyVsRaise:(label,code,act,isBB,early)=>"Situace: <b>"+label+"</b>. S <span class='mono'>"+code+"</span> se tady "+
+    (act==='raise'?"<b>3-betuje</b> — je to dost silná ruka na to, aby sis o bank řekl sám"
+     :act==='call'?"<b>dorovnává</b> — na 3-bet je slabá, ale hrát se s ní dá":"<b>skládá</b>")+". "+
+    (isBB?"Z velkého blindu dorovnáváš hodně široce. Část peněz už v banku máš, takže na dorovnání doplácíš míň než ostatní."
+      :"Zvyšoval hráč z "+(early?"rané pozice, takže má úzký a silný výběr rukou — proto se proti němu hraje těsněji"
+                                 :"pozdní pozice, takže má široký výběr rukou — proto se proti němu dá hrát víc rukou")+"."),
+  stVs3bet:(o,h,v,t)=>"Zvýšil jsi na "+money(o)+" z <b>"+h+"</b> a <b>"+v+"</b> 3-betnul na "+money(t)+". Ostatní složili.",
+  whyVs3bet:(label,code,act,ip)=>"Situace: <b>"+label+"</b>. Když tě někdo 3-betne, má skoro vždycky silnou ruku — "+
+    "proto se tady hraje <b>mnohem těsněji</b> než při otevírání. S <span class='mono'>"+code+"</span> se "+
+    (act==='raise'?"<b>4-betuje</b>":act==='call'?"<b>dorovnává</b>":"<b>skládá</b>")+"."+
+    (ip?" Jsi v pozici, takže si můžeš dovolit dorovnat o něco víc rukou — po flopu se rozhoduješ až po soupeři."
+       :" Jsi mimo pozici: po flopu budeš hrát první, což je nevýhoda. Proto dorovnáváš míň."),
+  stPost:(v,ip,street)=>"Zůstali jste ve hře jen vy dva a <b>"+v+"</b> checkl. Jsi "+(ip?"<b>v pozici</b>":"<b>mimo pozici</b>")+
+    " a na "+({flop:'flopu',turn:'turnu',river:'riveru'}[street])+" je to na tobě.",
+  whyPost:(made,eq,exact,tot,value,dr,th)=>"Máš <b>"+made+"</b> a proti náhodné soupeřově ruce vyhráváš <b>"+eq+" %</b>"+
+    (exact?" (přesně — prošlo se všech "+tot+" možných soupeřových rukou)":" (simulace 12 000 rozdání)")+".<br><br>"+
+    (value?"To je silná hotová ruka (hranice je "+th+" %). <b>Sázej na hodnotu</b> — chceš, aby ti slabší ruce dorovnávaly."
+     :dr.big?"Na hodnotovou sázku je to málo, ale máš <b>"+(dr.flush?"draw na barvu":"oboustrannou postupku")+
+             "</b>. <b>Sázej jako polo-blaf</b> — vyhrát můžeš dvěma způsoby."
+     :"Na hodnotovou sázku je to málo a velké draw nemáš"+(dr.gut?" (vnitřní postupka je moc slabá)":"")+
+      ". <b>Checkuj</b> — nenalévej peníze do banku s rukou, která většinou prohrává.")+
+    "<br><br><span class='subtle'>Pravidlo: sázej se silnou hotovou rukou nebo s velkým draw, jinak checkuj. Začátečnické vodítko, ne GTO.</span>",
+  stRead:"Došli jste až do konce. Na stole leží všech pět karet.",
+  qRead:"Jakou nejlepší kombinaci máš?",
+  whyRead:(d,cards)=>"Nejlepších 5 karet ze sedmi ti dává <b>"+d+"</b> — "+cards+
+    ". Zbylé dvě karty se zahodí; v Hold'emu si vždycky bereš nejlepší možnou pětici.",
+  stShow:v=>"Došlo na showdown a <b>"+v+"</b> otočil karty.",
+  qShow:"Kdo vyhrál bank?",
+  whyShow:(a,b,correct,same)=>"Ty máš <b>"+a+"</b>, soupeř <b>"+b+"</b>. "+
+    (correct==='split'?"Úplně stejně silné ruce — bank se dělí. Většinou to znamená, že nejlepší pětice leží celá na stole."
+     :same?"Stejná kombinace, takže rozhoduje, čí je vyšší — a při shodě kicker, tedy další nejvyšší karta."
+     :(correct==='me'?"Tvoje":"Soupeřova")+" kombinace je v žebříčku výš."),
+  stOuts:"Na flopu zatím nemáš hotovou kombinaci, ale pořád se můžeš zlepšit.",
+  qOuts:"Kolik karet ti na turnu udělá lepší kombinaci?",
+  whyOuts:(made,n,list)=>"Teď máš <b>"+made+"</b>. Ze zbylých 47 karet ti pomůže <b>"+n+"</b> — to jsou tvoje <b>outy</b>:"+
+    "<br><span class='mono' style='font-size:.82rem'>"+list+"</span>"+
+    "<br><br>Rychlý odhad u stolu: <b>outy × 2</b> ≈ % šance, že to trefíš na příští kartě. Tady asi "+(n*2)+" %.",
+  stOdds:(v,bet,pot)=>"<b>"+v+"</b> sází "+money(bet)+" do banku "+money(pot)+".",
+  qOdds:"Vyplatí se dorovnat?",
+  whyOdds:(bet,win,total,need,eq,call)=>"Dáváš <b>"+money(bet)+"</b> a když vyhraješ, bereš <b>"+money(win)+"</b>. "+
+    "Takže potřebuješ vyhrávat aspoň <b>"+bet+" / "+total+" = "+need+" %</b> případů.<br><br>"+
+    "Tvoje skutečná šance proti těmhle kartám je <b>"+eq+" %</b> — spočítáno přesně přes všech 990 možných dvojic turn + river. "+
+    (call?"Vyhráváš častěji, než kolik potřebuješ → <b>dorovnat vydělává</b>."
+         :"Vyhráváš míň často, než kolik potřebuješ → <b>dorovnání by dlouhodobě prodělávalo</b>.")
+ },
+ en:{
+  appName:"At the Table",
+  appTag:"A poker spot trainer. A real table, a real hand, one decision — and the reasoning right after.",
+  start:"Start a round", startSub:t=>t?"10 spots · 30 seconds each":"10 spots · no timer",
+  rowTimer:"Timer", timerOnSub:"30 seconds per spot",
+  timerOffSub:"Off — take as long as you need",
+  timerOffShort:"off", timerTip:"Tap to turn the timer off or on",
+  resume:"Resume round", resumeSub:qn=>(10-qn)+" of 10 left",
+  tabMenu:"Menu", tabDrill:"Train", tabStats:"Stats", tabCharts:"Charts", tabHand:"My hand",
+  rowHand:"My hand", rowHandSub:"Pick two cards and see what to do with them",
+  handTitle:"My hand", handSub:"Pick a suit, then a rank. Once both cards are in, I'll tell you what to do with them.",
+  pickSuit:"1 · suit", pickRank:"2 · rank", slotEmpty:"empty", tapClear:"Tap a card to clear it and pick another.", clearAll:"New hand",
+  vPremium:"Premium hand", vStrong:"Strong hand", vSolid:"Solid hand",
+  vLate:"Late position only", vTrash:"Trash",
+  vDesc:{premium:"This is the top of the deck. Play it from anywhere and raise.",
+         strong:"A good hand — it opens from every position.",
+         solid:"Playable, but not from everywhere — fold it from the earliest seat.",
+         late:"A weaker hand. Only worth opening when few players are left behind you.",
+         trash:"Not worth playing from any position. Fold it."},
+  vEq:(e,r)=>"It beats a single random hand <b>"+e+" %</b> of the time — <b>ranked "+r+" of 169</b>.",
+  vPosLabel:"Where it opens (everyone before you folded)",
+  vNowhere:"From no position.",
+  vFacing:"When someone raised before you",
+  vOutcomes:"What it becomes by the river",
+  aRaiseS:"3-bet", aCallS:"call", aFoldS:"fold",
+  vTrashNote:"Notice that it makes a pair or two pair almost as often as the strong hands do. The difference is that <b>a pair of threes loses and a pair of aces wins</b> — what matters isn't which hand you make, but whether it's the best one at the table.",
+  vPairNote:"Pairs look modest, but their value is that they sometimes make trips — and that is almost impossible for anyone to read.",
+  cellHint:"Tap any square in the chart to see what that hand does.",
+  cellInfo:(code,act,eq,opens)=>"<b>"+code+"</b> — "+act+". It beats a random hand <b>"+eq+" %</b> of the time."+
+    (opens?"<br>Opens from: <b>"+opens+"</b>.":""),
+  gridTop:"↑ above the diagonal = suited",
+  gridBot:"below = offsuit ↓",
+  sumHands:n=>n+" "+(n===1?"hand":"hands"),
+  qAnswered:"answered", qAcc:"accuracy", qStreak:"best streak",
+  glossTitle:"Glossary",
+  glossSub:"What all those abbreviations and terms actually mean.",
+  rowGloss:"Glossary", rowGlossSub:"UTG, 3-bet, equity — what they mean",
+  posHint:(p,full)=>"Your position: <b>"+p+"</b> — "+full+".",
+  gloss:[
+   {h:"Where you sit",items:[
+    ["UTG","under the gun","You're <b>first to act</b>. You decide before anyone else and have no idea what they'll do — which is why only the very best hands are played from here."],
+    ["HJ","hijack","Second to act. One fewer player ahead of you, so you can afford a few more hands."],
+    ["CO","cutoff","The seat right before the button. A good spot — only three players act after you."],
+    ["BTN","button","The best seat at the table, marked by the yellow <b>D</b> chip. On every later street you act last, so you see what everyone else did first."],
+    ["SB","small blind","A forced bet you post before the cards are even dealt."],
+    ["BB","big blind","The second forced bet, usually twice the small blind. You act first after the flop, which is a disadvantage."],
+    ["In position","IP","After the flop you act after your opponent. You see more, so you decide better."],
+    ["Out of position","OOP","You act first and don't know what they'll do. That's why you play tighter from here."]
+   ]},
+   {h:"How a hand unfolds",items:[
+    ["Preflop","","You only have your two cards; nothing is on the table yet."],
+    ["Flop","","The dealer turns over <b>three</b> community cards at once."],
+    ["Turn","","The fourth community card. Only one more to come after it."],
+    ["River","","The fifth and final community card. Nothing more is coming."],
+    ["Showdown","","Everyone still in turns their cards over. Best hand takes the pot."],
+    ["Street","","One of those rounds — preflop, flop, turn or river. The stats show which street costs you most."]
+   ]},
+   {h:"What you can do",items:[
+    ["Fold","","Throw your cards away and give up the hand. You lose what you've already put in, nothing more."],
+    ["Call","","Match the current bet and stay in the hand."],
+    ["Check","","Bet nothing but stay in. Only possible if nobody has bet before you."],
+    ["Raise / open","","Bet more than the current bet. Anyone who wants to continue has to match it."],
+    ["3-bet","","A raise over someone's opening raise. The big blind counts as the first bet and the open as the second — so this is the <b>third</b>."],
+    ["4-bet","","A raise over a 3-bet. Only very strong hands get this far."],
+    ["Bluff","","Betting with a weak hand, hoping they fold."],
+    ["Semi-bluff","","Betting with a hand that's behind but has a draw. You can win two ways: they fold, or you hit."],
+    ["Value bet","","Betting with a strong hand precisely because you want weaker hands to call and pay you."],
+    ["Limp","","Just calling the big blind instead of raising. It looks cheap, but it invites everyone into the pot — not recommended for beginners."],
+    ["Continuation bet","c-bet","A bet on the flop by whoever raised preflop. It continues the story of \"I have a strong hand\", whether the flop helped or not."],
+    ["Steal","","Opening from a late position mainly so the blinds fold and you take the pot without a fight."]
+   ]},
+   {h:"Playing styles",items:[
+    ["Tight","","Playing few hands, but good ones, and folding the rest. For a beginner this is the right road — most mistakes come from playing too many hands."],
+    ["Loose","","Playing weaker hands too. You see more flops, but you end up holding the second-best hand far more often, and that costs money."],
+    ["Aggressive","","Betting and raising rather than just calling. Pressure makes opponents fold, so you win pots without needing the best cards."],
+    ["Passive","","Mostly calling and checking. You only win when you genuinely have the best hand, and you miss every pot you could have taken with pressure."],
+    ["TAG","tight-aggressive","Few hands, played hard. The most dependable style for a beginner: you skip the trash and push with what you do play."],
+    ["LAG","loose-aggressive","Many hands, played hard. It can be very strong, but it takes experience — for a beginner it just empties the wallet faster."],
+    ["Nit","rock","An extremely cautious player. They play so few hands that when they finally bet, they almost always have it — spot one and you can steal from them."],
+    ["Fish","","A weak player who plays too many hands and pays off when they should fold. Everyone else's profit comes from players like this."],
+    ["Reg","regular","A regular, experienced player. Hard to make money against — when choosing a table, look for the others instead."]
+   ]},
+   {h:"Money on the table",items:[
+    ["Pot","","All the money in the middle. The winner of the hand takes it."],
+    ["Stack","","How much money you have in front of you. \"100 BB\" means a hundred big blinds."],
+    ["Pot odds","","The ratio between what you must put in and what you can win. It tells you how often you need to win for a call to pay off."],
+    ["6-max","","A six-handed table — what this app trains on."],
+    ["Cash game","","Real money, and chips can be cashed out at any time. The opposite of a tournament."]
+   ]},
+   {h:"Card terms",items:[
+    ["Hand","","Either your two cards or the final five-card combination. Context usually makes it clear."],
+    ["Made hand","","You already have a combination; you don't need to hit anything."],
+    ["Draw","","You have nothing yet, but one right card completes a flush or a straight."],
+    ["Out","","A card that improves you. Nine outs means nine cards in the deck help you."],
+    ["Equity","","How often the hand wins if the hand is played to the end. Given as a percentage."],
+    ["Kicker","","Your highest card outside the combination. It decides ties — aces with a king beat aces with a queen."],
+    ["s / o","suited / offsuit","<b>s</b> = both cards the same suit, <b>o</b> = different suits. Hence <b>AKs</b> and <b>AKo</b>."],
+    ["Range","","Every hand a player would play in a given spot. The earlier the position, the narrower it is."],
+    ["Trash","","A hand not worth playing from any position."],
+    ["Nuts","","The best possible hand on the current board. Nobody can beat you — they can only call or fold."]
+   ]},
+   {h:"Table talk",items:[
+    ["Bad beat","","You lost as a big favourite because the one card that helps your opponent turned up. It's part of the game, however much it stings."],
+    ["Cooler","","Both players had a strong hand and one of them simply had to lose. Unlike a bad beat, there was no way to avoid it."],
+    ["Tilt","","When a run of bad luck gets to you and you start playing angry instead of sensibly. The most expensive mistake in poker — better to leave the table."],
+    ["Variance","","The short-term swings of luck. Even well-played poker loses whole evenings; only thousands of hands settle the result."],
+    ["Bankroll","","The money you've set aside for poker. The rule is to play stakes small enough that one bad session can't sink you."]
+   ]},
+   {h:"Abbreviations in the stats",items:[
+    ["H-SEL","","Hand selection — which cards to play and from where."],
+    ["H-SCN","","Postflop spots — decisions after the flop."],
+    ["THEORY","","Reading hands — what you have and who won."],
+    ["PMATH","","Poker math — outs, pot odds, equity."],
+    ["Single raised pot","SRP","A pot where someone opened and the rest just called. The most common situation."],
+    ["3-bet pot","","A pot where someone re-raised. Bigger, and played more carefully."]
+   ]},
+   {h:"What this app doesn't have",items:[
+    ["Solver","","A program that computes a mathematically unexploitable strategy. This app has none and doesn't pretend to."],
+    ["GTO","game theory optimal","A strategy nobody can profit against long-term. What you get here is <b>conventional beginner advice</b> — it looks similar, but it isn't solver output."]
+   ]}
+  ],
+  rowStats:"Statistics", rowStatsSub:"Where you're solid and where you leak",
+  rowCharts:"Charts", rowChartsSub:"What to play from each position and against what",
+  menuNote:'<b>What is computed here and what is not.</b> Hand strength, outs and equity are computed — the pot-odds spots exactly, across all 990 possible run-outs. The opening charts and the "bet with a strong hand or a big draw" rule are <b>conventional beginner advice, not solver output</b>. That is why you will not find mixed strategies like "raise 35%" or a choice of bet sizing here.',
+  companions:'Two companions: <a href="https://claude.ai/artifact/5MSNFss5X2nTamgcXTCXdM">169 starting hands</a> and <a href="https://claude.ai/artifact/6cHnQkoGFnbkZYec86VhQ1">Poker drills</a> (both in Czech).',
+  stakes:(sb,bb,q,n)=>"6-max cash · $"+sb+"/$"+bb+" · 100 BB stacks · spot "+q+"/"+n,
+  potLabel:"Pot:", qDefault:"What's your move?",
+  vOk:"That's right", vNo:"Not quite", vTime:"Time's up",
+  next:"Next", showResult:"See result", nextRound:"Next round",
+  roundDone:(ok,n)=>"Round complete — "+ok+" of "+n,
+  roundMsg:p=>p>=90?"Almost clean. Check the stats to see if there's anything left to sharpen."
+            :p>=70?"Solid. The stats will show which area is dragging you down."
+            :"Rough so far, and that's fine — read the explanation on every miss, that's where the value is.",
+  freqNote:"Percentages = how much of all dealt hands the chart plays this way.",
+  villainShowed:p=>"Opponent ("+p+") turned over:",
+  villainHolds:p=>"Opponent ("+p+") holds:",
+  peekNote:'<b>Practice setup.</b> You are shown the opponent\'s cards on purpose — without them the <b>exact</b> chance could not be worked out, and that is the whole point here. At a real table you never see them; there you have to estimate what they might hold.',
+  aFold:"Fold", aCall:a=>"Call "+money(a), aRaiseTo:a=>"Raise to "+money(a),
+  a3bet:a=>"3-bet to "+money(a), a4bet:a=>"4-bet to "+money(a),
+  aCheck:"Check", aBet:a=>"Bet "+money(a),
+  aMe:"Me", aOpp:"Opponent", aSplit:"Split pot",
+  outsUnit:v=>v+" "+(v===1?"card":"cards"),
+  statsTitle:"Your statistics",
+  statsSub:"How often you get the decision right in each area.",
+  statsEmpty:"Nothing here yet.<br>Answer a few spots and this fills up.",
+  secStreets:"Street performance", secPos:"Position", secPot:"Pot type", secTotal:"Overall", secWeak:"Biggest leak",
+  lblIP:"In position", lblOOP:"Out of position", lblSRP:"Single raised", lblP3:"3-bet pot",
+  lblAcc:"Accuracy", lblBest:"Longest streak",
+  ofDecisions:(a,b)=>a+" of "+b+" decisions",
+  streakNow:(s,r)=>"current streak: "+s+" · rounds played: "+r,
+  weakMsg:(name,hint,a,n)=>hint+" You're at "+a+" % over "+plur(n,["otázky","otázek","otázek"],["question","questions"])+" — lowest of all areas.",
+  statsNote:"<b>How this is calculated.</b> Every number is simply the share of correct answers in that area — no hidden scoring. The street is whichever point of the hand you were deciding at.",
+  chartsTitle:"Charts", chartsSub:"What to play in each spot. Tap a spot to see the full chart.",
+  lgRaise:"Raise", lgCall:"Call", lgFold:"Fold", lgMine:"your hand",
+  chartOpen:p=>"Opening from "+p,
+  chartsNote:'<b>Where these come from.</b> Conventional beginner charts, not solver output — hence one action per hand, no "raise 30%, call 70%". What has been verified is that the frequencies are sane, that no hand appears under two actions at once, and that they fit together: play against a 3-bet is tighter than against an open, and blind defence is the widest. Real GTO ranges look similar, not identical.',
+  streets:{preflop:"Preflop",flop:"Flop",turn:"Turn",river:"River"},
+  cats:{HSEL:"Hand selection",HSCN:"Postflop spots",THEORY:"Reading hands",PMATH:"Poker math"},
+  catHints:{HSEL:"Which hands to play from where, and against what.",HSCN:"Postflop decisions — bet or check.",
+            THEORY:"Reading what you have and who won.",PMATH:"Outs, pot odds, equity."},
+  posFull:{UTG:"first to act",HJ:"second to act",CO:"cutoff, one before the button",
+           BTN:"the button — you act last",SB:"small blind",BB:"big blind"},
+  spotLabel:{IP_EARLY:"in position against an early open",IP_LATE:"in position against a late open",
+             BB_DEFEND:"defending the big blind",VS3_IP:"facing a 3-bet, in position",VS3_OOP:"facing a 3-bet, out of position"},
+  spotShort:{IP_EARLY:"vs early",IP_LATE:"vs late",BB_DEFEND:"BB defence",VS3_IP:"vs 3-bet IP",VS3_OOP:"vs 3-bet OOP"},
+  tagRaised:"raised", tag3bet:"3-bet", tagBets:"bets",
+  stRFI:p=>p==='UTG'?"You're <b>first to act</b>.":"Everyone before you folded. You're on the <b>"+p+"</b>.",
+  whyRFI:(p,full,w,code,inR)=>"From <b>"+p+"</b> ("+full+") you open roughly the strongest <b>"+w+" %</b> of hands. "+
+    "<span class='mono'>"+code+"</span> <b>"+(inR?"is":"is not")+"</b> in that group. "+
+    "The earlier you act, the fewer hands you can afford — more players are still behind you, ready to raise.",
+  stVsRaise:(r,o,h,bb)=>"<b>"+r+"</b> raised to "+money(o)+". Everyone else folded. You're in the <b>"+h+"</b>"+
+    (bb?", with your big blind already in the pot":"")+".",
+  whyVsRaise:(label,code,act,isBB,early)=>"Spot: <b>"+label+"</b>. With <span class='mono'>"+code+"</span> you "+
+    (act==='raise'?"<b>3-bet</b> — strong enough to play for the pot yourself"
+     :act==='call'?"<b>call</b> — too weak to 3-bet, but well worth playing":"<b>fold</b>")+". "+
+    (isBB?"You defend the big blind very wide — part of your money is already in, so you're paying less than anyone else to continue."
+      :"The raise came from "+(early?"an early position, so their range is narrow and strong — which is why you play back tighter"
+                                    :"a late position, so their range is wide — which is why you can play far more hands")+"."),
+  stVs3bet:(o,h,v,t)=>"You raised to "+money(o)+" from <b>"+h+"</b> and <b>"+v+"</b> 3-bet to "+money(t)+". Everyone else folded.",
+  whyVs3bet:(label,code,act,ip)=>"Spot: <b>"+label+"</b>. A 3-bet almost always means a strong hand, so you play "+
+    "<b>much tighter</b> here than when opening. With <span class='mono'>"+code+"</span> you "+
+    (act==='raise'?"<b>4-bet</b>":act==='call'?"<b>call</b>":"<b>fold</b>")+"."+
+    (ip?" You're in position, so you can afford to call a little wider — after the flop you act after them."
+       :" You're out of position: you'll act first on every street, which is a real disadvantage. So you call less."),
+  stPost:(v,ip,street)=>"It's heads-up and <b>"+v+"</b> checked. You're "+(ip?"<b>in position</b>":"<b>out of position</b>")+
+    " and it's on you on the "+street+".",
+  whyPost:(made,eq,exact,tot,value,dr,th)=>"You have <b>"+made+"</b> and you beat a random hand <b>"+eq+" %</b> of the time"+
+    (exact?" (exactly — all "+tot+" possible opponent hands were checked)":" (12,000-hand simulation)")+".<br><br>"+
+    (value?"That's a strong made hand (the line is "+th+" %). <b>Bet for value</b> — you want worse hands paying you off."
+     :dr.big?"Not enough to bet for value, but you hold <b>"+(dr.flush?"a flush draw":"an open-ended straight draw")+
+             "</b>. <b>Bet as a semi-bluff</b> — you can win two ways: they fold now, or you hit."
+     :"Not enough for value and no big draw"+(dr.gut?" (a gutshot is too thin to count)":"")+
+      ". <b>Check</b> — don't build a pot with a hand that's usually behind.")+
+    "<br><br><span class='subtle'>The rule: bet with a strong made hand or a big draw, otherwise check. Beginner guidance, not GTO.</span>",
+  stRead:"You got to the end. All five community cards are out.",
+  qRead:"What's your best hand?",
+  whyRead:(d,cards)=>"The best five of your seven cards give you <b>"+d+"</b> — "+cards+
+    ". The other two are simply discarded; in Hold'em you always take the best possible five.",
+  stShow:v=>"Showdown — <b>"+v+"</b> turned their cards over.",
+  qShow:"Who won the pot?",
+  whyShow:(a,b,correct,same)=>"You have <b>"+a+"</b>, your opponent <b>"+b+"</b>. "+
+    (correct==='split'?"Exactly equal hands — the pot is split. Usually this means the best five cards are sitting on the board itself."
+     :same?"Same category, so the higher one wins — and if those tie, the kicker (the next highest card) decides."
+     :(correct==='me'?"Yours":"Theirs")+" ranks higher."),
+  stOuts:"You haven't made a hand on the flop yet, but you can still improve.",
+  qOuts:"How many cards on the turn give you a better hand?",
+  whyOuts:(made,n,list)=>"Right now you have <b>"+made+"</b>. Of the 47 cards left, <b>"+n+"</b> help you — these are your <b>outs</b>:"+
+    "<br><span class='mono' style='font-size:.82rem'>"+list+"</span>"+
+    "<br><br>Quick estimate at the table: <b>outs × 2</b> ≈ your % chance of hitting on the next card. That's about "+(n*2)+" % here.",
+  stOdds:(v,bet,pot)=>"<b>"+v+"</b> bets "+money(bet)+" into a "+money(pot)+" pot.",
+  qOdds:"Is calling profitable?",
+  whyOdds:(bet,win,total,need,eq,call)=>"You put in <b>"+money(bet)+"</b> and if you win you collect <b>"+money(win)+"</b>. "+
+    "So you need to win at least <b>"+bet+" / "+total+" = "+need+" %</b> of the time.<br><br>"+
+    "Your real chance against these exact cards is <b>"+eq+" %</b> — computed exactly across all 990 possible turn-and-river pairs. "+
+    (call?"You win more often than you need to → <b>calling makes money</b>."
+         :"You win less often than you need to → <b>calling would lose money long-term</b>.")
+ }
+};
+const T=()=>TX[LANG];
+</script>
+
+<script>
+/* ============================ tabulky ============================ */
+const CHARTS = {"rfi":{"UTG":["55","66","77","88","99","TT","JJ","QQ","KK","AA","ATs","AJs","AQs","AKs","A2s","A3s","A4s","A5s","KTs","KJs","KQs","QTs","QJs","JTs","T9s","98s","87s","AJo","AQo","AKo","KJo","KQo","QJo"],"HJ":["22","33","44","55","66","77","88","99","TT","JJ","QQ","KK","AA","ATs","AJs","AQs","AKs","A2s","A3s","A4s","A5s","K9s","KTs","KJs","KQs","Q9s","QTs","QJs","J9s","JTs","T8s","T9s","98s","87s","76s","ATo","AJo","AQo","AKo","KTo","KJo","KQo","QJo"],"CO":["22","33","44","55","66","77","88","99","TT","JJ","QQ","KK","AA","A2s","A3s","A4s","A5s","A6s","A7s","A8s","A9s","ATs","AJs","AQs","AKs","K5s","K6s","K7s","K8s","K9s","KTs","KJs","KQs","Q8s","Q9s","QTs","QJs","J8s","J9s","JTs","T7s","T8s","T9s","97s","98s","86s","87s","76s","65s","54s","A8o","A9o","ATo","AJo","AQo","AKo","K9o","KTo","KJo","KQo","QTo","QJo","JTo"],"BTN":["22","33","44","55","66","77","88","99","TT","JJ","QQ","KK","AA","A2s","A3s","A4s","A5s","A6s","A7s","A8s","A9s","ATs","AJs","AQs","AKs","K2s","K3s","K4s","K5s","K6s","K7s","K8s","K9s","KTs","KJs","KQs","Q2s","Q3s","Q4s","Q5s","Q6s","Q7s","Q8s","Q9s","QTs","QJs","J6s","J7s","J8s","J9s","JTs","T6s","T7s","T8s","T9s","96s","97s","98s","85s","86s","87s","74s","75s","76s","63s","64s","65s","53s","54s","43s","A2o","A3o","A4o","A5o","A6o","A7o","A8o","A9o","ATo","AJo","AQo","AKo","K5o","K6o","K7o","K8o","K9o","KTo","KJo","KQo","Q8o","Q9o","QTo","QJo","J8o","J9o","JTo","T8o","T9o"],"SB":["22","33","44","55","66","77","88","99","TT","JJ","QQ","KK","AA","A2s","A3s","A4s","A5s","A6s","A7s","A8s","A9s","ATs","AJs","AQs","AKs","K2s","K3s","K4s","K5s","K6s","K7s","K8s","K9s","KTs","KJs","KQs","Q5s","Q6s","Q7s","Q8s","Q9s","QTs","QJs","J7s","J8s","J9s","JTs","T6s","T7s","T8s","T9s","96s","97s","98s","85s","86s","87s","75s","76s","64s","65s","53s","54s","A2o","A3o","A4o","A5o","A6o","A7o","A8o","A9o","ATo","AJo","AQo","AKo","K7o","K8o","K9o","KTo","KJo","KQo","Q9o","QTo","QJo","J9o","JTo","T9o"]},"spots":{"IP_EARLY":{"raise":["QQ","KK","AA","AKs","AKo","AQs","A5s","A4s"],"call":["AJs","ATs","KQs","KJs","QJs","JTs","T9s","98s","87s","76s","AQo"],"pr":3.5,"pc":3.9,"pf":92.6,"label":"v pozici proti ranému otevření"},"IP_LATE":{"raise":["TT","JJ","QQ","KK","AA","AQs","AKs","AJs","AKo","AQo","A5s","A4s","A3s","KJs"],"call":["ATs","A9s","A8s","KQs","KTs","QJs","QTs","JTs","J9s","T9s","98s","87s","76s","65s","AJo","KQo"],"pr":6.2,"pc":6,"pf":87.8,"label":"v pozici proti pozdnímu otevření"},"BB_DEFEND":{"raise":["JJ","QQ","KK","AA","AQs","AKs","AKo","A5s","A4s","A3s","A2s"],"call":["A6s","A7s","A8s","A9s","ATs","K2s","K3s","K4s","K5s","K6s","K7s","K8s","K9s","KTs","KJs","KQs","Q6s","Q7s","Q8s","Q9s","QTs","QJs","J7s","J8s","J9s","JTs","T7s","T8s","T9s","96s","97s","98s","85s","86s","87s","75s","76s","64s","65s","54s","A7o","A8o","A9o","ATo","AJo","K9o","KTo","KJo","KQo","QTo","QJo","JTo","T9o","AQo"],"pr":4.5,"pc":24.7,"pf":70.7,"label":"obrana velkého blindu"},"VS3_IP":{"raise":["QQ","KK","AA","AKs","AKo","A5s"],"call":["AQs","AJs","ATs","KQs","QJs","JTs","AQo"],"pr":2.9,"pc":2.7,"pf":94.4,"label":"proti 3-betu, v pozici"},"VS3_OOP":{"raise":["QQ","KK","AA","AKs","AKo"],"call":["JJ","TT","AQs","AJs","KQs"],"pr":2.6,"pc":1.8,"pf":95.6,"label":"proti 3-betu, mimo pozici"}}};
+const RIVER = {"AA":[0.0,36.0,39.7,11.8,1.2,2.0,8.5,0.8,0.0,0.0],"AKs":[18.2,43.3,22.1,4.3,3.1,6.5,2.2,0.1,0.0,0.1],"AKo":[19.7,45.6,22.7,4.4,3.3,2.0,2.2,0.1,0.0,0.0],"AQs":[18.0,43.1,22.1,4.3,3.4,6.5,2.2,0.1,0.0,0.1],"AQo":[19.5,45.4,22.7,4.4,3.7,2.0,2.2,0.1,0.0,0.0],"AJs":[17.8,43.0,22.1,4.3,3.8,6.5,2.2,0.1,0.0,0.1],"AJo":[19.3,45.3,22.7,4.4,4.1,2.0,2.2,0.1,0.0,0.0],"ATs":[17.6,42.9,22.1,4.3,4.1,6.5,2.2,0.1,0.0,0.1],"ATo":[19.0,45.1,22.7,4.4,4.4,2.0,2.2,0.1,0.0,0.0],"A9s":[18.3,43.7,22.3,4.4,2.5,6.6,2.2,0.1,0.0,0.0],"A9o":[19.8,46.0,22.8,4.5,2.7,2.0,2.2,0.1,0.0,0.0],"A8s":[18.1,43.5,22.3,4.4,2.8,6.6,2.2,0.1,0.0,0.0],"A8o":[19.5,45.9,22.8,4.5,3.0,2.0,2.2,0.1,0.0,0.0],"A7s":[18.1,43.5,22.3,4.4,2.8,6.6,2.2,0.1,0.0,0.0],"A7o":[19.5,45.9,22.8,4.5,3.0,2.0,2.2,0.1,0.0,0.0],"A6s":[18.3,43.7,22.3,4.4,2.5,6.6,2.2,0.1,0.0,0.0],"A6o":[19.8,46.0,22.8,4.5,2.7,2.0,2.2,0.1,0.0,0.0],"A5s":[17.6,42.9,22.1,4.3,4.1,6.5,2.2,0.1,0.1,0.0],"A5o":[19.0,45.1,22.7,4.4,4.4,2.0,2.2,0.1,0.0,0.0],"A4s":[17.8,43.0,22.1,4.3,3.8,6.5,2.2,0.1,0.1,0.0],"A4o":[19.3,45.3,22.7,4.4,4.1,2.0,2.2,0.1,0.0,0.0],"A3s":[18.0,43.1,22.1,4.3,3.4,6.5,2.2,0.1,0.1,0.0],"A3o":[19.5,45.4,22.7,4.4,3.7,2.0,2.2,0.1,0.0,0.0],"A2s":[18.2,43.3,22.1,4.3,3.1,6.5,2.2,0.1,0.1,0.0],"A2o":[19.7,45.6,22.7,4.4,3.3,2.0,2.2,0.1,0.0,0.0],"KK":[0.0,36.0,39.7,11.8,1.2,2.0,8.5,0.8,0.0,0.0],"KQs":[17.6,42.5,22.0,4.3,4.7,6.5,2.2,0.1,0.1,0.1],"KQo":[19.0,44.7,22.5,4.4,5.0,2.0,2.2,0.1,0.0,0.0],"KJs":[17.4,42.3,22.0,4.3,5.1,6.5,2.2,0.1,0.1,0.1],"KJo":[18.8,44.6,22.5,4.4,5.4,2.0,2.2,0.1,0.0,0.0],"KTs":[17.1,42.2,22.0,4.3,5.4,6.5,2.2,0.1,0.1,0.1],"KTo":[18.6,44.4,22.5,4.4,5.8,2.0,2.2,0.1,0.0,0.0],"K9s":[17.8,43.0,22.1,4.3,3.8,6.5,2.2,0.1,0.1,0.0],"K9o":[19.3,45.3,22.7,4.4,4.0,2.0,2.2,0.1,0.0,0.0],"K8s":[18.3,43.7,22.3,4.4,2.5,6.6,2.2,0.1,0.0,0.0],"K8o":[19.8,46.0,22.8,4.5,2.7,2.0,2.2,0.1,0.0,0.0],"K7s":[18.1,43.5,22.3,4.4,2.8,6.6,2.2,0.1,0.0,0.0],"K7o":[19.5,45.9,22.8,4.5,3.0,2.0,2.2,0.1,0.0,0.0],"K6s":[18.1,43.5,22.3,4.4,2.8,6.6,2.2,0.1,0.0,0.0],"K6o":[19.5,45.9,22.8,4.5,3.0,2.0,2.2,0.1,0.0,0.0],"K5s":[18.0,43.5,22.3,4.4,2.9,6.6,2.2,0.1,0.0,0.0],"K5o":[19.5,45.9,22.8,4.5,3.1,2.0,2.2,0.1,0.0,0.0],"K4s":[18.2,43.7,22.3,4.4,2.5,6.6,2.2,0.1,0.0,0.0],"K4o":[19.7,46.0,22.8,4.5,2.7,2.0,2.2,0.1,0.0,0.0],"K3s":[18.4,43.8,22.3,4.4,2.2,6.6,2.2,0.1,0.0,0.0],"K3o":[20.0,46.1,22.8,4.5,2.3,2.0,2.2,0.1,0.0,0.0],"K2s":[18.7,43.9,22.3,4.4,1.8,6.6,2.2,0.1,0.0,0.0],"K2o":[20.2,46.3,22.8,4.5,2.0,2.0,2.2,0.1,0.0,0.0],"QQ":[0.0,35.7,39.6,11.7,1.6,2.0,8.5,0.8,0.0,0.0],"QJs":[16.7,41.5,21.9,4.3,6.7,6.4,2.2,0.1,0.1,0.1],"QJo":[18.1,43.7,22.4,4.4,7.1,2.0,2.2,0.1,0.0,0.0],"QTs":[16.5,41.4,21.9,4.3,7.0,6.4,2.2,0.1,0.1,0.1],"QTo":[17.8,43.6,22.4,4.4,7.5,2.0,2.2,0.1,0.0,0.0],"Q9s":[17.2,42.2,22.0,4.3,5.4,6.5,2.2,0.1,0.1,0.0],"Q9o":[18.6,44.4,22.5,4.4,5.7,2.0,2.2,0.1,0.0,0.0],"Q8s":[17.6,42.9,22.1,4.3,4.1,6.5,2.2,0.1,0.1,0.0],"Q8o":[19.1,45.1,22.7,4.4,4.4,2.0,2.2,0.1,0.0,0.0],"Q7s":[18.1,43.5,22.3,4.4,2.8,6.6,2.2,0.1,0.0,0.0],"Q7o":[19.5,45.9,22.8,4.5,3.0,2.0,2.2,0.1,0.0,0.0],"Q6s":[17.8,43.4,22.3,4.4,3.2,6.6,2.2,0.1,0.0,0.0],"Q6o":[19.3,45.7,22.8,4.5,3.4,2.0,2.2,0.1,0.0,0.0],"Q5s":[17.8,43.4,22.3,4.4,3.2,6.6,2.2,0.1,0.0,0.0],"Q5o":[19.3,45.7,22.8,4.5,3.5,2.0,2.2,0.1,0.0,0.0],"Q4s":[18.0,43.5,22.3,4.4,2.9,6.6,2.2,0.1,0.0,0.0],"Q4o":[19.5,45.9,22.8,4.5,3.1,2.0,2.2,0.1,0.0,0.0],"Q3s":[18.2,43.7,22.3,4.4,2.5,6.6,2.2,0.1,0.0,0.0],"Q3o":[19.7,46.0,22.8,4.5,2.7,2.0,2.2,0.1,0.0,0.0],"Q2s":[18.4,43.8,22.3,4.4,2.2,6.6,2.2,0.1,0.0,0.0],"Q2o":[20.0,46.1,22.8,4.5,2.3,2.0,2.2,0.1,0.0,0.0],"JJ":[0.0,35.4,39.5,11.7,2.0,2.0,8.5,0.8,0.0,0.0],"JTs":[15.8,40.6,21.8,4.3,8.6,6.4,2.2,0.1,0.1,0.1],"JTo":[17.1,42.7,22.3,4.3,9.2,2.0,2.2,0.1,0.0,0.0],"J9s":[16.5,41.4,21.9,4.3,7.0,6.4,2.2,0.1,0.2,0.0],"J9o":[17.9,43.6,22.4,4.4,7.4,2.0,2.2,0.1,0.0,0.0],"J8s":[17.0,42.1,22.0,4.3,5.7,6.5,2.2,0.1,0.1,0.0],"J8o":[18.4,44.3,22.5,4.4,6.1,2.0,2.2,0.1,0.0,0.0],"J7s":[17.4,42.7,22.1,4.3,4.5,6.5,2.2,0.1,0.1,0.0],"J7o":[18.8,45.0,22.7,4.4,4.8,2.0,2.2,0.1,0.0,0.0],"J6s":[17.8,43.4,22.3,4.4,3.2,6.6,2.2,0.1,0.0,0.0],"J6o":[19.3,45.7,22.8,4.5,3.4,2.0,2.2,0.1,0.0,0.0],"J5s":[17.6,43.3,22.3,4.4,3.6,6.6,2.2,0.1,0.0,0.0],"J5o":[19.0,45.6,22.8,4.5,3.8,2.0,2.2,0.1,0.0,0.0],"J4s":[17.8,43.4,22.3,4.4,3.2,6.6,2.2,0.1,0.0,0.0],"J4o":[19.3,45.7,22.8,4.5,3.5,2.0,2.2,0.1,0.0,0.0],"J3s":[18.0,43.5,22.3,4.4,2.9,6.6,2.2,0.1,0.0,0.0],"J3o":[19.5,45.9,22.8,4.5,3.1,2.0,2.2,0.1,0.0,0.0],"J2s":[18.2,43.7,22.3,4.4,2.5,6.6,2.2,0.1,0.0,0.0],"J2o":[19.7,46.0,22.8,4.5,2.7,2.0,2.2,0.1,0.0,0.0],"TT":[0.0,35.1,39.5,11.7,2.3,1.9,8.5,0.8,0.0,0.0],"T9s":[15.9,40.6,21.8,4.3,8.6,6.4,2.2,0.1,0.2,0.0],"T9o":[17.2,42.7,22.3,4.3,9.1,1.9,2.2,0.1,0.0,0.0],"T8s":[16.3,41.2,21.9,4.3,7.3,6.4,2.2,0.1,0.2,0.0],"T8o":[17.7,43.4,22.4,4.4,7.8,1.9,2.2,0.1,0.0,0.0],"T7s":[16.8,41.9,22.0,4.3,6.1,6.5,2.2,0.1,0.1,0.0],"T7o":[18.1,44.2,22.5,4.4,6.5,1.9,2.2,0.1,0.0,0.0],"T6s":[17.2,42.6,22.1,4.3,4.8,6.5,2.2,0.1,0.1,0.0],"T6o":[18.6,44.9,22.7,4.4,5.1,1.9,2.2,0.1,0.0,0.0],"T5s":[17.6,43.3,22.3,4.4,3.6,6.6,2.2,0.1,0.0,0.0],"T5o":[19.0,45.6,22.8,4.5,3.8,1.9,2.2,0.1,0.0,0.0],"T4s":[17.6,43.3,22.3,4.4,3.6,6.6,2.2,0.1,0.0,0.0],"T4o":[19.0,45.6,22.8,4.5,3.8,2.0,2.2,0.1,0.0,0.0],"T3s":[17.8,43.4,22.3,4.4,3.2,6.6,2.2,0.1,0.0,0.0],"T3o":[19.3,45.7,22.8,4.5,3.5,2.0,2.2,0.1,0.0,0.0],"T2s":[18.0,43.5,22.3,4.4,2.9,6.6,2.2,0.1,0.0,0.0],"T2o":[19.5,45.9,22.8,4.5,3.1,2.0,2.2,0.1,0.0,0.0],"99":[0.0,35.2,39.5,11.7,2.3,1.9,8.5,0.8,0.0,0.0],"98s":[15.9,40.6,21.8,4.3,8.5,6.4,2.2,0.1,0.2,0.0],"98o":[17.2,42.7,22.3,4.3,9.1,1.9,2.2,0.1,0.0,0.0],"97s":[16.4,41.2,21.9,4.3,7.3,6.4,2.2,0.1,0.2,0.0],"97o":[17.7,43.4,22.4,4.4,7.8,1.9,2.2,0.1,0.0,0.0],"96s":[16.8,41.9,22.0,4.3,6.0,6.5,2.2,0.1,0.1,0.0],"96o":[18.2,44.2,22.5,4.4,6.4,1.9,2.2,0.1,0.0,0.0],"95s":[17.2,42.6,22.1,4.3,4.8,6.5,2.2,0.1,0.1,0.0],"95o":[18.6,44.9,22.7,4.4,5.1,1.9,2.2,0.1,0.0,0.0],"94s":[17.8,43.4,22.3,4.4,3.2,6.6,2.2,0.1,0.0,0.0],"94o":[19.3,45.7,22.8,4.5,3.4,2.0,2.2,0.1,0.0,0.0],"93s":[17.8,43.4,22.3,4.4,3.2,6.6,2.2,0.1,0.0,0.0],"93o":[19.3,45.7,22.8,4.5,3.4,2.0,2.2,0.1,0.0,0.0],"92s":[18.1,43.5,22.3,4.4,2.8,6.6,2.2,0.1,0.0,0.0],"92o":[19.5,45.9,22.8,4.5,3.0,2.0,2.2,0.1,0.0,0.0],"88":[0.0,35.2,39.5,11.7,2.3,1.9,8.5,0.8,0.0,0.0],"87s":[15.9,40.6,21.8,4.3,8.5,6.4,2.2,0.1,0.2,0.0],"87o":[17.2,42.7,22.3,4.3,9.1,1.9,2.2,0.1,0.0,0.0],"86s":[16.4,41.2,21.9,4.3,7.3,6.4,2.2,0.1,0.2,0.0],"86o":[17.7,43.4,22.4,4.4,7.8,1.9,2.2,0.1,0.0,0.0],"85s":[16.8,41.9,22.0,4.3,6.1,6.5,2.2,0.1,0.1,0.0],"85o":[18.1,44.2,22.5,4.4,6.5,1.9,2.2,0.1,0.0,0.0],"84s":[17.4,42.7,22.1,4.3,4.5,6.5,2.2,0.1,0.1,0.0],"84o":[18.8,45.0,22.7,4.4,4.8,2.0,2.2,0.1,0.0,0.0],"83s":[18.1,43.5,22.3,4.4,2.8,6.6,2.2,0.1,0.0,0.0],"83o":[19.5,45.9,22.8,4.5,3.0,2.0,2.2,0.1,0.0,0.0],"82s":[18.1,43.5,22.3,4.4,2.8,6.6,2.2,0.1,0.0,0.0],"82o":[19.5,45.9,22.8,4.5,3.0,2.0,2.2,0.1,0.0,0.0],"77":[0.0,35.2,39.5,11.7,2.3,1.9,8.5,0.8,0.0,0.0],"76s":[15.9,40.6,21.8,4.3,8.5,6.4,2.2,0.1,0.2,0.0],"76o":[17.2,42.7,22.3,4.3,9.1,1.9,2.2,0.1,0.0,0.0],"75s":[16.3,41.2,21.9,4.3,7.3,6.4,2.2,0.1,0.2,0.0],"75o":[17.7,43.4,22.4,4.4,7.8,1.9,2.2,0.1,0.0,0.0],"74s":[17.0,42.1,22.0,4.3,5.7,6.5,2.2,0.1,0.1,0.0],"74o":[18.4,44.3,22.5,4.4,6.1,2.0,2.2,0.1,0.0,0.0],"73s":[17.6,42.9,22.1,4.3,4.1,6.5,2.2,0.1,0.1,0.0],"73o":[19.1,45.1,22.7,4.4,4.4,2.0,2.2,0.1,0.0,0.0],"72s":[18.3,43.7,22.3,4.4,2.5,6.6,2.2,0.1,0.0,0.0],"72o":[19.8,46.0,22.8,4.5,2.7,2.0,2.2,0.1,0.0,0.0],"66":[0.0,35.2,39.5,11.7,2.3,1.9,8.5,0.8,0.0,0.0],"65s":[15.9,40.6,21.8,4.3,8.6,6.4,2.2,0.1,0.2,0.0],"65o":[17.2,42.7,22.3,4.3,9.1,1.9,2.2,0.1,0.0,0.0],"64s":[16.5,41.4,21.9,4.3,7.0,6.4,2.2,0.1,0.2,0.0],"64o":[17.9,43.6,22.4,4.4,7.4,2.0,2.2,0.1,0.0,0.0],"63s":[17.2,42.2,22.0,4.3,5.4,6.5,2.2,0.1,0.1,0.0],"63o":[18.6,44.4,22.5,4.4,5.7,2.0,2.2,0.1,0.0,0.0],"62s":[17.8,43.0,22.1,4.3,3.8,6.5,2.2,0.1,0.1,0.0],"62o":[19.3,45.3,22.7,4.4,4.0,2.0,2.2,0.1,0.0,0.0],"55":[0.0,35.1,39.5,11.7,2.3,1.9,8.5,0.8,0.0,0.0],"54s":[15.8,40.6,21.8,4.3,8.6,6.4,2.2,0.1,0.2,0.0],"54o":[17.1,42.7,22.3,4.3,9.2,2.0,2.2,0.1,0.0,0.0],"53s":[16.5,41.4,21.9,4.3,7.0,6.4,2.2,0.1,0.2,0.0],"53o":[17.8,43.6,22.4,4.4,7.5,2.0,2.2,0.1,0.0,0.0],"52s":[17.1,42.2,22.0,4.3,5.4,6.5,2.2,0.1,0.1,0.0],"52o":[18.6,44.4,22.5,4.4,5.8,2.0,2.2,0.1,0.0,0.0],"44":[0.0,35.4,39.5,11.7,2.0,2.0,8.5,0.8,0.0,0.0],"43s":[16.7,41.5,21.9,4.3,6.7,6.4,2.2,0.1,0.2,0.0],"43o":[18.1,43.7,22.4,4.4,7.1,2.0,2.2,0.1,0.0,0.0],"42s":[17.4,42.3,22.0,4.3,5.1,6.5,2.2,0.1,0.1,0.0],"42o":[18.8,44.6,22.5,4.4,5.4,2.0,2.2,0.1,0.0,0.0],"33":[0.0,35.7,39.6,11.7,1.6,2.0,8.5,0.8,0.0,0.0],"32s":[17.6,42.5,22.0,4.3,4.7,6.5,2.2,0.1,0.1,0.0],"32o":[19.0,44.7,22.5,4.4,5.0,2.0,2.2,0.1,0.0,0.0],"22":[0.0,36.0,39.7,11.8,1.2,2.0,8.5,0.8,0.0,0.0]};
+const EQ = {"AA":85.3,"AKs":67.1,"AKo":65.3,"AQs":66.2,"AQo":64.6,"AJs":65.4,"AJo":63.6,"ATs":64.4,"ATo":62.6,"A9s":63.1,"A9o":60.6,"A8s":61.9,"A8o":59.9,"A7s":60.9,"A7o":58.9,"A6s":59.9,"A6o":57.7,"A5s":60.0,"A5o":57.7,"A4s":59.0,"A4o":56.5,"A3s":58.2,"A3o":55.8,"A2s":57.3,"A2o":54.9,"KK":82.4,"KQs":63.3,"KQo":61.6,"KJs":62.5,"KJo":60.6,"KTs":61.8,"KTo":59.9,"K9s":59.8,"K9o":57.8,"K8s":58.5,"K8o":56.0,"K7s":57.6,"K7o":55.2,"K6s":56.6,"K6o":54.2,"K5s":55.7,"K5o":53.1,"K4s":55.1,"K4o":52.3,"K3s":54.0,"K3o":51.4,"K2s":53.3,"K2o":50.5,"QQ":80.1,"QJs":60.2,"QJo":58.2,"QTs":59.5,"QTo":57.4,"Q9s":57.7,"Q9o":55.4,"Q8s":55.8,"Q8o":53.5,"Q7s":54.1,"Q7o":51.6,"Q6s":53.7,"Q6o":51.0,"Q5s":52.8,"Q5o":50.2,"Q4s":51.8,"Q4o":49.1,"Q3s":51.0,"Q3o":48.2,"Q2s":50.4,"Q2o":47.3,"JJ":77.6,"JTs":57.6,"JTo":55.4,"J9s":55.6,"J9o":53.3,"J8s":54.2,"J8o":51.6,"J7s":52.4,"J7o":49.6,"J6s":50.7,"J6o":47.8,"J5s":50.0,"J5o":47.1,"J4s":49.1,"J4o":46.2,"J3s":48.2,"J3o":45.1,"J2s":47.4,"J2o":44.3,"TT":74.8,"T9s":54.0,"T9o":51.5,"T8s":52.5,"T8o":49.9,"T7s":50.7,"T7o":47.7,"T6s":48.9,"T6o":45.9,"T5s":47.1,"T5o":44.2,"T4s":46.5,"T4o":43.4,"T3s":45.8,"T3o":42.5,"T2s":45.0,"T2o":41.7,"99":72.2,"98s":50.9,"98o":48.3,"97s":49.2,"97o":46.2,"96s":47.5,"96o":44.5,"95s":45.7,"95o":42.7,"94s":44.0,"94o":40.6,"93s":43.2,"93o":40.0,"92s":42.3,"92o":39.1,"88":69.1,"87s":47.9,"87o":45.1,"86s":46.1,"86o":43.2,"85s":44.5,"85o":41.5,"84s":42.5,"84o":39.4,"83s":40.7,"83o":37.4,"82s":40.1,"82o":37.0,"77":66.2,"76s":45.2,"76o":42.4,"75s":43.4,"75o":40.5,"74s":41.6,"74o":38.5,"73s":39.9,"73o":36.7,"72s":38.0,"72o":34.6,"66":63.3,"65s":43.2,"65o":39.8,"64s":41.4,"64o":38.2,"63s":39.5,"63o":35.8,"62s":37.6,"62o":34.2,"55":60.3,"54s":41.3,"54o":38.2,"53s":39.7,"53o":36.5,"52s":38.0,"52o":34.5,"44":56.9,"43s":38.5,"43o":35.1,"42s":37.0,"42o":33.3,"33":53.7,"32s":36.0,"32o":32.2,"22":50.2};
+const RFI=CHARTS.rfi, SPOTS=CHARTS.spots;
+const RFI_POS=['UTG','HJ','CO','BTN','SB'];
+const POSITIONS=['UTG','HJ','CO','BTN','SB','BB'];
+const ALL_CODES=Object.keys(EQ);
+const BORDER=ALL_CODES.filter(c=>{
+  const n=RFI_POS.filter(k=>RFI[k].indexOf(c)>=0).length;
+  return n>0&&n<RFI_POS.length;
+});
+const STAKES=[{sb:1,bb:2},{sb:2,bb:5},{sb:5,bb:10}];
+function roundTo(x,step){ return Math.max(step,Math.round(x/step)*step); }
+function seatsBase(st){
+  const o={};
+  POSITIONS.forEach(p=>o[p]={stack:'100 BB',bet:0,folded:false,tag:null});
+  o.SB.bet=st.sb; o.BB.bet=st.bb;
+  return o;
+}
+const TAG={raised:'tagRaised',bet3:'tag3bet',bets:'tagBets'};
+
+/* ---- otevřít / složit ---- */
+function genRFI(){
+  const st=pick(STAKES), heroPos=pick(RFI_POS);
+  const code=Math.random()<0.7?pick(BORDER):pick(ALL_CODES);
+  const open=3*st.bb;
+  const seats=seatsBase(st);
+  POSITIONS.slice(0,POSITIONS.indexOf(heroPos)).forEach(p=>{ seats[p].folded=true; seats[p].bet=0; });
+  const inR=RFI[heroPos].indexOf(code)>=0;
+  const width=Math.round(RFI[heroPos].reduce((a,c)=>a+combosOf(c),0)/1326*100);
+  return {
+    cat:'HSEL', street:'preflop', potType:'srp', ip:['BTN','CO'].indexOf(heroPos)>=0,
+    st:st, heroPos:heroPos, heroCards:cardsFor(code), board:[], seats:seats, pot:st.sb+st.bb,
+    story:()=>T().stRFI(heroPos),
+    answers:()=>[{k:'fold',l:T().aFold},{k:'raise',l:T().aRaiseTo(open)}],
+    correct: inR?'raise':'fold',
+    freqs:()=>[{k:T().lgRaise,v:width,hit:inR},{k:T().lgFold,v:100-width,hit:!inR}],
+    range:{kind:'rfi',key:heroPos,code:code},
+    why:()=>T().whyRFI(heroPos,T().posFull[heroPos],width,code,inR)
+  };
+}
+/* ---- proti zvýšení ---- */
+function genVsRaise(){
+  const st=pick(STAKES), heroPos=pick(['HJ','CO','BTN','BB','BB']);
+  const before=POSITIONS.slice(0,POSITIONS.indexOf(heroPos)).filter(p=>p!=='SB');
+  const raiser=pick(before.length?before:['UTG']);
+  const ctxKey=heroPos==='BB'?'BB_DEFEND':(['UTG','HJ'].indexOf(raiser)>=0?'IP_EARLY':'IP_LATE');
+  const ch=SPOTS[ctxKey];
+  const code=Math.random()<0.55?pick(BORDER):pick(ALL_CODES);
+  const open=3*st.bb, toCall=open-(heroPos==='BB'?st.bb:0);
+  const three=roundTo((heroPos==='BB'?4:3)*open, st.bb/2);
+  const seats=seatsBase(st);
+  POSITIONS.slice(0,POSITIONS.indexOf(heroPos)).forEach(p=>{
+    if(p===raiser){ seats[p].bet=open; seats[p].tagKey='raised'; }
+    else if(p!=='SB'&&p!=='BB'){ seats[p].folded=true; seats[p].bet=0; }
+  });
+  const act=ch.raise.indexOf(code)>=0?'raise':(ch.call.indexOf(code)>=0?'call':'fold');
+  return {
+    cat:'HSEL', street:'preflop', potType:'srp', ip:heroPos!=='BB',
+    st:st, heroPos:heroPos, heroCards:cardsFor(code), board:[], seats:seats, pot:st.sb+st.bb+open,
+    story:()=>T().stVsRaise(raiser,open,heroPos,heroPos==='BB'),
+    answers:()=>[{k:'fold',l:T().aFold},{k:'call',l:T().aCall(toCall)},{k:'raise',l:T().a3bet(three)}],
+    correct:act,
+    freqs:()=>[{k:T().lgRaise,v:ch.pr,hit:act==='raise'},{k:T().lgCall,v:ch.pc,hit:act==='call'},
+               {k:T().lgFold,v:ch.pf,hit:act==='fold'}],
+    range:{kind:'spot',key:ctxKey,code:code},
+    why:()=>T().whyVsRaise(T().spotLabel[ctxKey],code,act,heroPos==='BB',ctxKey==='IP_EARLY')
+  };
+}
+/* ---- proti 3-betu ---- */
+function genVs3bet(){
+  const st=pick(STAKES), heroPos=pick(['UTG','HJ','CO','BTN']);
+  const after=POSITIONS.slice(POSITIONS.indexOf(heroPos)+1);
+  const villain=pick(after);
+  const heroIP=(villain==='SB'||villain==='BB');
+  const ctxKey=heroIP?'VS3_IP':'VS3_OOP', ch=SPOTS[ctxKey];
+  const code=Math.random()<0.55?pick(BORDER):pick(ALL_CODES);
+  const open=3*st.bb;
+  const three=roundTo((heroIP?4:3)*open, st.bb/2);
+  const four=roundTo(2.2*three, st.bb);
+  const seats=seatsBase(st);
+  POSITIONS.forEach(p=>{
+    const i=POSITIONS.indexOf(p), h=POSITIONS.indexOf(heroPos);
+    if(p===heroPos){ seats[p].bet=open; seats[p].tagKey='raised'; }
+    else if(p===villain){ seats[p].bet=three; seats[p].tagKey='bet3'; }
+    else if(i<h||(p!=='SB'&&p!=='BB')){ seats[p].folded=true; seats[p].bet=0; }
+  });
+  const act=ch.raise.indexOf(code)>=0?'raise':(ch.call.indexOf(code)>=0?'call':'fold');
+  return {
+    cat:'HSEL', street:'preflop', potType:'p3', ip:heroIP,
+    st:st, heroPos:heroPos, heroCards:cardsFor(code), board:[], seats:seats,
+    pot:st.sb+st.bb+open+three-(villain==='SB'?st.sb:0)-(villain==='BB'?st.bb:0),
+    story:()=>T().stVs3bet(open,heroPos,villain,three),
+    answers:()=>[{k:'fold',l:T().aFold},{k:'call',l:T().aCall(three-open)},{k:'raise',l:T().a4bet(four)}],
+    correct:act,
+    freqs:()=>[{k:T().lgRaise,v:ch.pr,hit:act==='raise'},{k:T().lgCall,v:ch.pc,hit:act==='call'},
+               {k:T().lgFold,v:ch.pf,hit:act==='fold'}],
+    range:{kind:'spot',key:ctxKey,code:code},
+    why:()=>T().whyVs3bet(T().spotLabel[ctxKey],code,act,heroIP)
+  };
+}
+/* ---- equity ---- */
+function eqVsRandom(hole,board,N){
+  const known=new Set(hole.concat(board));
+  const rest=[]; for(let c=0;c<52;c++) if(!known.has(c)) rest.push(c);
+  const need=5-board.length, n=rest.length;
+  if(need===0){
+    const mineS=ev(hole.concat(board)).score;
+    let w=0,t=0,tot=0;
+    for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){
+      const s=ev([rest[i],rest[j]].concat(board)).score;
+      if(mineS>s)w++; else if(mineS===s)t++;
+      tot++;
+    }
+    return {eq:(w+t/2)/tot*100, exact:true, tot:tot};
+  }
+  const mine=hole.concat(board); for(let k=0;k<need;k++) mine.push(0);
+  const opp=[0,0].concat(board); for(let k=0;k<need;k++) opp.push(0);
+  let acc=0;
+  for(let t=0;t<N;t++){
+    const take=2+need;
+    for(let k=0;k<take;k++){const j=k+Math.floor(Math.random()*(n-k));const s=rest[k];rest[k]=rest[j];rest[j]=s;}
+    opp[0]=rest[0]; opp[1]=rest[1];
+    for(let k=0;k<need;k++){const c=rest[2+k]; mine[2+board.length+k]=c; opp[2+board.length+k]=c;}
+    const a=ev(mine).score,b=ev(opp).score;
+    if(a>b)acc+=1; else if(a===b)acc+=0.5;
+  }
+  return {eq:acc/N*100, exact:false, tot:N};
+}
+function drawsOn(cards){
+  const sc=[0,0,0,0]; let mask=0;
+  cards.forEach(c=>{sc[c&3]++;mask|=1<<(c>>2);});
+  const e=ev(cards);
+  let flush=false;
+  if(e.cat<5) for(let s=0;s<4;s++) if(sc[s]===4) flush=true;
+  let oesd=false,gut=false;
+  if(SH[mask]<0){
+    let n=0;
+    for(let r=0;r<13;r++) if(!(mask&(1<<r))&&SH[mask|(1<<r)]>=0) n++;
+    if(n>=2) oesd=true; else if(n===1) gut=true;
+  }
+  return {flush:flush,oesd:oesd,gut:gut,big:flush||oesd};
+}
+const BET_TH=68;
+/* ---- sázet / checkovat ---- */
+function genPostflop(){
+  const st=pick(STAKES), street=pick(['flop','flop','turn','river']);
+  const nb={flop:3,turn:4,river:5}[street];
+  const heroPos=pick(['CO','BTN','SB','BB']);
+  const villain=pick(POSITIONS.filter(p=>p!==heroPos));
+  const heroIP=['BTN','CO'].indexOf(heroPos)>=0;
+  let hole,board,eqr,dr,made;
+  for(let i=0;i<300;i++){
+    const d=shuffled(); hole=d.slice(0,2); board=d.slice(2,2+nb);
+    eqr=eqVsRandom(hole,board,street==='river'?0:12000);
+    dr=street==='river'?{big:false,flush:false,oesd:false,gut:false}:drawsOn(hole.concat(board));
+    made=best5(hole.concat(board));
+    if(!dr.big && Math.abs(eqr.eq-BET_TH)<6) continue;
+    if(!(eqr.eq>=BET_TH||dr.big) && i<40 && Math.random()<0.62) continue;
+    break;
+  }
+  const open=3*st.bb, potv=2*open+st.sb+st.bb, bet=roundTo(0.66*potv, st.bb);
+  const seats=seatsBase(st);
+  POSITIONS.forEach(p=>{ seats[p].bet=0; if(p!==heroPos&&p!==villain) seats[p].folded=true; });
+  const value=eqr.eq>=BET_TH;
+  return {
+    cat:'HSCN', street:street, potType:'srp', ip:heroIP,
+    st:st, heroPos:heroPos, heroCards:hole, board:board, seats:seats, pot:potv,
+    story:()=>T().stPost(villain,heroIP,LANG==='cs'?street:T().streets[street].toLowerCase()),
+    answers:()=>[{k:'check',l:T().aCheck},{k:'bet',l:T().aBet(bet)}],
+    correct:(value||dr.big)?'bet':'check',
+    freqs:null, range:null,
+    why:()=>T().whyPost(describe(made),fmt(eqr.eq),eqr.exact,eqr.tot,value,dr,BET_TH)
+  };
+}
+/* ---- co mám ---- */
+function genRead(){
+  const st=pick(STAKES), heroPos=pick(POSITIONS);
+  let hole,board,e;
+  for(let i=0;i<400;i++){
+    const d=shuffled(); hole=d.slice(0,2); board=d.slice(2,7);
+    e=ev(hole.concat(board));
+    if(e.cat===0&&Math.random()<0.75) continue;
+    if(e.cat===1&&Math.random()<0.45) continue;
+    break;
+  }
+  const b=best5(hole.concat(board));
+  const cats=new Set([b.cat]); let sp=1;
+  while(cats.size<6&&sp<10){
+    if(b.cat-sp>=0) cats.add(b.cat-sp);
+    if(cats.size<6&&b.cat+sp<=9) cats.add(b.cat+sp);
+    sp++;
+  }
+  const list=[...cats].sort((x,y)=>x-y);
+  const seats=seatsBase(st);
+  POSITIONS.forEach(p=>seats[p].bet=0);
+  return {
+    cat:'THEORY', street:'river', potType:'srp', ip:null,
+    st:st, heroPos:heroPos, heroCards:hole, board:board, seats:seats, pot:6*st.bb,
+    story:()=>T().stRead, qline:()=>T().qRead,
+    answers:()=>list.map(c=>({k:String(c),l:CATS[LANG][c]})),
+    correct:String(b.cat), freqs:null, range:null,
+    why:()=>T().whyRead(describe(b), b.cards.map(c=>R_LABEL[c>>2]+SUIT[c&3]).join(" "))
+  };
+}
+/* ---- kdo vyhrál ---- */
+function genShowdown(){
+  const st=pick(STAKES), heroPos=pick(['BTN','CO','SB','BB']);
+  const villain=pick(POSITIONS.filter(p=>p!==heroPos));
+  let me,opp,board,a,b;
+  for(let i=0;i<400;i++){
+    const d=shuffled(); me=d.slice(0,2); opp=d.slice(2,4); board=d.slice(4,9);
+    a=ev(me.concat(board)); b=ev(opp.concat(board));
+    if(Math.abs(a.cat-b.cat)>1&&Math.random()<0.6) continue;
+    break;
+  }
+  const ba=best5(me.concat(board)), bb2=best5(opp.concat(board));
+  const correct=a.score>b.score?'me':(a.score<b.score?'opp':'split');
+  const seats=seatsBase(st);
+  POSITIONS.forEach(p=>{ seats[p].bet=0; if(p!==heroPos&&p!==villain) seats[p].folded=true; });
+  return {
+    cat:'THEORY', street:'river', potType:'srp', ip:null,
+    st:st, heroPos:heroPos, heroCards:me, board:board, seats:seats, pot:8*st.bb,
+    villainCards:{pos:villain,cards:opp},
+    story:()=>T().stShow(villain), qline:()=>T().qShow,
+    answers:()=>[{k:'me',l:T().aMe},{k:'opp',l:T().aOpp},{k:'split',l:T().aSplit}],
+    correct:correct, freqs:null, range:null,
+    why:()=>T().whyShow(describe(ba),describe(bb2),correct,ba.cat===bb2.cat)
+  };
+}
+/* ---- outy ---- */
+function genOuts(){
+  const st=pick(STAKES), heroPos=pick(['CO','BTN','SB','BB']);
+  let hole,flop,cur,outs;
+  for(let i=0;i<400;i++){
+    const d=shuffled(); hole=d.slice(0,2); flop=d.slice(2,5);
+    const known=new Set(hole.concat(flop));
+    cur=ev(hole.concat(flop));
+    const rest=[]; for(let c=0;c<52;c++) if(!known.has(c)) rest.push(c);
+    outs=rest.filter(c=>ev(hole.concat(flop,[c])).cat>cur.cat);
+    if(outs.length===0||outs.length>18) continue;
+    break;
+  }
+  const n=outs.length, cand=new Set([n]);
+  while(cand.size<4){ const v=n+pick([-6,-4,-3,-2,-1,1,2,3,4,5,6,8]); if(v>0&&v<=24) cand.add(v); }
+  const list=[...cand].sort((x,y)=>x-y);
+  const seats=seatsBase(st);
+  POSITIONS.forEach(p=>seats[p].bet=0);
+  const bc=best5(hole.concat(flop));
+  return {
+    cat:'PMATH', street:'flop', potType:'srp', ip:null,
+    st:st, heroPos:heroPos, heroCards:hole, board:flop, seats:seats, pot:6*st.bb,
+    story:()=>T().stOuts, qline:()=>T().qOuts,
+    answers:()=>list.map(v=>({k:String(v),l:T().outsUnit(v)})),
+    correct:String(n), freqs:null, range:null,
+    why:()=>{
+      const byR={}; outs.forEach(c=>{const r=c>>2;(byR[r]=byR[r]||[]).push(c);});
+      const s=Object.keys(byR).map(Number).sort((a,b)=>b-a)
+        .map(r=>byR[r].map(c=>R_LABEL[c>>2]+SUIT[c&3]).join(' ')).join('  ·  ');
+      return T().whyOuts(describe(bc),n,s);
+    }
+  };
+}
+/* ---- pot odds ---- */
+function genOdds(){
+  const st=pick(STAKES), heroPos=pick(['CO','BTN','SB','BB']);
+  const villain=pick(POSITIONS.filter(p=>p!==heroPos));
+  let me,flop,opp,eq,pot,bet,need;
+  for(let i=0;i<300;i++){
+    const d=shuffled(); me=d.slice(0,2); flop=d.slice(2,5); opp=d.slice(5,7);
+    const known=new Set(me.concat(flop,opp));
+    const rest=[]; for(let c=0;c<52;c++) if(!known.has(c)) rest.push(c);
+    let w=0,t=0,tot=0;
+    const mb=me.concat(flop,[0,0]), ob=opp.concat(flop,[0,0]);
+    for(let x=0;x<rest.length;x++) for(let y=x+1;y<rest.length;y++){
+      mb[5]=rest[x];mb[6]=rest[y];ob[5]=rest[x];ob[6]=rest[y];
+      const A=ev(mb).score,B=ev(ob).score;
+      if(A>B)w++; else if(A===B)t++;
+      tot++;
+    }
+    eq=(w+t/2)/tot*100;
+    pot=roundTo(pick([6,8,10,12,16,20])*st.bb, st.bb);
+    bet=roundTo(pot*pick([0.5,0.66,0.75,1]), st.bb);
+    need=bet/(pot+2*bet)*100;
+    if(Math.abs(eq-need)<5) continue;
+    break;
+  }
+  const seats=seatsBase(st);
+  POSITIONS.forEach(p=>{ seats[p].bet=0; if(p!==heroPos&&p!==villain) seats[p].folded=true; });
+  seats[villain].bet=bet; seats[villain].tagKey='bets';
+  return {
+    cat:'PMATH', street:'flop', potType:'srp', ip:null,
+    st:st, heroPos:heroPos, heroCards:me, board:flop, seats:seats, pot:pot,
+    villainCards:{pos:villain,cards:opp}, peek:true,
+    story:()=>T().stOdds(villain,bet,pot), qline:()=>T().qOdds,
+    answers:()=>[{k:'call',l:T().aCall(bet)},{k:'fold',l:T().aFold}],
+    correct: eq>need?'call':'fold', freqs:null, range:null,
+    why:()=>T().whyOdds(bet,pot+bet,pot+2*bet,fmt(need,0),fmt(eq,1),eq>need)
+  };
+}
+const GENS=[genRFI,genVsRaise,genVs3bet,genPostflop,genPostflop,genRead,genShowdown,genOuts,genOdds];
+</script>
+
+<script>
+/* ============================ stůl ============================ */
+function cardEl(c,cls){
+  const r=c>>2,s=c&3,d=document.createElement('div');
+  d.className='pc'+(cls?' '+cls:'')+(RED[s]?' red':' black');
+  d.innerHTML='<span class="r">'+R_LABEL[r]+'</span><span class="s">'+SUIT[s]+'</span>';
+  return d;
+}
+function place(el,x,y){ el.style.left=x+'%'; el.style.top=y+'%'; }
+function renderFelt(sp){
+  const f=document.getElementById('felt');
+  f.innerHTML='<div class="feltring"></div>';
+  const hi=POSITIONS.indexOf(sp.heroPos);
+  for(let i=0;i<6;i++){
+    const pos=POSITIONS[(hi+i)%6], ang=Math.PI/2+i*Math.PI/3;
+    const x=50+43*Math.cos(ang), y=50+40*Math.sin(ang), info=sp.seats[pos];
+    const el=document.createElement('div');
+    el.className='seat'+(pos===sp.heroPos?' hero':'')+(info.folded?' out':'');
+    el.innerHTML='<span class="p">'+pos+'</span><span class="s">'+info.stack+'</span>';
+    place(el,x,y); f.appendChild(el);
+    if(info.bet>0){
+      const b=document.createElement('div'); b.className='bet';
+      b.innerHTML='<span class="c"></span>'+money(info.bet);
+      place(b,50+25*Math.cos(ang),50+23*Math.sin(ang)); f.appendChild(b);
+    }
+    if(info.tagKey){
+      const t=document.createElement('div'); t.className='tag'; t.textContent=T()[TAG[info.tagKey]];
+      place(t,x,y+(y<50?-9:9)); f.appendChild(t);
+    }
+    if(pos==='BTN'){
+      const d=document.createElement('div'); d.className='dealer'; d.textContent='D';
+      place(d,x,y+(y<50?8.5:-8.5)); f.appendChild(d);
+    }
+  }
+  const c=document.createElement('div'); c.className='center';
+  const pot=document.createElement('div'); pot.className='pot';
+  pot.innerHTML='<span>'+T().potLabel+'</span> <b>'+money(sp.pot)+'</b>';
+  c.appendChild(pot);
+  if(sp.board.length){
+    const bd=document.createElement('div'); bd.className='board';
+    sp.board.forEach(x=>bd.appendChild(cardEl(x)));
+    c.appendChild(bd);
+  }
+  f.appendChild(c);
+  const hc=document.createElement('div'); hc.className='herocards';
+  sp.heroCards.forEach(x=>hc.appendChild(cardEl(x)));
+  f.appendChild(hc);
+}
+
+/* ============================ stav ============================ */
+const SESSION=10;
+function blank(){
+  const c={},s={},p={},t={};
+  ['HSEL','HSCN','THEORY','PMATH'].forEach(k=>c[k]={n:0,ok:0});
+  ['preflop','flop','turn','river'].forEach(k=>s[k]={n:0,ok:0});
+  ['ip','oop'].forEach(k=>p[k]={n:0,ok:0});
+  ['srp','p3'].forEach(k=>t[k]={n:0,ok:0});
+  return {total:0,correct:0,streak:0,best:0,rounds:0,cats:c,streets:s,pos:p,pots:t};
+}
+let stats=blank();
+let sp=null, answered=false, lastKey=null, qn=0, roundOk=0, tleft=30, ticker=null, dbRef=null, saveT=null;
+let timerOn=true;
+const acc=o=>o.n>0?Math.round(o.ok/o.n*100):null;
+
+/* ============================ otázka ============================ */
+function newQuestion(){
+  if(qn>=SESSION) return roundDone();
+  answered=false; lastKey=null;
+  sp=pick(GENS)();
+  renderQuestion();
+  document.getElementById('sheet').innerHTML='';
+  startTimer();
+}
+function renderQuestion(){
+  if(!sp) return;
+  document.getElementById('prog').style.width=(qn/SESSION*100)+'%';
+  document.getElementById('stakes').textContent=T().stakes(sp.st.sb,sp.st.bb,Math.min(qn+1,SESSION),SESSION);
+  renderFelt(sp);
+  document.getElementById('story').innerHTML=sp.story();
+  document.getElementById('poshint').innerHTML=T().posHint(sp.heroPos,T().posFull[sp.heroPos]);
+  document.getElementById('qline').textContent=sp.qline?sp.qline():T().qDefault;
+  const sub=document.getElementById('qsub');
+  if(sp.villainCards){
+    sub.hidden=false; sub.innerHTML='';
+    const w=document.createElement('span');
+    w.style.cssText='display:inline-flex;align-items:center;gap:.4rem;flex-wrap:wrap';
+    w.innerHTML='<span>'+(sp.peek?T().villainHolds(sp.villainCards.pos)
+                                  :T().villainShowed(sp.villainCards.pos))+'</span>';
+    const row=document.createElement('span'); row.style.cssText='display:inline-flex;gap:3px';
+    sp.villainCards.cards.forEach(x=>row.appendChild(cardEl(x,'sm')));
+    w.appendChild(row); sub.appendChild(w);
+  } else { sub.textContent=''; sub.hidden=true; }
+
+  const pk=document.getElementById('peek');
+  pk.innerHTML = sp.peek ? '<div class="peek"><span class="ex">!</span><span>'+T().peekNote+'</span></div>' : '';
+  const list=sp.answers();
+  const a=document.getElementById('acts');
+  a.className='acts'+(list.length===3?' one':'');
+  a.innerHTML='';
+  list.forEach(o=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='act'; b.textContent=o.l; b.dataset.k=o.k;
+    if(answered){
+      b.disabled=true;
+      if(o.k===sp.correct) b.classList.add('right');
+      else if(o.k===lastKey) b.classList.add('wrong');
+      else b.classList.add('mute');
+    } else b.addEventListener('click',()=>answer(o.k));
+    a.appendChild(b);
+  });
+}
+function startTimer(){
+  clearInterval(ticker); tleft=30; paintTimer();
+  if(!timerOn) return;                       /* bez časomíry se nikam nespěchá */
+  ticker=setInterval(()=>{ tleft--; paintTimer();
+    if(tleft<=0){ clearInterval(ticker); if(!answered) answer(null); } },1000);
+}
+function paintTimer(){
+  const t=document.getElementById('timer');
+  t.title=T().timerTip;
+  t.setAttribute('aria-label',T().rowTimer+': '+(timerOn?'on':T().timerOffShort));
+  if(!timerOn){
+    document.getElementById('tval').textContent=T().timerOffShort;
+    t.classList.remove('low'); t.classList.add('off');
+    return;
+  }
+  t.classList.remove('off');
+  document.getElementById('tval').textContent='0:'+String(Math.max(0,tleft)).padStart(2,'0');
+  t.classList.toggle('low',tleft<=10);
+}
+function toggleTimer(){
+  timerOn=!timerOn; save(); renderMenu();
+  if(sp && !answered) startTimer(); else { clearInterval(ticker); paintTimer(); }
+}
+function answer(key){
+  if(answered) return;
+  answered=true; lastKey=key; clearInterval(ticker);
+  const right=key===sp.correct;
+  qn++; if(right) roundOk++;
+  stats.total++; stats.cats[sp.cat].n++; stats.streets[sp.street].n++;
+  if(sp.potType) stats.pots[sp.potType].n++;
+  if(sp.ip===true) stats.pos.ip.n++; else if(sp.ip===false) stats.pos.oop.n++;
+  if(right){
+    stats.correct++; stats.cats[sp.cat].ok++; stats.streets[sp.street].ok++;
+    if(sp.potType) stats.pots[sp.potType].ok++;
+    if(sp.ip===true) stats.pos.ip.ok++; else if(sp.ip===false) stats.pos.oop.ok++;
+    stats.streak++; if(stats.streak>stats.best) stats.best=stats.streak;
+  } else stats.streak=0;
+  save();
+  renderQuestion();
+  renderSheet(right,key);
+}
+function renderSheet(right,key){
+  const sh=document.createElement('div'); sh.className='sheet';
+  const head=document.createElement('div'); head.className='head';
+  head.innerHTML='<span class="badge '+(right?'ok':'no')+'">'+(right?'✓':'✕')+'</span>'+
+    '<span class="t">'+(right?T().vOk:(key===null?T().vTime:T().vNo))+'</span>';
+  sh.appendChild(head);
+  const body=document.createElement('div'); body.className='body';
+  body.innerHTML=sp.why();
+  sh.appendChild(body);
+  if(sp.freqs){
+    const fr=document.createElement('div'); fr.className='freqs';
+    sp.freqs().forEach(x=>{
+      const d=document.createElement('div'); d.className='freq'+(x.hit?' hit':'');
+      d.innerHTML='<div class="v">'+x.v+' %</div><div class="k">'+x.k+'</div>';
+      fr.appendChild(d);
+    });
+    sh.appendChild(fr);
+    const n=document.createElement('p'); n.className='subtle'; n.style.marginTop='.5rem';
+    n.textContent=T().freqNote; sh.appendChild(n);
+  }
+  if(sp.range) sh.appendChild(rangeBlock(sp.range));
+  const cont=document.createElement('button');
+  cont.type='button'; cont.className='cont';
+  cont.textContent = qn>=SESSION ? T().showResult : T().next;
+  cont.addEventListener('click',newQuestion);
+  sh.appendChild(cont);
+  const box=document.getElementById('sheet'); box.innerHTML=''; box.appendChild(sh);
+  return cont;
+}
+function roundDone(){
+  clearInterval(ticker);
+  stats.rounds++; save();
+  document.getElementById('prog').style.width='100%';
+  const pct=Math.round(roundOk/SESSION*100);
+  const sh=document.createElement('div'); sh.className='sheet';
+  sh.innerHTML='<div class="head"><span class="badge '+(pct>=70?'ok':'no')+'">'+(pct>=70?'✓':'!')+'</span>'+
+    '<span class="t">'+T().roundDone(roundOk,SESSION)+'</span></div>'+
+    '<div class="body">'+T().roundMsg(pct)+'</div>';
+  const c=document.createElement('button');
+  c.type='button'; c.className='cont'; c.textContent=T().nextRound;
+  c.addEventListener('click',()=>{ qn=0; roundOk=0; newQuestion(); });
+  sh.appendChild(c);
+  const box=document.getElementById('sheet'); box.innerHTML=''; box.appendChild(sh);
+  renderStats(); renderMenu();
+}
+
+/* ============================ mřížka rukou ============================ */
+const G13=["A","K","Q","J","T","9","8","7","6","5","4","3","2"];
+const gridCode=(i,j)=> i===j ? G13[i]+G13[i] : (i<j ? G13[i]+G13[j]+'s' : G13[j]+G13[i]+'o');
+function actionOf(r,c){
+  if(r.kind==='rfi') return RFI[r.key].indexOf(c)>=0?'r':'f';
+  const ch=SPOTS[r.key];
+  return ch.raise.indexOf(c)>=0?'r':(ch.call.indexOf(c)>=0?'c':'f');
+}
+function rangeBlock(r,opts){
+  opts=opts||{};
+  const wrap=document.createElement('div'); wrap.className='rangewrap';
+  const isRfi=r.kind==='rfi', ch=isRfi?null:SPOTS[r.key];
+
+  if(opts.summary){
+    const raise=[],call=[];
+    for(let i=0;i<13;i++) for(let j=0;j<13;j++){
+      const c=gridCode(i,j), a=actionOf(r,c);
+      if(a==='r') raise.push(c); else if(a==='c') call.push(c);
+    }
+    const s=document.createElement('div'); s.className='actsum';
+    const w=Math.round((isRfi?RFI[r.key]:ch.raise).reduce((a,c)=>a+combosOf(c),0)/1326*100);
+    let html='<div class="r"><div class="n">'+(isRfi?w:ch.pr)+' %</div><div class="k">'+
+             T().lgRaise+' · '+T().sumHands(raise.length)+'</div></div>';
+    if(!isRfi) html+='<div class="c"><div class="n">'+ch.pc+' %</div><div class="k">'+
+             T().lgCall+' · '+T().sumHands(call.length)+'</div></div>';
+    html+='<div><div class="n">'+(isRfi?100-w:ch.pf)+' %</div><div class="k">'+T().lgFold+'</div></div>';
+    s.innerHTML=html;
+    wrap.appendChild(s);
+  }
+
+  const g=document.createElement('div'); g.className='rgrid';
+  const cells={};
+  for(let i=0;i<13;i++) for(let j=0;j<13;j++){
+    const c=gridCode(i,j), cell=document.createElement('i');
+    const a=actionOf(r,c);
+    if(a==='r') cell.className='r'; else if(a==='c') cell.className='c';
+    if(i===j) cell.classList.add('pair');
+    if(c===r.code) cell.classList.add('me');
+    cell.textContent=c; cell.title=c;
+    if(opts.onPick){
+      cell.classList.add('tap');
+      cell.addEventListener('click',()=>{
+        Object.keys(cells).forEach(k=>cells[k].classList.remove('sel'));
+        cell.classList.add('sel');
+        opts.onPick(c,a);
+      });
+    }
+    cells[c]=cell;
+    g.appendChild(cell);
+  }
+
+  if(opts.labels){
+    const gw=document.createElement('div'); gw.className='gwrap';
+    const corner=document.createElement('div');
+    const cols=document.createElement('div'); cols.className='gcols';
+    const rows=document.createElement('div'); rows.className='grows';
+    G13.forEach(x=>{
+      const a=document.createElement('b'); a.textContent=x; cols.appendChild(a);
+      const b=document.createElement('b'); b.textContent=x; rows.appendChild(b);
+    });
+    gw.appendChild(corner); gw.appendChild(cols); gw.appendChild(rows); gw.appendChild(g);
+    wrap.appendChild(gw);
+    const note=document.createElement('div'); note.className='gnote';
+    note.innerHTML='<span>'+T().gridTop+'</span><span>'+T().gridBot+'</span>';
+    wrap.appendChild(note);
+  } else wrap.appendChild(g);
+  const lg=document.createElement('div'); lg.className='rlegend';
+  const sw=(col,txt)=>'<span><i style="background:'+col+'"></i>'+txt+'</span>';
+  if(isRfi){
+    const w=Math.round(RFI[r.key].reduce((a,c)=>a+combosOf(c),0)/1326*100);
+    lg.innerHTML=sw('#1D8A4E',T().lgRaise+' '+w+' %')+sw('#1A2134',T().lgFold+' '+(100-w)+' %');
+  }else{
+    lg.innerHTML=sw('#1D8A4E',T().lgRaise+' '+ch.pr+' %')+sw('#2B5DC9',T().lgCall+' '+ch.pc+' %')+
+                 sw('#1A2134',T().lgFold+' '+ch.pf+' %');
+  }
+  if(r.code) lg.innerHTML+='<span><i style="background:transparent;outline:2px solid #F5C542"></i>'+T().lgMine+'</span>';
+  if(!opts.summary) wrap.appendChild(lg);
+  return wrap;
+}
+
+/* ============================ statistiky ============================ */
+function segs(v){
+  let h='<div class="segs">'; const on=v===null?0:Math.round(v/20);
+  for(let i=0;i<5;i++) h+='<i class="'+(i<on?'on':'')+'"></i>';
+  return h+'</div>';
+}
+function gauge(v,label){
+  const r=26,c=2*Math.PI*r,arc=c*0.75,fill=v===null?0:arc*v/100;
+  return '<div class="g"><svg viewBox="0 0 64 64" aria-hidden="true">'+
+    '<circle cx="32" cy="32" r="26" fill="none" stroke="#232C42" stroke-width="6" stroke-linecap="round" '+
+      'stroke-dasharray="'+arc+' '+c+'" transform="rotate(135 32 32)"/>'+
+    '<circle cx="32" cy="32" r="26" fill="none" stroke="#2F6BFF" stroke-width="6" stroke-linecap="round" '+
+      'stroke-dasharray="'+fill+' '+c+'" transform="rotate(135 32 32)"/>'+
+    '<text x="32" y="37" text-anchor="middle" font-size="16" font-weight="800" fill="#fff" '+
+      'font-family="Plus Jakarta Sans, sans-serif">'+(v===null?'—':v)+'</text>'+
+    '</svg><div class="gk">'+label+'</div></div>';
+}
+function renderStats(){
+  document.getElementById('s-title').textContent=T().statsTitle;
+  document.getElementById('s-sub').textContent=T().statsSub;
+  const b=document.getElementById('stats-body');
+  if(stats.total===0){ b.innerHTML='<div class="empty" style="margin-top:1rem">'+T().statsEmpty+'</div>'; return; }
+  const CK={HSEL:'H-SEL',HSCN:'H-SCN',THEORY:'THEORY',PMATH:'PMATH'};
+  let h='<div class="mgrid" style="margin-top:1rem">';
+  ['HSEL','HSCN','THEORY','PMATH'].forEach(k=>{
+    const a=acc(stats.cats[k]), n=stats.cats[k].n;
+    h+='<div class="mcard"><div class="lab">'+CK[k]+'</div>'+
+       '<div class="val">'+(a===null?'—':a)+' <small>/ 100</small></div>'+segs(a)+
+       '<div class="hint">'+T().cats[k]+' · '+plur(n,["otázka","otázky","otázek"],["question","questions"])+'</div></div>';
+  });
+  h+='</div>';
+  h+='<div class="sechead"><h3>'+T().secStreets+'</h3></div><div class="gauges">';
+  ['preflop','flop','turn','river'].forEach(k=>{ h+=gauge(acc(stats.streets[k]),T().streets[k]); });
+  h+='</div>';
+  h+='<div class="sechead"><h3>'+T().secPos+'</h3></div><div class="gauges two">'+
+     gauge(acc(stats.pos.ip),T().lblIP)+gauge(acc(stats.pos.oop),T().lblOOP)+'</div>';
+  h+='<div class="sechead"><h3>'+T().secPot+'</h3></div><div class="gauges two">'+
+     gauge(acc(stats.pots.srp),T().lblSRP)+gauge(acc(stats.pots.p3),T().lblP3)+'</div>';
+  const overall=Math.round(stats.correct/stats.total*100);
+  h+='<div class="sechead"><h3>'+T().secTotal+'</h3></div><div class="mgrid">'+
+     '<div class="mcard"><div class="lab">'+T().lblAcc+'</div><div class="val">'+overall+' <small>%</small></div>'+
+       segs(overall)+'<div class="hint">'+T().ofDecisions(stats.correct,stats.total)+'</div></div>'+
+     '<div class="mcard"><div class="lab">'+T().lblBest+'</div><div class="val">'+stats.best+'</div>'+
+       segs(Math.min(100,stats.best*10))+'<div class="hint">'+T().streakNow(stats.streak,stats.rounds)+'</div></div></div>';
+  const worst=['HSEL','HSCN','THEORY','PMATH'].filter(k=>stats.cats[k].n>=5)
+    .sort((x,y)=>acc(stats.cats[x])-acc(stats.cats[y]))[0];
+  if(worst && acc(stats.cats[worst])<75){
+    h+='<div class="sechead"><h3>'+T().secWeak+'</h3></div><div class="mcard">'+
+       '<div class="val" style="font-size:1.1rem">'+T().cats[worst]+'</div><div class="hint" style="margin-top:.4rem">'+
+       T().weakMsg(T().cats[worst],T().catHints[worst],acc(stats.cats[worst]),stats.cats[worst].n)+'</div></div>';
+  }
+  h+='<p class="note">'+T().statsNote+'</p>';
+  b.innerHTML=h;
+}
+
+/* ============================ tabulky ============================ */
+let chartSel=0;
+function chartList(){
+  return RFI_POS.map(k=>({kind:'rfi',key:k,name:k,desc:T().chartOpen(k)+' — '+T().posFull[k]+'.'}))
+    .concat(Object.keys(SPOTS).map(k=>({kind:'spot',key:k,name:T().spotShort[k],
+      desc:T().spotLabel[k].charAt(0).toUpperCase()+T().spotLabel[k].slice(1)+'.'})));
+}
+function renderCharts(){
+  document.getElementById('c-title').textContent=T().chartsTitle;
+  document.getElementById('c-sub').textContent=T().chartsSub;
+  document.getElementById('c-note').innerHTML=T().chartsNote+'<br><br>'+T().companions;
+  const list=chartList(), p=document.getElementById('chart-pills');
+  p.innerHTML='';
+  list.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='pill'; b.textContent=c.name;
+    b.setAttribute('aria-pressed',i===chartSel?'true':'false');
+    b.addEventListener('click',()=>{chartSel=i;renderCharts();});
+    p.appendChild(b);
+  });
+  const c=list[chartSel], box=document.getElementById('chart-box');
+  box.innerHTML='<div class="cname">'+(c.kind==='rfi'?T().chartOpen(c.key):c.name)+'</div>'+
+                '<div class="cdesc">'+c.desc+'</div>';
+  const info=document.createElement('div');
+  info.className='cellinfo';
+  info.innerHTML='<span class="ph">'+T().cellHint+'</span>';
+  box.appendChild(rangeBlock({kind:c.kind,key:c.key,code:null},{
+    labels:true, summary:true,
+    onPick:(code,act)=>{
+      const names={r:c.kind==='rfi'?T().lgRaise:T().aRaiseS,c:T().aCallS,f:T().aFoldS};
+      const opens=RFI_POS.filter(k=>RFI[k].indexOf(code)>=0).join(', ');
+      info.innerHTML=T().cellInfo(code,names[act],fmt(EQ[code]),opens);
+    }
+  }));
+  box.appendChild(info);
+}
+
+/* ============================ moje karty ============================ */
+const RANKED=ALL_CODES.slice().sort((a,b)=>EQ[b]-EQ[a]);
+const VCOL={premium:'#22C55E',strong:'#4ADE80',solid:'#C9B037',late:'#E8862A',trash:'#6B7280'};
+const OCOL=['#39415A','#4A5578','#5D6E96','#5C86B8','#3F94A8','#2FA085','#28A25F','#4EB84A','#8FCB3A','#F5C542'];
+const SPOT_ORDER=['IP_EARLY','IP_LATE','BB_DEFEND','VS3_IP','VS3_OOP'];
+let handSel=[null,null], pickSuit=null;
+const nextSlot=()=>handSel[0]===null?0:(handSel[1]===null?1:-1);
+
+function renderHand(){
+  document.getElementById('h-title').textContent=T().handTitle;
+  document.getElementById('h-sub').textContent=T().handSub;
+  document.getElementById('h-suitlab').textContent=T().pickSuit;
+  document.getElementById('h-ranklab').textContent=T().pickRank;
+
+  const sl=document.getElementById('h-slots'); sl.innerHTML='';
+  [0,1].forEach(i=>{
+    const b=document.createElement('button'); b.type='button';
+    const c=handSel[i];
+    if(c===null){
+      b.className='slot empty'+(nextSlot()===i?' active':'');
+      b.textContent=T().slotEmpty;
+    }else{
+      b.className='slot '+(RED[c&3]?'red':'black');
+      b.innerHTML='<span class="r">'+R_LABEL[c>>2]+'</span><span class="s">'+SUIT[c&3]+'</span>';
+    }
+    b.addEventListener('click',()=>{ handSel[i]=null; pickSuit=null; renderHand(); });
+    sl.appendChild(b);
+  });
+
+  const full = handSel[0]!==null && handSel[1]!==null;
+  document.getElementById('h-suitlab').style.opacity = full?'.4':'';
+  document.getElementById('h-ranklab').style.opacity = full?'.4':'';
+  const su=document.getElementById('h-suits'); su.innerHTML='';
+  SUIT.forEach((s,i)=>{
+    const b=document.createElement('button'); b.type='button';
+    b.className='suitbtn '+(RED[i]?'red':'black');
+    b.textContent=s;
+    b.setAttribute('aria-pressed',pickSuit===i?'true':'false');
+    b.disabled=nextSlot()<0;
+    b.addEventListener('click',()=>{ pickSuit=i; renderHand(); });
+    su.appendChild(b);
+  });
+
+  const rk=document.getElementById('h-ranks'); rk.innerHTML='';
+  for(let r=12;r>=0;r--){
+    const b=document.createElement('button'); b.type='button'; b.className='rankbtn';
+    b.textContent=R_LABEL[r];
+    const card=pickSuit===null?null:r*4+pickSuit;
+    b.disabled=(pickSuit===null)||nextSlot()<0||handSel.indexOf(card)>=0;
+    b.addEventListener('click',()=>{
+      const s=nextSlot(); if(s<0) return;
+      handSel[s]=card; pickSuit=null; renderHand();
+    });
+    rk.appendChild(b);
+  }
+  const cb=document.getElementById('h-clear');
+  cb.hidden = handSel[0]===null && handSel[1]===null;
+  cb.textContent=T().clearAll;
+  renderVerdict();
+}
+
+function renderVerdict(){
+  const box=document.getElementById('h-verdict');
+  if(handSel[0]===null||handSel[1]===null){
+    box.innerHTML='<p class="subtle" style="margin-top:1rem">'+T().tapClear+'</p>';
+    return;
+  }
+  const code=codeOf(handSel[0],handSel[1]);
+  const opens=RFI_POS.filter(k=>RFI[k].indexOf(code)>=0);
+  const rank=RANKED.indexOf(code)+1;
+  const level = opens.length===RFI_POS.length ? (rank<=12?'premium':'strong')
+              : opens.length>=3 ? 'solid'
+              : opens.length>=1 ? 'late' : 'trash';
+  const title={premium:T().vPremium,strong:T().vStrong,solid:T().vSolid,late:T().vLate,trash:T().vTrash}[level];
+
+  let html='<div class="verdict">'+
+    '<div class="vhead"><span class="vdot" style="background:'+VCOL[level]+'"></span>'+
+      '<span class="vtitle">'+title+'</span><span class="vcode">'+code+'</span></div>'+
+    '<div class="vbody">'+T().vDesc[level]+'<br><br>'+T().vEq(fmt(EQ[code]),rank)+'</div>';
+
+  html+='<div class="vbody" style="margin-top:.9rem"><b>'+T().vPosLabel+'</b></div><div class="poschips">';
+  RFI_POS.forEach(k=>{ html+='<span class="pchip'+(opens.indexOf(k)>=0?' on':'')+'">'+k+'</span>'; });
+  html+='</div>';
+  if(!opens.length) html+='<div class="vbody" style="margin-top:.3rem">'+T().vNowhere+'</div>';
+
+  html+='<div class="vbody" style="margin-top:.9rem"><b>'+T().vFacing+'</b></div>';
+  SPOT_ORDER.forEach(k=>{
+    const ch=SPOTS[k];
+    const act=ch.raise.indexOf(code)>=0?'r':(ch.call.indexOf(code)>=0?'c':'f');
+    const lbl={r:T().aRaiseS,c:T().aCallS,f:T().aFoldS}[act];
+    const col={r:'#4ADE80',c:'#7EA5FF',f:'var(--tx-3)'}[act];
+    html+='<div style="display:flex;justify-content:space-between;gap:.6rem;font-size:.8rem;'+
+      'padding:.3rem 0;border-bottom:1px solid var(--line)">'+
+      '<span style="color:var(--tx-2)">'+T().spotShort[k]+'</span>'+
+      '<b style="color:'+col+'">'+lbl+'</b></div>';
+  });
+
+  const riv=RIVER[code];
+  if(riv){
+    html+='<div class="vbody" style="margin-top:.9rem"><b>'+T().vOutcomes+'</b></div><div class="obar">';
+    riv.forEach((v,i)=>{ if(v>0) html+='<i style="width:'+v+'%;background:'+OCOL[i]+'" title="'+CATS[LANG][i]+'"></i>'; });
+    html+='</div><div class="olist">';
+    riv.map((v,i)=>({v:v,i:i})).filter(x=>x.v>=1).sort((a,b)=>b.v-a.v).forEach(x=>{
+      html+='<span><i style="background:'+OCOL[x.i]+'"></i>'+CATS[LANG][x.i]+' '+fmt(x.v)+' %</span>';
+    });
+    html+='</div>';
+    if(level==='trash'||level==='late') html+='<div class="vbody" style="margin-top:.7rem">'+T().vTrashNote+'</div>';
+    else if(code.length===2) html+='<div class="vbody" style="margin-top:.7rem">'+T().vPairNote+'</div>';
+  }
+  html+='</div>';
+  box.innerHTML=html;
+}
+
+/* ============================ slovníček ============================ */
+function renderGloss(){
+  document.getElementById('gl-title').textContent=T().glossTitle;
+  document.getElementById('gl-sub').textContent=T().glossSub;
+  const b=document.getElementById('gl-body');
+  b.innerHTML=T().gloss.map(sec=>
+    '<div class="glsec"><h3>'+sec.h+'</h3>'+
+    sec.items.map(it=>
+      '<div class="glrow"><div class="t">'+it[0]+(it[1]?'<span>'+it[1]+'</span>':'')+'</div>'+
+      '<div class="d">'+it[2]+'</div></div>').join('')+
+    '</div>').join('');
+}
+
+/* ============================ menu ============================ */
+const ICON={
+  stats:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  charts:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/>',
+  hand:'<rect x="3" y="4" width="11" height="16" rx="2"/><path d="M17 7l4 1.5-3 9-4-1.5"/>',
+  gloss:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3 2.45V14"/><path d="M12 17.2v.1"/>'
+};
+function renderMenu(){
+  document.getElementById('m-title').textContent=T().appName;
+  document.getElementById('m-tag').textContent=T().appTag;
+  const started = qn>0 && qn<SESSION;
+  document.getElementById('m-start').innerHTML=
+    (started?T().resume:T().start)+'<span class="sub">'+
+    (started?T().resumeSub(qn):T().startSub(timerOn))+'</span>';
+  const a=stats.total>0?Math.round(stats.correct/stats.total*100)+' %':'—';
+  document.getElementById('m-quick').innerHTML=
+    '<div class="qcard"><div class="v">'+stats.total+'</div><div class="k">'+T().qAnswered+'</div></div>'+
+    '<div class="qcard"><div class="v">'+a+'</div><div class="k">'+T().qAcc+'</div></div>'+
+    '<div class="qcard"><div class="v">'+stats.best+'</div><div class="k">'+T().qStreak+'</div></div>';
+  const rows=[
+    {v:'stats',ic:ICON.stats,t:T().rowStats,s:T().rowStatsSub},
+    {v:'charts',ic:ICON.charts,t:T().rowCharts,s:T().rowChartsSub},
+    {v:'hand',ic:ICON.hand,t:T().rowHand,s:T().rowHandSub},
+    {v:'gloss',ic:ICON.gloss,t:T().rowGloss,s:T().rowGlossSub}
+  ];
+  const l=document.getElementById('m-list'); l.innerHTML='';
+  const tg=document.createElement('button');
+  tg.type='button'; tg.className='mrow';
+  tg.setAttribute('aria-pressed',timerOn?'true':'false');
+  tg.innerHTML='<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '+
+    'stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>'+
+    '<span class="tt"><b>'+T().rowTimer+'</b><span>'+(timerOn?T().timerOnSub:T().timerOffSub)+'</span></span>'+
+    '<span class="sw'+(timerOn?' on':'')+'"><i></i></span>';
+  tg.addEventListener('click',toggleTimer);
+  l.appendChild(tg);
+  rows.forEach(r=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='mrow';
+    b.innerHTML='<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '+
+      'stroke-width="2" aria-hidden="true">'+r.ic+'</svg></span>'+
+      '<span class="tt"><b>'+r.t+'</b><span>'+r.s+'</span></span><span class="ch">›</span>';
+    b.addEventListener('click',()=>show(r.v));
+    l.appendChild(b);
+  });
+  document.getElementById('m-note').innerHTML=T().menuNote+'<br><br>'+T().companions;
+}
+
+/* ============================ ukládání ============================ */
+async function initStore(){
+  let ns=null;
+  try{ ns=(window.claude&&claude.use)?await claude.use('db'):null; }catch(e){ ns=null; }
+  if(ns){
+    try{ dbRef=ns.doc('progress/stul'); const s=await dbRef.get(); if(s.exists) merge(s.data()); }
+    catch(e){ dbRef=null; localLoad(); }
+  } else localLoad();
+  applyLang(); renderMenu(); renderStats(); paintTimer();
+}
+function merge(d){
+  if(!d||typeof d!=='object') return;
+  const b=blank();
+  b.total=+d.total||0; b.correct=+d.correct||0; b.streak=+d.streak||0;
+  b.best=+d.best||0; b.rounds=+d.rounds||0;
+  ['cats','streets','pos','pots'].forEach(g=>{
+    if(!d[g]) return;
+    Object.keys(b[g]).forEach(k=>{ const v=d[g][k]; if(v) b[g][k]={n:+v.n||0,ok:+v.ok||0}; });
+  });
+  stats=b;
+  if(d.lang==='en'||d.lang==='cs') LANG=d.lang;
+  if(typeof d.timerOn==='boolean') timerOn=d.timerOn;
+}
+function localLoad(){
+  try{ const raw=localStorage.getItem('ustolu'); if(raw) merge(JSON.parse(raw)); }catch(e){}
+}
+function save(){
+  clearTimeout(saveT);
+  saveT=setTimeout(async()=>{
+    const body={total:stats.total,correct:stats.correct,streak:stats.streak,best:stats.best,
+                rounds:stats.rounds,cats:stats.cats,streets:stats.streets,pos:stats.pos,pots:stats.pots,lang:LANG,timerOn:timerOn};
+    if(dbRef){ try{ await dbRef.set(body); }catch(e){} }
+    else { try{ localStorage.setItem('ustolu',JSON.stringify(body)); }catch(e){} }
+  },700);
+}
+
+/* ============================ jazyk + navigace ============================ */
+function applyLang(){
+  document.documentElement.lang=LANG;
+  ['menu','drill','stats','charts','hand'].forEach(k=>{
+    document.getElementById('tl-'+k).textContent=T()['tab'+k[0].toUpperCase()+k.slice(1)];
+  });
+  document.getElementById('qline').textContent=sp&&sp.qline?sp.qline():T().qDefault;
+  ['cs','en'].forEach(k=>document.getElementById('lang-'+k).setAttribute('aria-pressed',k===LANG?'true':'false'));
+  renderMenu(); renderStats(); renderCharts(); renderHand(); renderGloss();
+  if(sp){ renderQuestion(); if(answered) renderSheet(lastKey===sp.correct,lastKey); }
+}
+function setLang(l){ if(l===LANG) return; LANG=l; save(); applyLang(); }
+document.getElementById('h-clear').addEventListener('click',()=>{
+  handSel=[null,null]; pickSuit=null; renderHand();
+});
+document.getElementById('lang-cs').addEventListener('click',()=>setLang('cs'));
+document.getElementById('lang-en').addEventListener('click',()=>setLang('en'));
+
+const VIEWS={menu:'v-menu',drill:'v-drill',stats:'v-stats',charts:'v-charts',hand:'v-hand',gloss:'v-gloss'};
+function show(v){
+  Object.keys(VIEWS).forEach(k=>{
+    document.getElementById(VIEWS[k]).hidden=k!==v;
+    const t=document.getElementById('tab-'+k);       /* slovníček nemá vlastní záložku */
+    if(t) t.setAttribute('aria-pressed',k===v?'true':'false');
+  });
+  if(v==='menu') renderMenu();
+  if(v==='stats') renderStats();
+  if(v==='charts') renderCharts();
+  if(v==='hand') renderHand();
+  if(v==='gloss') renderGloss();
+  if(v==='drill'){ if(!sp) newQuestion(); else if(!answered) startTimer(); }
+  else clearInterval(ticker);
+  window.scrollTo(0,0);
+}
+Object.keys(VIEWS).forEach(k=>{
+  const t=document.getElementById('tab-'+k);
+  if(t) t.addEventListener('click',()=>show(k));
+});
+document.getElementById('btn-help').addEventListener('click',()=>show('gloss'));
+document.getElementById('timer').addEventListener('click',toggleTimer);
+document.getElementById('gl-back').addEventListener('click',()=>show('menu'));
+document.getElementById('btn-back').addEventListener('click',()=>show('menu'));
+document.getElementById('m-start').addEventListener('click',()=>{
+  if(!(qn>0&&qn<SESSION)){ qn=0; roundOk=0; sp=null; }
+  show('drill');
+});
+
+applyLang();
+show('menu');
+initStore();
+</script>
