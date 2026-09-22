@@ -596,7 +596,21 @@ const TX={
     ["4-bet","","Zvýšení proti 3-betu. Na tuhle úroveň se dostanou jen hodně silné ruce."],
     ["Blaf","bluf, bluff","Sázíš se slabou rukou a spoléháš na to, že soupeř složí."],
     ["Polo-blaf","semi-bluff","Sázíš s rukou, která zatím prohrává, ale má draw. Vyhrát můžeš dvěma způsoby: soupeř složí, nebo to dotrefíš."],
-    ["Hodnotová sázka","value bet","Sázíš se silnou rukou právě proto, že chceš, aby ti slabší ruce dorovnaly a zaplatily."]
+    ["Hodnotová sázka","value bet","Sázíš se silnou rukou právě proto, že chceš, aby ti slabší ruce dorovnaly a zaplatily."],
+    ["Limp","","Jen dorovnáš velký blind místo toho, abys zvýšil. Vypadá to levně, ale pouštíš tím do banku kdekoho — začátečníkům se to nedoporučuje."],
+    ["Pokračovací sázka","c-bet, continuation bet","Sázka na flopu od toho, kdo zvyšoval už preflop. Pokračuje v příběhu „mám silné karty“, ať už flop trefil, nebo ne."],
+    ["Krádež blindů","steal","Otevření z pozdní pozice hlavně proto, aby blindy složily a ty sebral bank bez boje."]
+   ]},
+   {h:"Jak kdo hraje",items:[
+    ["Tight","těsně, málo rukou","Hraješ jen málo, zato dobrých rukou. Zbytek skládáš. Pro začátečníka je to ta správná cesta — většina chyb vzniká z hraní příliš mnoha rukou."],
+    ["Loose","volně, hodně rukou","Pouštíš se i do slabších rukou. Vidíš víc flopů, ale častěji se dostaneš do situace, kde máš druhou nejlepší ruku a zaplatíš za to."],
+    ["Agresivní","aggressive","Často sázíš a zvyšuješ místo pouhého dorovnávání. Tlak nutí soupeře skládat a ty vyhráváš i bez nejlepších karet."],
+    ["Pasivní","passive","Většinou jen dorovnáváš a checkuješ. Vyhraješ jen tehdy, když máš opravdu nejlepší karty — přicházíš o všechny banky, které bys sebral tlakem."],
+    ["TAG","tight-aggressive","Málo rukou, ale hrané agresivně. Nejspolehlivější styl pro začátečníka: nepouštíš se do odpadu a s tím, co hraješ, tlačíš."],
+    ["LAG","loose-aggressive","Hodně rukou a hodně tlaku. Umí to být velmi silné, ale vyžaduje to zkušenost — začátečníkovi to jen rychleji vysype peněženku."],
+    ["Nit","rock, skála","Extrémně opatrný hráč. Hraje tak málo rukou, že když už si vsadí, má skoro vždycky sílu. Poznáš ho a můžeš mu krást banky."],
+    ["Fish","ryba","Slabý hráč, který hraje moc rukou a platí i tam, kde by měl složit. Právě od takových hráčů pocházejí výhry ostatních."],
+    ["Reg","regular","Pravidelný, zkušený hráč. Proti němu se těžko vydělává — když si vybíráš stůl, hledej spíš ty ostatní."]
    ]},
    {h:"Peníze na stole",items:[
     ["Bank","pot","Všechny peníze uprostřed stolu. Sebere je vítěz rozdání."],
@@ -614,7 +628,15 @@ const TX={
     ["Kicker","","Nejvyšší karta mimo kombinaci. Rozhoduje, když mají oba hráči to samé — pár es s králem poráží pár es s dámou."],
     ["s / o","suited / offsuit","<b>s</b> = obě karty stejné barvy, <b>o</b> = různé. Proto <b>AKs</b> a <b>AKo</b>."],
     ["Výběr rukou","range","Všechny ruce, se kterými hráč v dané situaci hraje. Čím dřívější pozice, tím užší."],
-    ["Odpad","","Ruka, se kterou se nevyplatí hrát z žádné pozice."]
+    ["Odpad","","Ruka, se kterou se nevyplatí hrát z žádné pozice."],
+    ["Nuts","absolutní nejlepší ruka","Nejlepší možná kombinace na daném stole. Nikdo tě nemůže přebít, jen dorovnat nebo složit."]
+   ]},
+   {h:"Slova, co uslyšíš u stolu",items:[
+    ["Bad beat","","Prohrál jsi jako velký favorit, protože soupeři přišla jediná karta, co mu pomohla. Patří to ke hře, i když to štve."],
+    ["Cooler","","Oba měli silnou ruku a jeden prostě musel prohrát. Na rozdíl od bad beatu se tomu nedalo nijak vyhnout."],
+    ["Tilt","","Když ti po sérii smůly rupne a začneš hrát naštvaně místo rozumně. Nejdražší chyba v pokeru — v tu chvíli je lepší vstát od stolu."],
+    ["Variance","rozptyl","Krátkodobé výkyvy štěstí. I dobře hraný poker prohrává celé večery — o výsledku rozhodují až tisíce rozdání."],
+    ["Bankroll","","Peníze, které máš vyhrazené na poker. Pravidlo zní hrát jen o takové částky, aby tě jedna prohra nepoložila."]
    ]},
    {h:"Zkratky ve statistikách",items:[
     ["H-SEL","","Výběr rukou — které karty hrát a odkud."],
@@ -789,7 +811,21 @@ const TX={
     ["4-bet","","A raise over a 3-bet. Only very strong hands get this far."],
     ["Bluff","","Betting with a weak hand, hoping they fold."],
     ["Semi-bluff","","Betting with a hand that's behind but has a draw. You can win two ways: they fold, or you hit."],
-    ["Value bet","","Betting with a strong hand precisely because you want weaker hands to call and pay you."]
+    ["Value bet","","Betting with a strong hand precisely because you want weaker hands to call and pay you."],
+    ["Limp","","Just calling the big blind instead of raising. It looks cheap, but it invites everyone into the pot — not recommended for beginners."],
+    ["Continuation bet","c-bet","A bet on the flop by whoever raised preflop. It continues the story of \"I have a strong hand\", whether the flop helped or not."],
+    ["Steal","","Opening from a late position mainly so the blinds fold and you take the pot without a fight."]
+   ]},
+   {h:"Playing styles",items:[
+    ["Tight","","Playing few hands, but good ones, and folding the rest. For a beginner this is the right road — most mistakes come from playing too many hands."],
+    ["Loose","","Playing weaker hands too. You see more flops, but you end up holding the second-best hand far more often, and that costs money."],
+    ["Aggressive","","Betting and raising rather than just calling. Pressure makes opponents fold, so you win pots without needing the best cards."],
+    ["Passive","","Mostly calling and checking. You only win when you genuinely have the best hand, and you miss every pot you could have taken with pressure."],
+    ["TAG","tight-aggressive","Few hands, played hard. The most dependable style for a beginner: you skip the trash and push with what you do play."],
+    ["LAG","loose-aggressive","Many hands, played hard. It can be very strong, but it takes experience — for a beginner it just empties the wallet faster."],
+    ["Nit","rock","An extremely cautious player. They play so few hands that when they finally bet, they almost always have it — spot one and you can steal from them."],
+    ["Fish","","A weak player who plays too many hands and pays off when they should fold. Everyone else's profit comes from players like this."],
+    ["Reg","regular","A regular, experienced player. Hard to make money against — when choosing a table, look for the others instead."]
    ]},
    {h:"Money on the table",items:[
     ["Pot","","All the money in the middle. The winner of the hand takes it."],
@@ -807,7 +843,15 @@ const TX={
     ["Kicker","","Your highest card outside the combination. It decides ties — aces with a king beat aces with a queen."],
     ["s / o","suited / offsuit","<b>s</b> = both cards the same suit, <b>o</b> = different suits. Hence <b>AKs</b> and <b>AKo</b>."],
     ["Range","","Every hand a player would play in a given spot. The earlier the position, the narrower it is."],
-    ["Trash","","A hand not worth playing from any position."]
+    ["Trash","","A hand not worth playing from any position."],
+    ["Nuts","","The best possible hand on the current board. Nobody can beat you — they can only call or fold."]
+   ]},
+   {h:"Table talk",items:[
+    ["Bad beat","","You lost as a big favourite because the one card that helps your opponent turned up. It's part of the game, however much it stings."],
+    ["Cooler","","Both players had a strong hand and one of them simply had to lose. Unlike a bad beat, there was no way to avoid it."],
+    ["Tilt","","When a run of bad luck gets to you and you start playing angry instead of sensibly. The most expensive mistake in poker — better to leave the table."],
+    ["Variance","","The short-term swings of luck. Even well-played poker loses whole evenings; only thousands of hands settle the result."],
+    ["Bankroll","","The money you've set aside for poker. The rule is to play stakes small enough that one bad session can't sink you."]
    ]},
    {h:"Abbreviations in the stats",items:[
     ["H-SEL","","Hand selection — which cards to play and from where."],
