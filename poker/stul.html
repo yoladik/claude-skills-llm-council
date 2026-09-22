@@ -147,6 +147,11 @@ p{margin:0}
 .glrow .d{font-size:.83rem;line-height:1.5;color:#B4BECE}
 .qline{font-weight:800;font-size:1.02rem;margin:.65rem 0 .2rem}
 .subtle{color:var(--tx-3);font-size:.78rem}
+.peek{display:flex;gap:.5rem;align-items:flex-start;background:rgba(245,197,66,.09);
+  border:1px solid rgba(245,197,66,.32);border-radius:10px;padding:.6rem .7rem;
+  margin-top:.55rem;font-size:.77rem;line-height:1.45;color:#DFCF9E}
+.peek b{color:var(--amber)}
+.peek .ex{flex:none;font-weight:800;color:var(--amber)}
 .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.9rem}
 .acts.one{grid-template-columns:1fr}
 .act{border:1px solid var(--line-2);background:var(--panel-2);color:var(--tx);border-radius:12px;
@@ -346,6 +351,7 @@ p{margin:0}
     <p class="poshint" id="poshint"></p>
     <p class="qline" id="qline"></p>
     <p class="subtle" id="qsub"></p>
+    <div id="peek"></div>
     <div class="acts" id="acts"></div>
     <div id="sheet"></div>
   </section>
@@ -664,7 +670,9 @@ const TX={
             :p>=70?"Slušné. Ve statistikách uvidíš, která oblast tě táhne dolů."
             :"Zatím to skřípe, a to je v pohodě. U každé chyby si přečti vysvětlení — tam je celá podstata.",
   freqNote:"Procenta říkají, jakou část všech rozdání hraje tabulka danou akcí.",
-  villainShowed:p=>"Soupeř ("+p+") ukázal:",
+  villainShowed:p=>"Soupeř ("+p+") otočil:",
+  villainHolds:p=>"Soupeř ("+p+") drží:",
+  peekNote:'<b>Cvičná situace.</b> Soupeřovy karty ti ukazuju schválně — jinak by nešlo spočítat <b>přesnou</b> šanci, a přesně o tu tady jde. U stolu je pochopitelně nikdy neuvidíš; tam musíš odhadovat, co tak asi drží.',
   aFold:"Složit", aCall:a=>"Dorovnat "+money(a), aRaiseTo:a=>"Zvýšit na "+money(a),
   a3bet:a=>"3-bet na "+money(a), a4bet:a=>"4-bet na "+money(a),
   aCheck:"Checknout", aBet:a=>"Sázet "+money(a),
@@ -737,7 +745,7 @@ const TX={
   whyOuts:(made,n,list)=>"Teď máš <b>"+made+"</b>. Ze zbylých 47 karet ti pomůže <b>"+n+"</b> — to jsou tvoje <b>outy</b>:"+
     "<br><span class='mono' style='font-size:.82rem'>"+list+"</span>"+
     "<br><br>Rychlý odhad u stolu: <b>outy × 2</b> ≈ % šance, že to trefíš na příští kartě. Tady asi "+(n*2)+" %.",
-  stOdds:(v,bet,pot)=>"<b>"+v+"</b> sází "+money(bet)+" do banku "+money(pot)+" — a otočil ti karty, takže víš přesně, proti čemu hraješ.",
+  stOdds:(v,bet,pot)=>"<b>"+v+"</b> sází "+money(bet)+" do banku "+money(pot)+".",
   qOdds:"Vyplatí se dorovnat?",
   whyOdds:(bet,win,total,need,eq,call)=>"Dáváš <b>"+money(bet)+"</b> a když vyhraješ, bereš <b>"+money(win)+"</b>. "+
     "Takže potřebuješ vyhrávat aspoň <b>"+bet+" / "+total+" = "+need+" %</b> případů.<br><br>"+
@@ -879,7 +887,9 @@ const TX={
             :p>=70?"Solid. The stats will show which area is dragging you down."
             :"Rough so far, and that's fine — read the explanation on every miss, that's where the value is.",
   freqNote:"Percentages = how much of all dealt hands the chart plays this way.",
-  villainShowed:p=>"Opponent ("+p+") showed:",
+  villainShowed:p=>"Opponent ("+p+") turned over:",
+  villainHolds:p=>"Opponent ("+p+") holds:",
+  peekNote:'<b>Practice setup.</b> You are shown the opponent\'s cards on purpose — without them the <b>exact</b> chance could not be worked out, and that is the whole point here. At a real table you never see them; there you have to estimate what they might hold.',
   aFold:"Fold", aCall:a=>"Call "+money(a), aRaiseTo:a=>"Raise to "+money(a),
   a3bet:a=>"3-bet to "+money(a), a4bet:a=>"4-bet to "+money(a),
   aCheck:"Check", aBet:a=>"Bet "+money(a),
@@ -952,7 +962,7 @@ const TX={
   whyOuts:(made,n,list)=>"Right now you have <b>"+made+"</b>. Of the 47 cards left, <b>"+n+"</b> help you — these are your <b>outs</b>:"+
     "<br><span class='mono' style='font-size:.82rem'>"+list+"</span>"+
     "<br><br>Quick estimate at the table: <b>outs × 2</b> ≈ your % chance of hitting on the next card. That's about "+(n*2)+" % here.",
-  stOdds:(v,bet,pot)=>"<b>"+v+"</b> bets "+money(bet)+" into a "+money(pot)+" pot — and showed you their cards, so you know exactly what you're up against.",
+  stOdds:(v,bet,pot)=>"<b>"+v+"</b> bets "+money(bet)+" into a "+money(pot)+" pot.",
   qOdds:"Is calling profitable?",
   whyOdds:(bet,win,total,need,eq,call)=>"You put in <b>"+money(bet)+"</b> and if you win you collect <b>"+money(win)+"</b>. "+
     "So you need to win at least <b>"+bet+" / "+total+" = "+need+" %</b> of the time.<br><br>"+
@@ -1259,7 +1269,7 @@ function genOdds(){
   return {
     cat:'PMATH', street:'flop', potType:'srp', ip:null,
     st:st, heroPos:heroPos, heroCards:me, board:flop, seats:seats, pot:pot,
-    villainCards:{pos:villain,cards:opp},
+    villainCards:{pos:villain,cards:opp}, peek:true,
     story:()=>T().stOdds(villain,bet,pot), qline:()=>T().qOdds,
     answers:()=>[{k:'call',l:T().aCall(bet)},{k:'fold',l:T().aFold}],
     correct: eq>need?'call':'fold', freqs:null, range:null,
@@ -1355,11 +1365,15 @@ function renderQuestion(){
     sub.hidden=false; sub.innerHTML='';
     const w=document.createElement('span');
     w.style.cssText='display:inline-flex;align-items:center;gap:.4rem;flex-wrap:wrap';
-    w.innerHTML='<span>'+T().villainShowed(sp.villainCards.pos)+'</span>';
+    w.innerHTML='<span>'+(sp.peek?T().villainHolds(sp.villainCards.pos)
+                                  :T().villainShowed(sp.villainCards.pos))+'</span>';
     const row=document.createElement('span'); row.style.cssText='display:inline-flex;gap:3px';
     sp.villainCards.cards.forEach(x=>row.appendChild(cardEl(x,'sm')));
     w.appendChild(row); sub.appendChild(w);
   } else { sub.textContent=''; sub.hidden=true; }
+
+  const pk=document.getElementById('peek');
+  pk.innerHTML = sp.peek ? '<div class="peek"><span class="ex">!</span><span>'+T().peekNote+'</span></div>' : '';
   const list=sp.answers();
   const a=document.getElementById('acts');
   a.className='acts'+(list.length===3?' one':'');
